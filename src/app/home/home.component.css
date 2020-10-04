@@ -1,0 +1,6 @@
+.black-font {
+    color: black;
+}
+.treeview-item label {
+    display: contents !important;
+}
