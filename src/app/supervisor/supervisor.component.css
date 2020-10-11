@@ -4,3 +4,7 @@
 .treeview-item label {
     display: contents !important;
 }
+.table-data {
+    width: 100%;
+    padding: 30px;
+}

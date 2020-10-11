@@ -60,10 +60,10 @@ light-bootstrap-dashboard-angular
 │   │   ├── app.module.ts
 │   │   ├── app.routing.ts
 │   │   ├── home
-│   │   │   ├── home.component.css
-│   │   │   ├── home.component.html
-│   │   │   ├── home.component.spec.ts
-│   │   │   └── home.component.ts
+│   │   │   ├── supervisor.component.css
+│   │   │   ├── supervisor.component.html
+│   │   │   ├── supervisor.component.spec.ts
+│   │   │   └── supervisor.component.ts
 │   │   ├── icons
 │   │   │   ├── icons.component.css
 │   │   │   ├── icons.component.html

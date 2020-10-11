@@ -12,15 +12,4 @@ export class AppComponent implements OnInit {
 
     ngOnInit(){
     }
-
-    isMap(path){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      titlee = titlee.slice( 1 );
-      if(path == titlee){
-        return false;
-      }
-      else {
-        return true;
-      }
-    }
 }

@@ -4,8 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
-
-import { HomeComponent } from '../../home/home.component';
+import { ApiService } from '../../api/api.service';
+import { UserService } from '../../api/user.service';
+import { SupervisorComponent } from '../../supervisor/supervisor.component';
+import { LoginComponent } from '../../login/login.component';
 import { UserComponent } from '../../user/user.component';
 import { TablesComponent } from '../../tables/tables.component';
 import { TreeviewModule } from 'ngx-treeview';
@@ -15,12 +17,18 @@ import { TreeviewModule } from 'ngx-treeview';
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     TreeviewModule.forRoot(),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
-    HomeComponent,
+    LoginComponent,
+    SupervisorComponent,
     UserComponent,
     TablesComponent
+  ],
+  providers: [
+    ApiService,
+    UserService
   ]
 })
 

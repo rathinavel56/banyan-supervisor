@@ -1,0 +1,337 @@
+<div class="main-content">
+    <div class="container-fluid">
+       <div class="row">
+          <div class="col-md-4">
+             <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
+             (selectedChange)="values = $event"></ngx-treeview>
+          </div>
+          <div class="col-md-8">
+             <div class="panel-group">
+                <div class="panel panel-primary">
+                   <div class="panel-heading">Client Detail on <input type="date" class="black-font"/></div>
+                   <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                            <table class="table-striped table-bordered table-hover table-data">
+                                <tr>
+                                   <td colspan="2" class="text-center"><label>Self-Care & Hygiene</label></td>
+                                </tr>
+                                <tr>
+                                   <td><label>Bathing</label></td>
+                                   <td>1</td>
+                                </tr>
+                                <tr>
+                                   <td><label>Grooming</label></td>
+                                   <td>2</td>
+                                </tr>
+                                <tr>
+                                   <td><label>Toilet Use</label></td>
+                                   <td></td>
+                                </tr>
+                                <tr>
+                                   <td><label>Meal Time</label></td>
+                                   <td></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Menstrual Hygiene</label></td>
+                                    <td></td>
+                                 </tr>
+                                 <tr>
+                                    <td><label>Bed Hygiene</label></td>
+                                    <td></td>
+                                 </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table-striped table-bordered table-hover table-data">
+                                <tr>
+                                   <td colspan="2" class="text-center"><label>Diet</label></td>
+                                </tr>
+                                <tr>
+                                   <td colspan="2">Regular</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table-striped table-bordered table-hover table-data">
+                                <tr>
+                                   <td colspan="2" class="text-center"><label>Medicines</label></td>
+                                </tr>
+                                <tr>
+                                   <td><label>Prescription Date</label></td>
+                                   <td>2020-08-27</td>
+                                </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">    
+                                <tr>
+                                   <td><label>Breakfast Medication</label></td>
+                                   <td>500MG</td>
+                                   <td>1</td>
+                                </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">    
+                                <tr>
+                                   <td><label>Lunch Medication</label></td>
+                                   <td>500MG</td>
+                                   <td>1</td>
+                                </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">    
+                                <tr>
+                                   <td><label>Dinner Medication</label></td>
+                                   <td>500MG</td>
+                                   <td>1</td>
+                                </tr>
+                            </table>
+                        </div>
+                         <div class="col-md-12" *ngIf="mdScr">
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Scalp & Hair</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Injury</label></td>
+                                  <td>{{mdScr.scalp_injury === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Pediculosis</label></td>
+                                  <td>{{mdScr.scalp_pediculosis === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Dandruff</label></td>
+                                  <td>{{mdScr.scalp_dandruff === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Alopecia</label></td>
+                                  <td>{{mdScr.scalp_alopecia === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Eyes</label></td>                                  
+                               </tr>
+                               <tr>
+                                <td><label>Stye</label></td>
+                                <td>{{mdScr.eyes_stye === 1 ? 'Yes' : 'No'}}</td>
+                             </tr>
+                             <tr>
+                                <td><label>Discharge</label></td>
+                                <td>{{mdScr.eyes_discharge === 1 ? 'Yes' : 'No'}}</td>
+                             </tr>
+                             <tr>
+                                <td><label>Redness</label></td>
+                                <td>{{mdScr.eyes_redness === 1 ? 'Yes' : 'No'}}</td>
+                             </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Ears</label></td>                                  
+                               </tr>
+                               <tr>
+                                  <td><label>Pain</label></td>
+                                  <td>{{mdScr.ears_pain === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Discharge</label></td>
+                                  <td>{{mdScr.ears_discharge === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Nose</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Block</label></td>
+                                  <td>{{mdScr.nose_block === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Bleeding</label></td>
+                                  <td>{{mdScr.nose_bleeding === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Cold</label></td>
+                                  <td>{{mdScr.nose_cold === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Mouth</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Bad Odor</label></td>
+                                  <td>{{mdScr.mouth_bo === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Dental Cariers</label></td>
+                                  <td>{{mdScr.mouth_dentalcarriers === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Ulcer</label></td>
+                                  <!-- <td>{{mdScr.mouth_gumbleed === 1 ? 'Yes' : 'No'}}</td> -->
+                               </tr>
+                               <tr>
+                                  <td><label>Gum Bleeding</label></td>
+                                  <td>{{mdScr.mouth_gumbleed === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Vomiting</label></td>
+                                  <td>{{mdScr.mouth_vomit === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Neck</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Thyroid Gland Swelling</label></td>
+                                  <td>{{mdScr.neck_thyroidglandswelling === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Lymphadenitis</label></td>
+                                  <td>{{mdScr.neck_lymphadenitis === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Chest</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Pain/Tenderness</label></td>
+                                  <td>{{mdScr.chest_tenderness === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Galactorrhea</label></td>
+                                  <td>{{mdScr.chest_galactorrhea === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Sore Nipple</label></td>
+                                  <td>{{mdScr.chest_sorenipple === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Cough</label></td>
+                                  <td>{{mdScr.chest_cough === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Wheezing</label></td>
+                                  <td>{{mdScr.chest_wheezing === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Abdomen</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Pain/Tenderness</label></td>
+                                  <td>{{mdScr.abdomen_pain === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Distension</label></td>
+                                  <td>{{mdScr.abdomen_distension === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Diarrhea</label></td>
+                                  <td>{{mdScr.abdomen_diarrhea === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Contipation</label></td>
+                                  <td>{{mdScr.abdomen_constipation === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Extremities</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Injury</label></td>
+                                  <td>{{mdScr.extremities_injury === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Wound</label></td>
+                                  <td>{{mdScr.extremities_wound === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Fracture</label></td>
+                                  <td>{{mdScr.extremities_fracture === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Skin</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Discoloration</label></td>
+                                  <td>{{mdScr.skin_rashes === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Genitalia</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Rashes</label></td>
+                                  <td>{{mdScr.genitals_rashes === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>White Discharge</label></td>
+                                  <td>{{mdScr.genitals_whitedischarge === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Menorrhagia</label></td>
+                                  <td>{{mdScr.genitals_menorrhagia === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Hospital</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Hospital Emergencies</label></td>
+                                  <td>{{mdScr.hospital_emergencies === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Hospital Admission</label></td>
+                                  <td>{{mdScr.hospital_admission === 1 ? 'Yes' : 'No'}}</td>
+                               </tr>
+                            </table>
+                            <table class="table-striped table-bordered table-hover table-data">
+                               <tr>
+                                  <td colspan="2" class="text-center"><label>Vital Signs</label></td>
+                               </tr>
+                               <tr>
+                                  <td><label>Temperature(F)</label></td>
+                                  <td>{{mdScr.vital_temperature}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Pulse(BPM)</label></td>
+                                  <td>{{mdScr.vital_pulse}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Respiration Rate</label></td>
+                                  <td>{{mdScr.vital_respiration}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Blood Pressure</label></td>
+                                  <td>{{mdScr.vital_bp_sys}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Weight(Kg)</label></td>
+                                  <td>{{mdScr.vital_weight}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>Start Date</label></td>
+                                  <td>{{mdScr.vital_period_start}}</td>
+                               </tr>
+                               <tr>
+                                  <td><label>End Date</label></td>
+                                  <td>{{mdScr.vital_period_end}}</td>
+                               </tr>
+                            </table>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
