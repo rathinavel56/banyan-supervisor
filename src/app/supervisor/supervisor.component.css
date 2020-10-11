@@ -1,5 +1,5 @@
 .black-font {
-    color: black;
+    color:black;
 }
 .treeview-item label {
     display: contents !important;
@@ -8,3 +8,161 @@
     width: 100%;
     padding: 30px;
 }
+.box-block{
+    background: #ffffff;
+    border:1px solid #cccccc;
+    padding:20px;
+    margin-bottom: 20px;
+}
+.box-title{
+    background: #da4b50;
+    color:#ffffff;
+    font-size:16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-bottom: 0px;
+}
+
+.box-block p a{
+    color: #da4b50;
+    text-decoration: none;
+    font-weight: bold;
+}
+.top-m30{
+    margin-top:30px;
+}
+.location-list li{ 
+    border:1px solid  #da4b50;
+    padding: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.location-list li a{ 
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    display: block;
+
+} 
+.location-list li .client-list1 li{
+    border-bottom: 1px solid #cccccc;
+    position: relative;
+}
+.location-list li .client-list1 li a{
+    padding: 10px;
+    font-size: 14px;
+    color: #da4b50;
+    text-decoration: none;
+    display: block;
+}
+.location-list .sub-list li{
+    border: none;
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.location-list .sub-list li a{
+    padding: 10px;
+    font-size: 14px;
+    color: #da4b50;
+    text-decoration: none;
+    display: block;
+}
+.client-list li a{
+    font-size: 14px;
+    color: #da4b50;
+    text-decoration: none;
+}
+.client-list1 li{
+    border-bottom: 1px solid #cccccc;
+    position: relative;
+}
+.client-list1 li a{
+    padding: 10px;
+    font-size: 14px;
+    color: #da4b50;
+    text-decoration: none;
+    display: block;
+}
+.client-list1 li > a::after{
+    content: "\f101";
+    position: absolute;
+    font-size: 14px;
+    color: #da4b50;
+    right:5px;
+}
+table{
+    padding: 10px;
+}
+table td{
+    padding: 10px;
+}
+table td:first-child{
+    width:50%;
+} 
+table tr:first-child td{
+    background: #da4b50;
+    color:#ffffff;
+    font-size:16px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+.nav-tabs>li>a{
+    color: #da4b50;
+}
+/*ACORDIN STYLE*/
+.panel-title>a, .panel-title>a:active{
+	display:block;
+    color: #da4b50;
+  font-weight:bold;
+	
+	text-decoration:none;
+}
+.panel-heading  a:before {
+   font-family: 'Glyphicons Halflings';
+   content: "\e114";
+   float: right;
+   transition: all 0.5s;
+}
+.panel-heading.active a:before {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
+} 
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .form-signin .btn-primary{
+    border-color: #da4b50;
+    color: #da4b50;
+  }
