@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     isloginUser = false;
+    userName = '';
 
     constructor(location: Location,
         private element: ElementRef,
@@ -21,6 +22,10 @@ export class NavbarComponent implements OnInit {
         this.sidebarVisible = false;
         router.events.subscribe((val) => {
             this.isloginUser = sessionStorage.getItem('report') ? true : false;
+            if (this.isloginUser) {
+                let userDetail = JSON.parse(sessionStorage.getItem('report'));
+                this.userName = userDetail.full_name;
+            }
         });
     }
 
