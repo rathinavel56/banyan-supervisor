@@ -183,3 +183,7 @@ table tr:first-child td{
     border-color: #da4b50;
     color: #da4b50;
   }
+  .tab-space{
+      margin-top: 86px;
+  }
+  
