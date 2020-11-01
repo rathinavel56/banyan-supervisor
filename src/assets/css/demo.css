@@ -126,7 +126,7 @@ background-size: unset;
 }
 
   .welcome-box{
-    background: #fff;
+    background: rgb(255 255 255 / 67%);
     margin: 20px 0;
     padding: 20px;
   }
