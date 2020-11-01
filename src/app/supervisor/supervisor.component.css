@@ -121,6 +121,9 @@ table tr:first-child td{
     background: #ffff;
     padding: 20px 15px;
     border: 1px solid #da4b50;
+    max-height: 500px;
+    overflow-y: scroll;
+    margin-bottom: 50px;
 }
 /*ACORDIN STYLE*/
 .panel-title>a, .panel-title>a:active{
