@@ -1,28 +1,39 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
-
+import { Router } from '@angular/router';
 @Component({
-    // moduleId: module.id,
     selector: 'navbar-cmp',
     templateUrl: 'navbar.component.html'
 })
 
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit {
     private listTitles: any[];
     location: Location;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    isloginUser = false;
 
-    constructor(location: Location,  private element: ElementRef) {
-      this.location = location;
-          this.sidebarVisible = false;
+    constructor(location: Location,
+        private element: ElementRef,
+        public router: Router) {
+        this.location = location;
+        this.sidebarVisible = false;
+        router.events.subscribe((val) => {
+            this.isloginUser = sessionStorage.getItem('report') ? true : false;
+        });
     }
 
     ngOnInit(){
-      this.listTitles = ROUTES.filter(listTitle => listTitle);
-      const navbar: HTMLElement = this.element.nativeElement;
-      this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
+        this.isloginUser = sessionStorage.getItem('report') ? true : false;
+        this.listTitles = ROUTES.filter(listTitle => listTitle);
+        const navbar: HTMLElement = this.element.nativeElement;
+        this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
+    }
+    logout() {
+        this.isloginUser = false;
+        sessionStorage.removeItem('report');
+        this.router.navigate(['/login']);
     }
     sidebarOpen() {
         const toggleButton = this.toggleButton;

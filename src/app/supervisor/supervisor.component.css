@@ -88,7 +88,6 @@
     display: block;
 }
 .client-list1 li > a::after{
-    content: "\f101";
     position: absolute;
     font-size: 14px;
     color: #da4b50;

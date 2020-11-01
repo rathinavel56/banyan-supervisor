@@ -9,10 +9,13 @@ export class UserService {
   constructor(private apiService: ApiService) { }
 
   login(request: any): Observable<any> {
-    return this.apiService.httpPost('supervisor_login', request.value);
+    return this.apiService.httpPost('users/login', request);
   }
-  supervisorTree(request): Observable<any> {
-    return this.apiService.httpPost('supervisor_tree', request);
+  centers(request): Observable<any> {
+    return this.apiService.httpPost('centers', request);
+  }
+  clients(request: any): Observable<any> {
+    return this.apiService.httpPost('clients', request);
   }
   clientDetail(request: any): Observable<any> {
     return this.apiService.httpPost('client_detail', request);

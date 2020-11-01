@@ -97,6 +97,7 @@ class HomeController extends Controller
     $pin = $request->pin;
     $parameters = Parameters::all();
     $user =  Caregivers::where('cgiver_code', $code)->where('pin',$pin)->first();
+    $project_codes =  Caregivers::where('cgiver_code', $code)->get();
     if($user){
       $total = $user->clients()->get()->count() + $user->clients2()->get()->count() + $user->clients3()->get()->count();
       $clients = [];
@@ -109,7 +110,7 @@ class HomeController extends Controller
       foreach ($user->clients3()->get() as $v) {
         array_push($clients, $v);
       }
-      $data = ['count'=> $total,'clients'=> $clients,'userdata' => $user];
+      $data = ['count'=> $total,'clients'=> $clients,'userdata' => $user],'project_codes' => $project_codes];
       return Response()->json(['status' => true, 'message' => 'User logged in successfully', 'data' => $data, 'parameters' => $parameters]);
     }else {
       return Response()->json(['status' => false, 'message' => 'Pin not valid']);

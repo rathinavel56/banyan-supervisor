@@ -1,482 +1,773 @@
 <div class="container">
-    <div class="top-m30">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="box-block">
-                    <p><a href="#" target="_blank">Your<br>
-                            Hcws & Client</a></p>
-                </div>
+   <div class="top-m30" *ngIf="step === 1">
+      <div class="row">
+         <div class="col-sm-6" (click)="getServices(1)">
+            <div class="box-block">
+               <p class="text-center"><a href="javascript:void(0)" >Direct Services</a></p>
             </div>
-            <div class="col-sm-6">
-                <div class="box-block">
-                    <p><a href="#" target="_blank">Your<br>
-                            Facilities</a></p>
-                </div>
+         </div>
+         <div class="col-sm-6" (click)="getServices(2)">
+            <div class="box-block">
+               <p class="text-center"><a href="javascript:void(0)" >Internal Services</a></p>
             </div>
-        </div>
-    </div>
-    <div class="top-m30">
-        <p style="border-bottom: 1px solid #cccccc; text-align: center; font-size: 20px; line-height: 30px;">Your Hcws
-            and client</p>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <h4 class="box-title">Choose Center & Hcws</h4>
-                <div class="box-block ">
-<!-- loader -->
-                    <ul class="list-unstyled dropdown location-list">
-                        <li>
-                            <a href="#" class="dropdown-toggle"  data-toggle="dropdown">ECRC - Santhome</a>
-                            <ul class="list-unstyled sub-list dropdown-menu">
-                                <li>
-                                    <a href="#" target="_blank">HCW1</a>
-                                </li>
-                                <li>
-                                    <a href="#" target="_blank">HCW2</a>
-                                </li>
-                                <li>
-                                    <a href="#" target="_blank">HCW3</a>
-                                </li>
-                            </ul>   
-                        </li>
-                        <li>
-                            <a href="#" href="#" class="dropdown-toggle"  data-toggle="dropdown">Shared Housing (urban)</a>
-                            <ul class="list-unstyled sub-list dropdown-menu">
-                                <li>
-                                    <a href="#" target="_blank">HCW1</a>
-                                </li>
-                                <li>
-                                    <a href="#" target="_blank">HCW2</a>
-                                </li>
-                                <li>
-                                    <a href="#" target="_blank">HCW3</a>
-                                </li>
-                            </ul>   
-                        </li>
-                    </ul>
-                </div>
+         </div>
+      </div>
+   </div>
+   <div class="top-m30" *ngIf="serviceType === 1 && step === 2">
+      <p style="border-bottom: 1px solid #cccccc; text-align: center; font-size: 20px; line-height: 30px;"> Care Givers</p>
+      <div class="row">
+         <div class="col-sm-6 col-sm-offset-3">
+            <h4 class="box-title">Choose Center<a style="text-align: right;font-size: 20px;color:#cccccc;" (click)="reset()"> (Reset)</a></h4>
+            <div class="box-block ">
+               <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
+               <ul class="list-unstyled dropdown location-list" *ngIf="!isCenterLoading && step === 2">
+                  <ng-container *ngIf="centers.length > 0">
+                     <li *ngFor="let center of centers;">
+                        <a href="javascript:void(0)" class="dropdown-toggle"
+                           data-toggle="dropdown">{{center.project_code.project_name}}</a>
+                        <ul class="list-unstyled sub-list dropdown-menu">
+                           <ng-container *ngIf="center.caregivers.length > 0">
+                              <li *ngFor="let caregiver of center.caregivers;">
+                                 <a href="javascript:void(0)" (click)="getClients(center.project_code, caregiver)">{{caregiver.cgiver_name}}</a>
+                              </li>
+                           </ng-container>
+                           <li *ngIf="center.caregivers.length === 0">
+                              No Records
+                           </li>
+                        </ul>
+                     </li>
+                  </ng-container>
+                  <li *ngIf="centers.length === 0">
+                     No Records
+                  </li>
+               </ul>
             </div>
-
-        </div>
-    </div>
-    <div class="top-m30">
-        <p style="border-bottom: 1px solid #cccccc; text-align: center; font-size: 20px; line-height: 30px;">Your Hcws
-            and client</p>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <h4 class="box-title">ECRC - Santhome</h4>
-                <div class="box-block">
-<!-- loader -->
-<img src="/assets/img/loader.gif">
-  <!-- loader end -->      
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="top-m30">
-        <h4 class="box-title" style="font-size: 20px; text-align: center;">Client care</h4>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="box-block">
-                    <!-- loader -->
-                    <img src="/assets/img/loader.gif">
-                    <!-- loader end --> 
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                          <div class="panel-heading active" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                  Collapsible Group Item #1
-                                </a>
-                              </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="panel-body">
-                    <ul class="list-unstyled client-list1">
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                        <li>
-                            <a href="#" target="_blank">Client1</a>
-                        </li>
-                    </ul>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div style="padding:15px 15px 15px 0px;"><span style="color: #da4b50;">Client Detail on </span><input type="date" class="black-font" /></div>
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">CC</a></li>
-                    <li><a data-toggle="tab" href="#menu1">MS</a></li>
-                    <li><a data-toggle="tab" href="#menu2">Diet</a></li>
-                    <li><a data-toggle="tab" href="#menu3">Med</a></li>
-                  </ul>
-                  <div class="tab-content">
-                    <div id="home" class="tab-pane fade in active">
-                        <!-- loader -->
-                        <div>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Self-Care & Hygiene</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Bathing</label></td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td><label>Grooming</label></td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td><label>Toilet Use</label></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><label>Meal Time</label></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><label>Menstrual Hygiene</label></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><label>Bed Hygiene</label></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    </div>
-                    <div id="menu1" class="tab-pane fade">
-                      <div *ngIf="mdScr">
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Scalp & Hair</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Injury</label></td>
-                                <td>{{mdScr.scalp_injury === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Pediculosis</label></td>
-                                <td>{{mdScr.scalp_pediculosis === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Dandruff</label></td>
-                                <td>{{mdScr.scalp_dandruff === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Alopecia</label></td>
-                                <td>{{mdScr.scalp_alopecia === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Eyes</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Stye</label></td>
-                                <td>{{mdScr.eyes_stye === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Discharge</label></td>
-                                <td>{{mdScr.eyes_discharge === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Redness</label></td>
-                                <td>{{mdScr.eyes_redness === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Ears</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Pain</label></td>
-                                <td>{{mdScr.ears_pain === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Discharge</label></td>
-                                <td>{{mdScr.ears_discharge === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Nose</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Block</label></td>
-                                <td>{{mdScr.nose_block === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Bleeding</label></td>
-                                <td>{{mdScr.nose_bleeding === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Cold</label></td>
-                                <td>{{mdScr.nose_cold === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Mouth</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Bad Odor</label></td>
-                                <td>{{mdScr.mouth_bo === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Dental Cariers</label></td>
-                                <td>{{mdScr.mouth_dentalcarriers === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Ulcer</label></td>
-                                <!-- <td>{{mdScr.mouth_gumbleed === 1 ? 'Yes' : 'No'}}</td> -->
-                            </tr>
-                            <tr>
-                                <td><label>Gum Bleeding</label></td>
-                                <td>{{mdScr.mouth_gumbleed === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Vomiting</label></td>
-                                <td>{{mdScr.mouth_vomit === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Neck</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Thyroid Gland Swelling</label></td>
-                                <td>{{mdScr.neck_thyroidglandswelling === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Lymphadenitis</label></td>
-                                <td>{{mdScr.neck_lymphadenitis === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Chest</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Pain/Tenderness</label></td>
-                                <td>{{mdScr.chest_tenderness === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Galactorrhea</label></td>
-                                <td>{{mdScr.chest_galactorrhea === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Sore Nipple</label></td>
-                                <td>{{mdScr.chest_sorenipple === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Cough</label></td>
-                                <td>{{mdScr.chest_cough === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Wheezing</label></td>
-                                <td>{{mdScr.chest_wheezing === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Abdomen</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Pain/Tenderness</label></td>
-                                <td>{{mdScr.abdomen_pain === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Distension</label></td>
-                                <td>{{mdScr.abdomen_distension === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Diarrhea</label></td>
-                                <td>{{mdScr.abdomen_diarrhea === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Contipation</label></td>
-                                <td>{{mdScr.abdomen_constipation === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Extremities</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Injury</label></td>
-                                <td>{{mdScr.extremities_injury === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Wound</label></td>
-                                <td>{{mdScr.extremities_wound === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Fracture</label></td>
-                                <td>{{mdScr.extremities_fracture === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Skin</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Discoloration</label></td>
-                                <td>{{mdScr.skin_rashes === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Genitalia</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Rashes</label></td>
-                                <td>{{mdScr.genitals_rashes === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>White Discharge</label></td>
-                                <td>{{mdScr.genitals_whitedischarge === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Menorrhagia</label></td>
-                                <td>{{mdScr.genitals_menorrhagia === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Hospital</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Hospital Emergencies</label></td>
-                                <td>{{mdScr.hospital_emergencies === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Hospital Admission</label></td>
-                                <td>{{mdScr.hospital_admission === 1 ? 'Yes' : 'No'}}</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Vital Signs</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Temperature(F)</label></td>
-                                <td>{{mdScr.vital_temperature}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Pulse(BPM)</label></td>
-                                <td>{{mdScr.vital_pulse}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Respiration Rate</label></td>
-                                <td>{{mdScr.vital_respiration}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Blood Pressure</label></td>
-                                <td>{{mdScr.vital_bp_sys}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Weight(Kg)</label></td>
-                                <td>{{mdScr.vital_weight}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>Start Date</label></td>
-                                <td>{{mdScr.vital_period_start}}</td>
-                            </tr>
-                            <tr>
-                                <td><label>End Date</label></td>
-                                <td>{{mdScr.vital_period_end}}</td>
-                            </tr>
-                        </table>
-                      </div>
-                    </div>
-                    <div id="menu2" class="tab-pane fade">
-                        <div>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Diet</label></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Regular</td>
-                            </tr>
-                        </table>
-                    </div>
-                    </div>
-                    <div id="menu3" class="tab-pane fade">
-                        <div>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td colspan="2" class="text-center"><label>Medicines</label></td>
-                            </tr>
-                            <tr>
-                                <td><label>Prescription Date</label></td>
-                                <td>2020-08-27</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td><label>Breakfast Medication</label></td>
-                                <td>500MG</td>
-                                <td>1</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td><label>Lunch Medication</label></td>
-                                <td>500MG</td>
-                                <td>1</td>
-                            </tr>
-                        </table>
-                        <table class="table-striped table-bordered table-hover table-data">
-                            <tr>
-                                <td><label>Dinner Medication</label></td>
-                                <td>500MG</td>
-                                <td>1</td>
-                            </tr>
-                        </table>
+         </div>
+      </div>
+   </div>
+   <div class="top-m30" *ngIf="serviceType === 1 && step === 3">
+      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{careGiveCode}}) - {{clientName}} ({{clientFileNumber}})<a style="text-align: right;font-size: 20px;color:#cccccc;" (click)="reset()"> (Reset)</a></h4>
+      <div class="row">
+         <div class="col-md-3">
+            <div class="box-block">
+               <img src="/assets/img/loader.gif" *ngIf="isClientLoading">
+               <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                  <div class="panel panel-default">
+                     <div class="panel-heading active" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                           <a role="button" data-toggle="collapse" data-parent="#accordion" href="#clients"
+                              aria-expanded="true" aria-controls="clients">
+                           Clients
+                           </a>
+                        </h4>
+                     </div>
+                     <div id="clients" class="panel-collapse collapse in" role="tabpanel"
+                        aria-labelledby="headingOne">
+                        <div class="panel-body">
+                           <ul class="list-unstyled client-list1" *ngIf="clients.length > 0">
+                              <li *ngFor="let client of clients;">
+                                 <a href="javascript:void(0)" (click)="setClientDetails(client, 1)">{{client.client_fname}}</a>
+                              </li>
+                           </ul>
                         </div>
-                      </div>
-                  </div> 
+                     </div>
+                  </div>
+               </div>
+               <div *ngIf="isNodataSub">No Records</div>
             </div>
-        </div>
-    </div>
+         </div>
+         <div class="col-md-9">
+            <div style="padding:15px 15px 15px 0px;" *ngIf="modeDetail === 1 || modeDetail === 2"><span style="color: #da4b50;">Client Details On <input
+               type="date"  class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"  [ngModelOptions]="{standalone: true}" /></span>
+            </div>
+            <ul class="nav nav-tabs">
+               <li [ngClass]="{ 'active':modeDetail === 1 }"><a data-toggle="tab" href="#hygiene" (click)="getDetails(1, false)">Self Care & Hygiene</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 2 }"><a data-toggle="tab" href="#medical" (click)="getDetails(2, false)">Medical Screening</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 3 }"><a data-toggle="tab" href="#diet" (click)="getDetails(3, false)">Diet</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 4 }"><a data-toggle="tab" href="#medication" (click)="getDetails(4, false)">Medication</a></li>
+            </ul>
+            <div class="tab-content">
+               <div id="hygiene" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 1}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata">
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Self-Care & Hygiene</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Bathing</label></td>
+                           <td>
+                              <star-rating value="{{clientDetail['1_1']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
+                                 readonly="true"></star-rating>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Grooming</label></td>
+                           <td>
+                              <star-rating value="{{clientDetail['1_2']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
+                                 readonly="true"></star-rating>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Toilet Use</label></td>
+                           <td>
+                              <star-rating value="{{clientDetail['1_3']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
+                                 readonly="true"></star-rating>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Meal Time</label></td>
+                           <td>
+                              <star-rating value="{{clientDetail['1_4']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
+                                 readonly="true"></star-rating>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Menstrual Hygiene</label></td>
+                           <td>
+                              <star-rating value="{{clientDetail['1_5']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
+                                 readonly="true"></star-rating>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Bed Hygiene</label></td>
+                           <td>
+                              <star-rating value="{{clientDetail['1_6']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
+                                 readonly="true"></star-rating>
+                           </td>
+                        </tr>
+                     </table>
+                     <span *ngIf="!clientDetail">No Records</span>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+               <div id="medical" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 2}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata && clientDetail">
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Scalp & Hair</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Injury</label></td>
+                           <td>{{clientDetail.scalp_injury === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Pediculosis</label></td>
+                           <td>{{clientDetail.scalp_pediculosis === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Dandruff</label></td>
+                           <td>{{clientDetail.scalp_dandruff === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Alopecia</label></td>
+                           <td>{{clientDetail.scalp_alopecia === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Eyes</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Stye</label></td>
+                           <td>{{clientDetail.eyes_stye === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Discharge</label></td>
+                           <td>{{clientDetail.eyes_discharge === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Redness</label></td>
+                           <td>{{clientDetail.eyes_redness === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Ears</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Pain</label></td>
+                           <td>{{clientDetail.ears_pain === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Discharge</label></td>
+                           <td>{{clientDetail.ears_discharge === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Nose</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Block</label></td>
+                           <td>{{clientDetail.nose_block === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Bleeding</label></td>
+                           <td>{{clientDetail.nose_bleeding === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Cold</label></td>
+                           <td>{{clientDetail.nose_cold === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Mouth</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Bad Odor</label></td>
+                           <td>{{clientDetail.mouth_bo === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Dental Cariers</label></td>
+                           <td>{{clientDetail.mouth_dentalcarriers === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Ulcer</label></td>
+                           <!-- <td>{{clientDetail.mouth_gumbleed === 1 ? 'Yes' : 'No'}}</td> -->
+                        </tr>
+                        <tr>
+                           <td><label>Gum Bleeding</label></td>
+                           <td>{{clientDetail.mouth_gumbleed === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Vomiting</label></td>
+                           <td>{{clientDetail.mouth_vomit === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Neck</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Thyroid Gland Swelling</label></td>
+                           <td>{{clientDetail.neck_thyroidglandswelling === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Lymphadenitis</label></td>
+                           <td>{{clientDetail.neck_lymphadenitis === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Chest</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Pain/Tenderness</label></td>
+                           <td>{{clientDetail.chest_tenderness === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Galactorrhea</label></td>
+                           <td>{{clientDetail.chest_galactorrhea === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Sore Nipple</label></td>
+                           <td>{{clientDetail.chest_sorenipple === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Cough</label></td>
+                           <td>{{clientDetail.chest_cough === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Wheezing</label></td>
+                           <td>{{clientDetail.chest_wheezing === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Abdomen</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Pain/Tenderness</label></td>
+                           <td>{{clientDetail.abdomen_pain === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Distension</label></td>
+                           <td>{{clientDetail.abdomen_distension === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Diarrhea</label></td>
+                           <td>{{clientDetail.abdomen_diarrhea === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Contipation</label></td>
+                           <td>{{clientDetail.abdomen_constipation === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Extremities</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Injury</label></td>
+                           <td>{{clientDetail.extremities_injury === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Wound</label></td>
+                           <td>{{clientDetail.extremities_wound === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Fracture</label></td>
+                           <td>{{clientDetail.extremities_fracture === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Skin</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Discoloration</label></td>
+                           <td>{{clientDetail.skin_rashes === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Genitalia</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Rashes</label></td>
+                           <td>{{clientDetail.genitals_rashes === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>White Discharge</label></td>
+                           <td>{{clientDetail.genitals_whitedischarge === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Menorrhagia</label></td>
+                           <td>{{clientDetail.genitals_menorrhagia === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Hospital</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Hospital Emergencies</label></td>
+                           <td>{{clientDetail.hospital_emergencies === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Hospital Admission</label></td>
+                           <td>{{clientDetail.hospital_admission === 1 ? 'Yes' : 'No'}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Vital Signs</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Temperature(F)</label></td>
+                           <td>{{clientDetail.vital_temperature}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Pulse(BPM)</label></td>
+                           <td>{{clientDetail.vital_pulse}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Respiration Rate</label></td>
+                           <td>{{clientDetail.vital_respiration}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Blood Pressure</label></td>
+                           <td>{{clientDetail.vital_bp_sys}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Weight(Kg)</label></td>
+                           <td>{{clientDetail.vital_weight}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>Start Date</label></td>
+                           <td>{{clientDetail.vital_period_start}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>End Date</label></td>
+                           <td>{{clientDetail.vital_period_end}}</td>
+                        </tr>
+                     </table>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+               <div id="diet" class="tab-pane fade"  [ngClass]="{'in active': modeDetail === 3}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="isClientDetailLoading && !isNodata">
+                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="!isClientDetailLoading && clientDetail && !clientDetail.diet_bfast_menu && !clientDetail.diet_lunch_menu && !clientDetail.diet_snack1_menu && !clientDetail.diet_dinner_menu && !clientDetail.diet_followup">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Diet</label></td>
+                        </tr>
+                        <tr>
+                           <td colspan="2">Regular</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="clientDetail && clientDetail.diet_bfast_menu">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Breakfast</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>{{clientDetail.diet_bfast_menu}}</label></td>
+                           <td>{{clientDetail.diet_bfast_time}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="clientDetail && clientDetail && clientDetail.diet_lunch_menu">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Lunch</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>{{clientDetail.diet_lunch_menu}}</label></td>
+                           <td>{{clientDetail.diet_lunch_time}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="clientDetail && clientDetail.diet_snack1_menu">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Snack</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>{{clientDetail.diet_snack1_menu}}</label></td>
+                           <td>{{clientDetail.diet_snack1_time}}</td>
+                        </tr>
+                        <tr>
+                           <td><label>{{clientDetail.diet_snack2_menu}}</label></td>
+                           <td>{{clientDetail.diet_snack2_time}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail && clientDetail.diet_dinner_menu">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Dinner</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>{{clientDetail.diet_dinner_menu}}</label></td>
+                           <td>{{clientDetail.diet_dinner_time}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail && clientDetail.diet_followup">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Followup</label></td>
+                        </tr>
+                        <tr>
+                           <td colspan="2"><label>{{clientDetail.diet_followup}}</label></td>
+                        </tr>
+                     </table>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+               <div id="medication" class="tab-pane fade"  [ngClass]="{'in active': modeDetail === 4}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata && clientDetail">
+                     <table class="table-striped table-bordered table-hover table-data">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Medicines</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Prescription Date</label></td>
+                           <td>{{clientDetail.date}}</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="breakFasts.length > 0">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Breakfast Medication</label></td>
+                        </tr>
+                        <tr *ngFor="let breakFast of breakFasts;">
+                           <td><label>{{breakFast.name}}</label></td>
+                           <td>{{breakFast.count}} ( {{breakFast.strength}} )</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="lunchs.length > 0">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Lunch Medication</label></td>
+                        </tr>
+                        <tr *ngFor="let lunch of lunchs;">
+                           <td><label>{{lunch.name}}</label></td>
+                           <td>{{lunch.count}} ( {{lunch.strength}} )</td>
+                        </tr>
+                     </table>
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="dinners.length > 0">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Dinner Medication</label></td>
+                        </tr>
+                        <tr *ngFor="let dinner of dinners;">
+                           <td><label>{{dinner.name}}</label></td>
+                           <td>{{dinner.count}} ( {{dinner.strength}} )</td>
+                        </tr>
+                     </table>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="top-m30" *ngIf="step === 5">
+      <p style="border-bottom: 1px solid #cccccc; text-align: center; font-size: 20px; line-height: 30px;"> Care Givers</p>
+      <div class="row">
+         <div class="col-sm-6 col-sm-offset-3">
+            <h4 class="box-title">Choose Center<a style="text-align: right;font-size: 20px;color:#cccccc;" (click)="reset()"> (Reset)</a></h4>
+            <div class="box-block ">
+               <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
+               <ul class="list-unstyled dropdown location-list" *ngIf="!isCenterLoading && step === 5">
+                  <ng-container *ngIf="centers.length > 0">
+                     <li *ngFor="let center of centers;">
+                        <a href="javascript:void(0)" class="dropdown-toggle"
+                           data-toggle="dropdown" (click)="setCareGivers(center, null)">{{center.project_code.project_name}}</a>
+                     </li>                    
+                  </ng-container>
+                  <li *ngIf="centers.length === 0">
+                     No Records
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row" *ngIf="step === 6">
+      <div class="col-md-3">
+         <div class="box-block">
+            <img src="/assets/img/loader.gif" *ngIf="isClientLoading">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" *ngIf="!isClientLoading">
+               <div class="panel panel-default">
+                  <div class="panel-heading active" role="tab" id="headingOne">
+                     <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#centres"
+                           aria-expanded="true" aria-controls="centres">
+                        Centres
+                        </a>
+                     </h4>
+                  </div>
+                  <div id="centres" class="panel-collapse collapse in" role="tabpanel"
+                     aria-labelledby="headingOne">
+                     <div class="panel-body">
+                        <ul class="list-unstyled client-list1" *ngIf="centers.length > 0">
+                           <li *ngFor="let caregiver of caregivers;">
+                              <a href="javascript:void(0)" (click)="setClientDetails(caregivers, caregiver)">{{center.project_name}}</a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="top-m30" *ngIf="step === 7">
+      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{cgiverName}} ({{centerCode}})<a style="text-align: right;font-size: 20px;color:#cccccc;" (click)="reset()"> (Reset)</a></h4>
+      <div class="row">
+         <div class="col-md-3">
+            <div class="box-block">
+               <img src="/assets/img/loader.gif" *ngIf="isClientLoading">
+               <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                  <div class="panel panel-default">
+                     <div class="panel-heading active" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                           <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cgiver"
+                              aria-expanded="true" aria-controls="cgiver">
+                           Care Givers
+                           </a>
+                        </h4>
+                     </div>
+                     <div id="cgiver" class="panel-collapse collapse in" role="tabpanel"
+                        aria-labelledby="headingOne">
+                        <div class="panel-body">
+                           <ul class="list-unstyled client-list1" *ngIf="caregivers && caregivers.length > 0">
+                              <li *ngFor="let cgiver of caregivers;">
+                                 <a href="javascript:void(0)" (click)="setCareGivers(null, cgiver)">{{cgiver.cgiver_name}}</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-9">
+            <div style="padding:15px 15px 15px 0px;"><span style="color: #da4b50;">Details On <input
+               type="date"  class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"  [ngModelOptions]="{standalone: true}" /></span>
+            </div>
+            <ul class="nav nav-tabs">
+               <li [ngClass]="{ 'active':modeDetail === 5 }" ><a data-toggle="tab" href="#housekeeping" (click)="getDetails(5, false)">Housekeeping</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 6 }"><a data-toggle="tab" href="#kitchen" (click)="getDetails(6, false)">Kitchen</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 7 }"><a data-toggle="tab" href="#dining" (click)="getDetails(7, false)">Dining Area</a></li>
+            </ul>
+            <div class="tab-content">
+               <div id="housekeeping" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 5}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata">
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Housekeeping</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Has the facility been subjected to overall housekeeping today</label></td>
+                           <td>
+                              {{clientDetail.status_hkoverall === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Has the bathroom been cleaned today</label></td>
+                           <td>
+                              {{clientDetail.status_bathroom === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Are essential toiletries available in the bathroom</label></td>
+                           <td>
+                              {{clientDetail.status_toiletries === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Has stock-taking been conducted today</label></td>
+                           <td>
+                              {{clientDetail.status_stocktaking === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were the curtains changed today</label></td>
+                           <td>
+                              {{clientDetail.status_curtains === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were cobwebs removed today</label></td>
+                           <td>
+                              {{clientDetail.status_cobwebs === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were the floor mats changed today</label></td>
+                           <td>
+                              {{clientDetail.status_floormats === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Was the water chlorinated today</label></td>
+                           <td>
+                              {{clientDetail.status_waterchlorine === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Observation made by mental health professionals during rounds</label></td>
+                           <td>
+                              {{clientDetail.status_notes}}
+                           </td>
+                        </tr>
+                     </table>
+                     <span *ngIf="!clientDetail">No Records</span>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+               <div id="kitchen" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 6}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata">
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Kitchen</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>Was requisition for kitchen stocks placed today</label></td>
+                           <td>
+                              {{clientDetail.status_stock_request === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Captured photo of today's socks register</label></td>
+                           <td>
+                              <a download="image.jpg" href="{{clientDetail.stock_image_url}}" title="ImageName">
+                              Download
+                              </a>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were the kitchen stores cleaned today</label></td>
+                           <td>
+                              {{clientDetail.status_dinning_clean === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were the kitchen stores cleared today</label></td>
+                           <td>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Daily kitchen waste</label></td>
+                           <td>
+                              {{clientDetail.status_waste_qty ? (clientDetail.status_waste_qty + ' Kg') : ''}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Was the utensils washed today</label></td>
+                           <td>
+                              {{clientDetail.status_utensil_washed === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Comments</label></td>
+                           <td>
+                              {{clientDetail.status_text}}
+                           </td>
+                        </tr>
+                     </table>
+                     <span *ngIf="!clientDetail">No Records</span>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+               <div id="dining" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 7}">
+                  <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata">
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
+                        <tr>
+                           <td colspan="2" class="text-center"><label>Dinning Area</label></td>
+                        </tr>
+                        <tr>
+                           <td><label>How many times was the dining area cleaned today</label></td>
+                           <td>
+                              <span *ngIf="clientDetail.status_dinning_clean === 0">After Every Meal</span>
+                              <span *ngIf="clientDetail.status_dinning_clean === 1">At the end of the day</span>
+                              <span *ngIf="clientDetail.status_dinning_clean === 2">Others</span>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>How many staff members were present in the dining area during serving of meals</label></td>
+                           <td>{{clientDetail.status_staff_num_dinning}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>While waiting to be served food, were clients standing</label></td>
+                           <td>{{clientDetail.status_clients_standing === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were adequate hygiene materials present in the dining area</label></td>
+                           <td>{{clientDetail.status_hygiene_materials === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Were the server wearing gloves and caps while in the dining area</label></td>
+                           <td>{{clientDetail.status_server_ppe === 1 ? 'Yes' : 'No'}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>How much food was wasted today</label></td>
+                           <td>{{clientDetail.status_waste_qty}}
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>How frequently is the dining wasted cleared</label></td>
+                           <td>
+                              <span *ngIf="clientDetail.status_dinning_waste_clean === 0">After Every Meal</span>
+                              <span *ngIf="clientDetail.status_dinning_waste_clean === 1">At the end of the day</span>
+                              <span *ngIf="clientDetail.status_dinning_waste_clean === 2">Others</span>
+                           </td>
+                        </tr>
+                        <tr>
+                           <td><label>Observation made by mental health professionals during rounds</label></td>
+                           <td>{{clientDetail.status_text}}
+                           </td>
+                        </tr>
+                     </table>
+                     <span *ngIf="!clientDetail">No Records</span>
+                  </div>
+                  <div *ngIf="isNodata">No Records</div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
-
-
-<form class="form-signin">
-    <div class="text-center"><img src="/assets/img/tblogo_red.png"></div>
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-  </form>   

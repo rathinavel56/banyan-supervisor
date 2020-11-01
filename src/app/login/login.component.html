@@ -1,20 +1,14 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title">Sign in to continue to Banyan</h1>
-            <div class="account-wall">
-                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
-                <form formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-signin">
-                    <input type="text" formControlName="username" class="form-control" placeholder="username" required autofocus>
-                    <div *ngIf="submitted && (loginForm.get('username').value.length === 0)" class="invalid-feedback-show">
-                        {{ 'Username is required' | translate }}</div>
-                    <input type="password" formControlName="password" class="form-control" placeholder="Password" required>
-                    <div *ngIf="submitted && (loginForm.get('password').value.length === 0)" class="invalid-feedback-show">
-                        {{ 'Password is required' | translate }}</div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">
-                        Sign in</button>
-                </form>
-            </div>
-        </div>
+<form class="form-signin">
+    <div class="text-center"><img src="/assets/img/tblogo_red.png"></div>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputEmail" class="sr-only">Username</label>
+    <input type="text" id="inputUsername" class="form-control" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" placeholder="Username" autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Password">
+    <div class="checkbox mb-3">
+       <label>
+          <input type="checkbox" value="remember-me"> Remember me
+       </label>
     </div>
-</div>
+    <button class="btn btn-lg btn-primary btn-block" (click)="onSubmit()" type="button">Sign in</button>
+ </form>

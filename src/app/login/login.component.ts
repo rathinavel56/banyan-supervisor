@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../api/user.service';
-import { ToastMessage } from '../api/toast-message';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -12,45 +11,54 @@ import { ToastMessage } from '../api/toast-message';
 })
 export class LoginComponent implements OnInit {
   constructor(public router: Router,
-    private formBuilder: FormBuilder,
     private userService: UserService,
-    private toastMessage: ToastMessage) { }
-    public loginForm: FormGroup;
+    public toastr: ToastrService
+    ) { }
     public submitted: Boolean;
     public serviceResponse: any;
+    public username: string  = '';
+    public password: string  = '';
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-        username: ['', Validators.required],
-        password: ['', Validators.required]
-    });
-  }
-
-  get f() {
-      return this.loginForm.controls;
+    if (sessionStorage.getItem('report')) {
+      this.router.navigate(['/supervisor']);
+    }
   }
 
   onSubmit() {
       this.submitted = true;
-      setTimeout(() => {
-          if (this.loginForm.invalid && document.getElementsByClassName('invalid-feedback-show').length > 0) {
-              return;
+      if (!this.username) {
+        this.toastr.error('Username is required', 'Mandatory', {
+          timeOut: 3000,
+        });
+        return;
+      } else if (!this.password) {
+        this.toastr.error('Passoword is required', 'Mandatory', {
+          timeOut: 3000,
+        });
+      }
+      this.userService.login({
+        username: this.username,
+        password: this.password
+      })
+      .subscribe(response => {
+          this.submitted = false;
+          if (response.status) {
+              let loginData = {
+                full_name: response.data.full_name,
+                id: response.data.id
+              };
+              sessionStorage.setItem('report', JSON.stringify(loginData));
+              if (response.data.user_group_id === 3) {
+                  this.router.navigate(['/supervisor']);
+              } else {
+                  this.router.navigate(['/mywork']);
+              }
+          } else {
+            this.toastr.error('Username Or Password is invalid', 'Error', {
+              timeOut: 3000,
+            });
           }
-          this.userService.login(this.loginForm)
-              .subscribe(response => {
-                  this.submitted = false;
-                  if (response.status) {
-                      this.toastMessage.success(null, response.message);
-                      sessionStorage.setItem('report', JSON.stringify(response));
-                      if (this.serviceResponse.role === 'supervisor') {
-                          this.router.navigate(['/dashboard']);
-                      } else {
-                          this.router.navigate(['/mywork']);
-                      }
-                  } else {
-                      this.toastMessage.error(null, response.message);
-                  }
-              });
-      }, 100);
+      });
   }
 
   onKeydown(event) {
