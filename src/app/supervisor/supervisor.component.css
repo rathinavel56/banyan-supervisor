@@ -109,8 +109,18 @@ table tr:first-child td{
     font-weight: bold;
     padding: 10px 20px;
 }
-.nav-tabs>li>a{
+.supervisor-pg .nav-tabs>li>a{
     color: #da4b50;
+    background: #fff;
+}
+.supervisor-pg .nav-tabs>li.active > a, .supervisor-pg .nav-tabs>li>a:hover{
+    background: #da4b50;
+    color: #fff;
+}
+.supervisor-pg .tab-content{
+    background: #ffff;
+    padding: 20px 15px;
+    border: 1px solid #da4b50;
 }
 /*ACORDIN STYLE*/
 .panel-title>a, .panel-title>a:active{
@@ -131,6 +141,11 @@ table tr:first-child td{
 	-moz-transform: rotate(180deg);
 	transform: rotate(180deg);
 } 
+.supervisor-pg .panel-body{
+    max-height: 250px;
+    overflow-y: scroll;
+    padding: 10px;
+}
 .form-signin {
     width: 100%;
     max-width: 330px;
