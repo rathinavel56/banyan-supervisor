@@ -1,8 +1,10 @@
 import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { UserService } from '../api/user.service';
+import { ExcelService } from '../api/excel.service';
 import { StarRatingComponent } from 'ng-starrating';
 import { Router } from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   templateUrl: './supervisor.component.html',
@@ -18,7 +20,7 @@ export class SupervisorComponent implements OnInit {
   isClientLoading = false;
   isClientDetailLoading = false;
   isNodata = false;
-  clientDetail = {};
+  clientDetail: any = {};
   currentFullDate = new Date();
   month = this.currentFullDate.getMonth() + 1;
   currentDate = this.currentFullDate.getFullYear() + '-' + (this.month.toString().length === 1 ? ('0' + this.month) : this.month) + '-' + this.currentFullDate.getDate();
@@ -38,8 +40,11 @@ export class SupervisorComponent implements OnInit {
   careGiverName = '';
   careGiveCode = '';
   loginUser: any = '';
+  icpnotes: any = '';
   constructor(private userService: UserService,
-    public router: Router) { }
+    public router: Router,
+    private excelService:ExcelService,
+    public toastr: ToastrService) { }
 
   ngOnInit() {
     this.loginUser = sessionStorage.getItem('report');
@@ -48,6 +53,32 @@ export class SupervisorComponent implements OnInit {
     } else {
       this.loginUser = JSON.parse(sessionStorage.getItem('report'));
     }
+  }
+
+  exportAsXLSX():void {
+    this.excelService.exportAsExcelFile(this.organise([this.clientDetail]), 'export-to-excel');
+  }
+  organise(arr) {
+    let headers = [], // an Array to let us lookup indicies by group
+      objs = [],    // the Object we want to create
+      i, j;
+    for (i = 0; i < arr.length; ++i) {
+      j = headers.indexOf(arr[i].id); // lookup
+      if (j === -1) { // this entry does not exist yet, init
+        j = headers.length;
+        headers[j] = arr[i].id;
+        objs[j] = {};
+        objs[j].id = arr[i].id;
+        objs[j].data = [];
+      }
+      objs[j].data.push( // create clone
+        {
+          case_worked: arr[i].case_worked,
+          note: arr[i].note, id: arr[i].id
+        }
+      );
+    }
+    return objs;
   }
 
   getServices(serviceTypeMenu) {
@@ -162,6 +193,18 @@ export class SupervisorComponent implements OnInit {
     this.getDetails(1, true);
     this.step = 3;
   }
+  addnotes() {
+    this.userService.icpNotes({
+      code: this.clientFileNumber,
+      dateDetil: this.currentDate,
+      notes: this.icpnotes
+    })
+    .subscribe(response => {
+      this.toastr.success('Notes added Successfully', 'Success', {
+        timeOut: 3000,
+      });
+    });
+  }
   getDetails(modeDetail, isRefresh) {
     this.isClientDetailLoading = true;
     this.isNodata = false;    
@@ -213,6 +256,9 @@ export class SupervisorComponent implements OnInit {
             }
           } else {
             this.clientDetail = response.data;
+            if (modeDetail === 0) {
+              this.icpnotes = (this.clientDetail) ? this.clientDetail.notes : ''; 
+            }
           }
         } else {
           this.isNodata = true;

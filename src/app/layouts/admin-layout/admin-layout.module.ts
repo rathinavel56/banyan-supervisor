@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { ApiService } from '../../api/api.service';
 import { UserService } from '../../api/user.service';
+import { ExcelService } from '../../api/excel.service';
 import { SupervisorComponent } from '../../supervisor/supervisor.component';
 import { UserComponent } from '../../user/user.component';
 import { TablesComponent } from '../../tables/tables.component';
@@ -26,7 +27,8 @@ import { RatingModule } from 'ng-starrating';
   ],
   providers: [
     ApiService,
-    UserService
+    UserService,
+    ExcelService
   ]
 })
 

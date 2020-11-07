@@ -1,33 +1,34 @@
 <nav class="navbar navbar-default" *ngIf="isloginUser">
-    <div class="container-fluid">       
-           <div class="row">
-               <div class="col-xs-3">
-            <a class="navbar-brand" href="#" ><img src="/assets/img/home.png" class="img-responsive"></a>
-        </div>
-        <div class="col-xs-6 text-center" style="padding-top:15px;">
-            <img _ngcontent-rix-c53="" class="img-responsive" style="display: inline-block;" src="/assets/img/tblogo_red.png" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3">
+                <a class="navbar-brand" href="#"><img src="/assets/img/home.png" class="img-responsive"></a>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top:15px;">
+                <img _ngcontent-rix-c53="" class="img-responsive" style="display: inline-block;"
+                    src="/assets/img/tblogo_red.png">
             </div>
             <div class="col-xs-3">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="javascript:void(0)" (click)="logout()">
-                        <img class="img-responsive" src="/assets/img/Logout.png">
-                    </a>
-                </li>
-                <li class="separator hidden-lg hidden-md"></li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="javascript:void(0)" (click)="logout()">
+                            <img class="img-responsive" src="/assets/img/Logout.png">
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg hidden-md"></li>
+                </ul>
+            </div>
         </div>
-        </div>
-        
+
     </div>
     <div class="container">
         <div class="welcome-box">
             <div class="row">
                 <div class="col-sm-6">
-    <p>Welcome {{userName}}</p>
+                    <p>Welcome {{userName}}</p>
                 </div>
                 <div class="col-sm-6">
-                    <p class="time">10:15:02 PM</p>
+                    <p class="time">{{clock}}</p>
                 </div>
             </div>
         </div>

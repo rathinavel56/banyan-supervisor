@@ -14,6 +14,9 @@ export class UserService {
   centers(request): Observable<any> {
     return this.apiService.httpPost('centers', request);
   }
+  icpNotes(request): Observable<any> {
+    return this.apiService.httpPost('add_icp_notes', request);
+  }
   clients(request: any): Observable<any> {
     return this.apiService.httpPost('clients', request);
   }

@@ -14,6 +14,8 @@ export class NavbarComponent implements OnInit {
     private sidebarVisible: boolean;
     isloginUser = false;
     userName = '';
+    clockHandle: any;
+    clock: any;
 
     constructor(location: Location,
         private element: ElementRef,
@@ -25,11 +27,14 @@ export class NavbarComponent implements OnInit {
             if (this.isloginUser) {
                 let userDetail = JSON.parse(sessionStorage.getItem('report'));
                 this.userName = userDetail.full_name;
+                this.clockHandle = setInterval(()=>{
+                    this.clock = new Date().toLocaleString();
+                  },1000);
             }
         });
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.isloginUser = sessionStorage.getItem('report') ? true : false;
         this.listTitles = ROUTES.filter(listTitle => listTitle);
         const navbar: HTMLElement = this.element.nativeElement;

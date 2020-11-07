@@ -3,21 +3,31 @@
       <div class="row">
          <div class="col-sm-6" (click)="getServices(1)">
             <div class="box-block">
-               <p class="text-center"><a href="javascript:void(0)" ><span class="show"><img src="/assets/img/user-exchange.png"></span><span class="show" style="margin-top:10px;">Direct Services</span></a></p>
+               <p class="text-center"><a href="javascript:void(0)"><span class="show"><img
+                  src="/assets/img/user-exchange.png"></span><span class="show" style="margin-top:10px;">Direct
+                  Services</span></a>
+               </p>
             </div>
          </div>
          <div class="col-sm-6" (click)="getServices(2)">
             <div class="box-block">
-               <p class="text-center"><a href="javascript:void(0)" ><span class="show"><img src="/assets/img/customer-service.png"></span><span class="show" style="margin-top:10px;">Internal Services</span></a></p>
+               <p class="text-center"><a href="javascript:void(0)"><span class="show"><img
+                  src="/assets/img/customer-service.png"></span><span class="show"
+                  style="margin-top:10px;">Internal Services</span></a></p>
             </div>
          </div>
       </div>
    </div>
    <div class="top-m30" *ngIf="serviceType === 1 && step === 2">
-      <p style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;"> Care Givers</p>
+      <p
+         style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;">
+         Care Givers
+      </p>
       <div class="row">
          <div class="col-sm-6 col-sm-offset-3">
-            <h4 class="box-title">Choose Center<a style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;" (click)="reset()"> <img src="/assets/img/return-icon.png"></a></h4>
+            <h4 class="box-title">Choose Center<a
+               style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
+               (click)="reset()"> <img src="/assets/img/return-icon.png"></a></h4>
             <div class="box-block ">
                <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
                <ul class="list-unstyled dropdown location-list" *ngIf="!isCenterLoading && step === 2">
@@ -28,7 +38,8 @@
                         <ul class="list-unstyled sub-list dropdown-menu">
                            <ng-container *ngIf="center.caregivers.length > 0">
                               <li *ngFor="let caregiver of center.caregivers;">
-                                 <a href="javascript:void(0)" (click)="getClients(center.project_code, caregiver)">{{caregiver.cgiver_name}}</a>
+                                 <a href="javascript:void(0)"
+                                    (click)="getClients(center.project_code, caregiver)">{{caregiver.cgiver_name}}</a>
                               </li>
                            </ng-container>
                            <li *ngIf="center.caregivers.length === 0">
@@ -46,7 +57,13 @@
       </div>
    </div>
    <div class="top-m30" *ngIf="serviceType === 1 && step === 3">
-      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{careGiveCode}}) - {{clientName}} ({{clientFileNumber}}) <span style="display: inline-block; float:right; padding-left: 10px;"><a href="" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-download" aria-hidden="true"></i></a><a style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;" (click)="reset()"> <img src="/assets/img/return-icon.png"></a></span></h4>
+      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{careGiveCode}}) -
+         {{clientName}} ({{clientFileNumber}}) <span style="display: inline-block; float:right; padding-left: 10px;"><a
+            href="javascript:void(0)" *ngIf="!isClientDetailLoading && !isNodata" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i
+            class="fa fa-download" aria-hidden="true" (click)="exportAsXLSX()"></i></a><a
+            style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
+            (click)="reset()"> <img src="/assets/img/return-icon.png"></a></span>
+      </h4>
       <div class="row">
          <div class="col-md-3">
             <div class="box-block">
@@ -61,12 +78,12 @@
                            </a>
                         </h4>
                      </div>
-                     <div id="clients" class="panel-collapse collapse in" role="tabpanel"
-                        aria-labelledby="headingOne">
+                     <div id="clients" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                            <ul class="list-unstyled client-list1" *ngIf="clients.length > 0">
                               <li *ngFor="let client of clients;">
-                                 <a href="javascript:void(0)" (click)="setClientDetails(client, 1)">{{client.client_fname}}</a>
+                                 <a href="javascript:void(0)"
+                                    (click)="setClientDetails(client, 1)">{{client.client_fname}}</a>
                               </li>
                            </ul>
                         </div>
@@ -76,17 +93,23 @@
                <div *ngIf="isNodataSub">No Records</div>
             </div>
          </div>
-         <div class="col-md-9" [ngClass]="{ 'tab-space': (modeDetail === 3 || modeDetail === 4) }">
-            <div style="padding:30px 15px 30px 0px;" *ngIf="modeDetail === 1 || modeDetail === 2"><span style="color: #da4b50;">Client Details On <input
-               type="date"  class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"  [ngModelOptions]="{standalone: true}" />   </span>
-                 
+         <div class="col-md-9" [ngClass]="{ 'tab-space': (modeDetail === 0 || modeDetail === 3 || modeDetail === 4) }">
+            <div style="padding:30px 15px 30px 0px;" *ngIf="modeDetail === 0 || modeDetail === 1 || modeDetail === 2"><span
+               style="color: #da4b50;">Client Details On <input type="date" class="black-font"
+               [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"
+               [ngModelOptions]="{standalone: true}" /> </span>
             </div>
-           
             <ul class="nav nav-tabs">
-               <li [ngClass]="{ 'active':modeDetail === 1 }"><a data-toggle="tab" href="#hygiene" (click)="getDetails(1, false)">Self Care & Hygiene</a></li>
-               <li [ngClass]="{ 'active':modeDetail === 2 }"><a data-toggle="tab" href="#medical" (click)="getDetails(2, false)">Medical Screening</a></li>
-               <li [ngClass]="{ 'active':modeDetail === 3 }"><a data-toggle="tab" href="#diet" (click)="getDetails(3, false)">Diet</a></li>
-               <li [ngClass]="{ 'active':modeDetail === 4 }"><a data-toggle="tab" href="#medication" (click)="getDetails(4, false)">Medication</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 1 }"><a data-toggle="tab" href="#hygiene"
+                  (click)="getDetails(1, false)">Self Care & Hygiene</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 2 }"><a data-toggle="tab" href="#medical"
+                  (click)="getDetails(2, false)">Medical Screening</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 3 }"><a data-toggle="tab" href="#diet"
+                  (click)="getDetails(3, false)">Diet</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 4 }"><a data-toggle="tab" href="#medication"
+                  (click)="getDetails(4, false)">Medication</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 0 }"><a data-toggle="tab" href="#icp"
+                     (click)="getDetails(0, false)">ICP Notes</a></li>
             </ul>
             <div class="tab-content">
                <div id="hygiene" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 1}">
@@ -99,43 +122,43 @@
                         <tr>
                            <td><label>Bathing</label></td>
                            <td>
-                              <star-rating value="{{clientDetail['1_1']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
-                                 readonly="true"></star-rating>
+                              <star-rating value="{{clientDetail['1_1']}}" totalstars="{{totalstar}}" checkedcolor="red"
+                                 uncheckedcolor="black" size="24px" readonly="true"></star-rating>
                            </td>
                         </tr>
                         <tr>
                            <td><label>Grooming</label></td>
                            <td>
-                              <star-rating value="{{clientDetail['1_2']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
-                                 readonly="true"></star-rating>
+                              <star-rating value="{{clientDetail['1_2']}}" totalstars="{{totalstar}}" checkedcolor="red"
+                                 uncheckedcolor="black" size="24px" readonly="true"></star-rating>
                            </td>
                         </tr>
                         <tr>
                            <td><label>Toilet Use</label></td>
                            <td>
-                              <star-rating value="{{clientDetail['1_3']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
-                                 readonly="true"></star-rating>
+                              <star-rating value="{{clientDetail['1_3']}}" totalstars="{{totalstar}}" checkedcolor="red"
+                                 uncheckedcolor="black" size="24px" readonly="true"></star-rating>
                            </td>
                         </tr>
                         <tr>
                            <td><label>Meal Time</label></td>
                            <td>
-                              <star-rating value="{{clientDetail['1_4']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
-                                 readonly="true"></star-rating>
+                              <star-rating value="{{clientDetail['1_4']}}" totalstars="{{totalstar}}" checkedcolor="red"
+                                 uncheckedcolor="black" size="24px" readonly="true"></star-rating>
                            </td>
                         </tr>
                         <tr>
                            <td><label>Menstrual Hygiene</label></td>
                            <td>
-                              <star-rating value="{{clientDetail['1_5']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
-                                 readonly="true"></star-rating>
+                              <star-rating value="{{clientDetail['1_5']}}" totalstars="{{totalstar}}" checkedcolor="red"
+                                 uncheckedcolor="black" size="24px" readonly="true"></star-rating>
                            </td>
                         </tr>
                         <tr>
                            <td><label>Bed Hygiene</label></td>
                            <td>
-                              <star-rating value="{{clientDetail['1_6']}}" totalstars="{{totalstar}}" checkedcolor="red" uncheckedcolor="black" size="24px"
-                                 readonly="true"></star-rating>
+                              <star-rating value="{{clientDetail['1_6']}}" totalstars="{{totalstar}}" checkedcolor="red"
+                                 uncheckedcolor="black" size="24px" readonly="true"></star-rating>
                            </td>
                         </tr>
                      </table>
@@ -390,10 +413,11 @@
                   </div>
                   <div *ngIf="isNodata">No Records</div>
                </div>
-               <div id="diet" class="tab-pane fade"  [ngClass]="{'in active': modeDetail === 3}">
+               <div id="diet" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 3}">
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
                   <div *ngIf="isClientDetailLoading && !isNodata">
-                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="!isClientDetailLoading && clientDetail && !clientDetail.diet_bfast_menu && !clientDetail.diet_lunch_menu && !clientDetail.diet_snack1_menu && !clientDetail.diet_dinner_menu && !clientDetail.diet_followup">
+                     <table class="table-striped table-bordered table-hover table-data"
+                        *ngIf="!isClientDetailLoading && clientDetail && !clientDetail.diet_bfast_menu && !clientDetail.diet_lunch_menu && !clientDetail.diet_snack1_menu && !clientDetail.diet_dinner_menu && !clientDetail.diet_followup">
                         <tr>
                            <td colspan="2" class="text-center"><label>Diet</label></td>
                         </tr>
@@ -401,7 +425,8 @@
                            <td colspan="2">Regular</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="clientDetail && clientDetail.diet_bfast_menu">
+                     <table class="table-striped table-bordered table-hover table-data"
+                        *ngIf="clientDetail && clientDetail.diet_bfast_menu">
                         <tr>
                            <td colspan="2" class="text-center"><label>Breakfast</label></td>
                         </tr>
@@ -410,7 +435,8 @@
                            <td>{{clientDetail.diet_bfast_time}}</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="clientDetail && clientDetail && clientDetail.diet_lunch_menu">
+                     <table class="table-striped table-bordered table-hover table-data"
+                        *ngIf="clientDetail && clientDetail && clientDetail.diet_lunch_menu">
                         <tr>
                            <td colspan="2" class="text-center"><label>Lunch</label></td>
                         </tr>
@@ -419,7 +445,8 @@
                            <td>{{clientDetail.diet_lunch_time}}</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="clientDetail && clientDetail.diet_snack1_menu">
+                     <table class="table-striped table-bordered table-hover table-data"
+                        *ngIf="clientDetail && clientDetail.diet_snack1_menu">
                         <tr>
                            <td colspan="2" class="text-center"><label>Snack</label></td>
                         </tr>
@@ -432,7 +459,8 @@
                            <td>{{clientDetail.diet_snack2_time}}</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail && clientDetail.diet_dinner_menu">
+                     <table class="table-striped table-bordered table-hover table-data"
+                        *ngIf="clientDetail && clientDetail.diet_dinner_menu">
                         <tr>
                            <td colspan="2" class="text-center"><label>Dinner</label></td>
                         </tr>
@@ -441,7 +469,8 @@
                            <td>{{clientDetail.diet_dinner_time}}</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail && clientDetail.diet_followup">
+                     <table class="table-striped table-bordered table-hover table-data"
+                        *ngIf="clientDetail && clientDetail.diet_followup">
                         <tr>
                            <td colspan="2" class="text-center"><label>Followup</label></td>
                         </tr>
@@ -452,7 +481,7 @@
                   </div>
                   <div *ngIf="isNodata">No Records</div>
                </div>
-               <div id="medication" class="tab-pane fade"  [ngClass]="{'in active': modeDetail === 4}">
+               <div id="medication" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 4}">
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
                   <div *ngIf="!isClientDetailLoading && !isNodata && clientDetail">
                      <table class="table-striped table-bordered table-hover table-data">
@@ -464,7 +493,7 @@
                            <td>{{clientDetail.date}}</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="breakFasts.length > 0">
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="breakFasts.length > 0">
                         <tr>
                            <td colspan="2" class="text-center"><label>Breakfast Medication</label></td>
                         </tr>
@@ -473,7 +502,7 @@
                            <td>{{breakFast.count}} ( {{breakFast.strength}} )</td>
                         </tr>
                      </table>
-                     <table class="table-striped table-bordered table-hover table-data"  *ngIf="lunchs.length > 0">
+                     <table class="table-striped table-bordered table-hover table-data" *ngIf="lunchs.length > 0">
                         <tr>
                            <td colspan="2" class="text-center"><label>Lunch Medication</label></td>
                         </tr>
@@ -494,23 +523,32 @@
                   </div>
                   <div *ngIf="isNodata">No Records</div>
                </div>
+               <div id="icp" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 0}">
+                  <textarea [(ngModel)]="icpnotes" class="form-control" [ngModelOptions]="{standalone: true}" ></textarea><br>
+                  <button type="button" (click)="addnotes()" class="btn btn-primary">Submit</button>
+               </div>
             </div>
          </div>
       </div>
    </div>
    <div class="top-m30" *ngIf="step === 5">
-      <p style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;"> Care Givers</p>
+      <p
+         style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;">
+         Care Givers
+      </p>
       <div class="row">
          <div class="col-sm-6 col-sm-offset-3">
-            <h4 class="box-title">Choose Center<a style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;" (click)="reset()"> <img src="/assets/img/return-icon.png"></a></h4>
+            <h4 class="box-title">Choose Center<a
+               style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
+               (click)="reset()"> <img src="/assets/img/return-icon.png"></a></h4>
             <div class="box-block ">
                <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
                <ul class="list-unstyled dropdown location-list" *ngIf="!isCenterLoading && step === 5">
                   <ng-container *ngIf="centers.length > 0">
                      <li *ngFor="let center of centers;">
-                        <a href="javascript:void(0)" class="dropdown-toggle"
-                           data-toggle="dropdown" (click)="setCareGivers(center, null)">{{center.project_code.project_name}}</a>
-                     </li>                    
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"
+                           (click)="setCareGivers(center, null)">{{center.project_code.project_name}}</a>
+                     </li>
                   </ng-container>
                   <li *ngIf="centers.length === 0">
                      No Records
@@ -534,12 +572,12 @@
                         </a>
                      </h4>
                   </div>
-                  <div id="centres" class="panel-collapse collapse in" role="tabpanel"
-                     aria-labelledby="headingOne">
+                  <div id="centres" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                      <div class="panel-body">
                         <ul class="list-unstyled client-list1" *ngIf="centers.length > 0">
                            <li *ngFor="let caregiver of caregivers;">
-                              <a href="javascript:void(0)" (click)="setClientDetails(caregivers, caregiver)">{{center.project_name}}</a>
+                              <a href="javascript:void(0)"
+                                 (click)="setClientDetails(caregivers, caregiver)">{{center.project_name}}</a>
                            </li>
                         </ul>
                      </div>
@@ -550,8 +588,15 @@
       </div>
    </div>
    <div class="top-m30" *ngIf="step === 7">
-      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{cgiverName}} ({{centerCode}})<a style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;" (click)="reset()"> 
-        <span style="display: inline-block; float:right; padding-left: 10px;"><a href="" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-download" aria-hidden="true"></i></a><a style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;" (click)="reset()"> <img src="/assets/img/return-icon.png"></a></span></a></h4>
+      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{cgiverName}} ({{centerCode}})<a
+         style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
+         (click)="reset()">
+         <span style="display: inline-block; float:right; padding-left: 10px;"><a *ngIf="!isClientDetailLoading && !isNodata" href="javascript:void(0)"
+            style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i
+            class="fa fa-download" aria-hidden="true" (click)="exportAsXLSX()"></i></a><a
+            style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
+            (click)="reset()"> <img src="/assets/img/return-icon.png"></a></span></a>
+      </h4>
       <div class="row">
          <div class="col-md-3">
             <div class="box-block">
@@ -566,12 +611,12 @@
                            </a>
                         </h4>
                      </div>
-                     <div id="cgiver" class="panel-collapse collapse in" role="tabpanel"
-                        aria-labelledby="headingOne">
+                     <div id="cgiver" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                            <ul class="list-unstyled client-list1" *ngIf="caregivers && caregivers.length > 0">
                               <li *ngFor="let cgiver of caregivers;">
-                                 <a href="javascript:void(0)" (click)="setCareGivers(null, cgiver)">{{cgiver.cgiver_name}}</a>
+                                 <a href="javascript:void(0)"
+                                    (click)="setCareGivers(null, cgiver)">{{cgiver.cgiver_name}}</a>
                               </li>
                            </ul>
                         </div>
@@ -581,13 +626,17 @@
             </div>
          </div>
          <div class="col-md-9">
-            <div style="padding:30px 15px 30px 0px;"><span style="color: #da4b50;">Details On <input
-               type="date"  class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"  [ngModelOptions]="{standalone: true}" />  </span>
+            <div style="padding:30px 15px 30px 0px;"><span style="color: #da4b50;">Details On <input type="date"
+               class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"
+               [ngModelOptions]="{standalone: true}" /> </span>
             </div>
             <ul class="nav nav-tabs">
-               <li [ngClass]="{ 'active':modeDetail === 5 }" ><a data-toggle="tab" href="#housekeeping" (click)="getDetails(5, false)">Housekeeping</a></li>
-               <li [ngClass]="{ 'active':modeDetail === 6 }"><a data-toggle="tab" href="#kitchen" (click)="getDetails(6, false)">Kitchen</a></li>
-               <li [ngClass]="{ 'active':modeDetail === 7 }"><a data-toggle="tab" href="#dining" (click)="getDetails(7, false)">Dining Area</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 5 }"><a data-toggle="tab" href="#housekeeping"
+                  (click)="getDetails(5, false)">Housekeeping</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 6 }"><a data-toggle="tab" href="#kitchen"
+                  (click)="getDetails(6, false)">Kitchen</a></li>
+               <li [ngClass]="{ 'active':modeDetail === 7 }"><a data-toggle="tab" href="#dining"
+                  (click)="getDetails(7, false)">Dining Area</a></li>
             </ul>
             <div class="tab-content">
                <div id="housekeeping" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 5}">
@@ -727,7 +776,9 @@
                            </td>
                         </tr>
                         <tr>
-                           <td><label>How many staff members were present in the dining area during serving of meals</label></td>
+                           <td><label>How many staff members were present in the dining area during serving of
+                              meals</label>
+                           </td>
                            <td>{{clientDetail.status_staff_num_dinning}}
                            </td>
                         </tr>
