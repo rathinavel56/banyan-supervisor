@@ -81,7 +81,7 @@
                      <div id="clients" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                            <ul class="list-unstyled client-list1" *ngIf="clients.length > 0">
-                              <li *ngFor="let client of clients;">
+                              <li *ngFor="let client of clients;" class="active">
                                  <a href="javascript:void(0)"
                                     (click)="setClientDetails(client, 1)">{{client.client_fname}}</a>
                               </li>
@@ -112,7 +112,13 @@
                      (click)="getDetails(0, false)">ICP Notes</a></li>
             </ul>
             <div class="tab-content">
+               
                <div id="hygiene" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 1}">
+                  <div class="clearfix"><ul class="list-unstyled cargiver-list">
+                     <li><a href="#" target="_blank"><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
+                     <li><a href="#" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
+                  </ul>
+               </div>
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
                   <div *ngIf="!isClientDetailLoading && !isNodata">
                      <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
