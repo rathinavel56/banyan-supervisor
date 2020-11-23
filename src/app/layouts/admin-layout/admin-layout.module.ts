@@ -8,8 +8,6 @@ import { ApiService } from '../../api/api.service';
 import { UserService } from '../../api/user.service';
 import { ExcelService } from '../../api/excel.service';
 import { SupervisorComponent } from '../../supervisor/supervisor.component';
-import { UserComponent } from '../../user/user.component';
-import { TablesComponent } from '../../tables/tables.component';
 import { RatingModule } from 'ng-starrating';
 import { LightboxModule } from 'ngx-lightbox';
 @NgModule({
@@ -22,9 +20,7 @@ import { LightboxModule } from 'ngx-lightbox';
     LightboxModule
   ],
   declarations: [
-    SupervisorComponent,
-    UserComponent,
-    TablesComponent
+    SupervisorComponent
   ],
   providers: [
     ApiService,
