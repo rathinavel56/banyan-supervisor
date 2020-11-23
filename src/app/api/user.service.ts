@@ -17,6 +17,9 @@ export class UserService {
   icpNotes(request): Observable<any> {
     return this.apiService.httpPost('add_icp_notes', request);
   }
+  downloadXls(request): Observable<any> {
+    return this.apiService.httpPost('download_xls', request);
+  }
   clients(request: any): Observable<any> {
     return this.apiService.httpPost('clients', request);
   }

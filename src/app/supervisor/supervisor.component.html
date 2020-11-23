@@ -21,7 +21,7 @@
    <div class="top-m30" *ngIf="serviceType === 1 && step === 2">
       <p
          style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;">
-         Care Givers
+         Caregivers
       </p>
       <div class="row">
          <div class="col-sm-6 col-sm-offset-3">
@@ -57,10 +57,12 @@
       </div>
    </div>
    <div class="top-m30" *ngIf="serviceType === 1 && step === 3">
-      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{careGiveCode}}) -
-         {{clientName}} ({{clientFileNumber}}) <span style="display: inline-block; float:right; padding-left: 10px;"><a
-            href="javascript:void(0)" *ngIf="!isClientDetailLoading && !isNodata" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i
-            class="fa fa-download" aria-hidden="true" (click)="exportAsXLSX()"></i></a><a
+      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{empCode}}) -
+         {{clientName}} ({{clientFileNumber}}) <span style="display: inline-block; float:right; padding-left: 10px;"><a (click)="getDetails(modeDetail, true, 'Prev')"
+            href="javascript:void(0)" *ngIf="!isClientDetailLoading && (modeDetail === 0 || modeDetail === 1 || modeDetail === 2)" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a (click)="getDetails(modeDetail, true, 'Next')"
+            href="javascript:void(0)" *ngIf="!isClientDetailLoading" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-arrow-right" aria-hidden="true"></i></a><a (click)="exportxls()"
+            href="javascript:void(0)" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i
+            class="fa fa-download" aria-hidden="true" ></i></a><a
             style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
             (click)="reset()"> <img src="/assets/img/return-icon.png"></a></span>
       </h4>
@@ -81,7 +83,7 @@
                      <div id="clients" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                            <ul class="list-unstyled client-list1" *ngIf="clients.length > 0">
-                              <li *ngFor="let client of clients;" class="active">
+                              <li *ngFor="let client of clients;" [ngClass]="{'active': client.client_fname === clientName}"  >
                                  <a href="javascript:void(0)"
                                     (click)="setClientDetails(client, 1)">{{client.client_fname}}</a>
                               </li>
@@ -95,28 +97,27 @@
          </div>
          <div class="col-md-9" [ngClass]="{ 'tab-space': (modeDetail === 0 || modeDetail === 3 || modeDetail === 4) }">
             <div style="padding:30px 15px 30px 0px;" *ngIf="modeDetail === 0 || modeDetail === 1 || modeDetail === 2"><span
-               style="color: #da4b50;">Client Details On <input type="date" class="black-font"
-               [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"
+               style="color: #da4b50;">Client Details On <input type="date" pattern="(?:19|20)\[0-9\]{2}-(?:(?:0\[1-9\]|1\[0-2\])-(?:0\[1-9\]|1\[0-9\]|2\[0-9\])|(?:(?!02)(?:0\[1-9\]|1\[0-2\])-(?:30))|(?:(?:0\[13578\]|1\[02\])-31))" placeholder="dd-mm-yyyy" class="black-font"
+               [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true, null)"
                [ngModelOptions]="{standalone: true}" /> </span>
             </div>
             <ul class="nav nav-tabs">
                <li [ngClass]="{ 'active':modeDetail === 1 }"><a data-toggle="tab" href="#hygiene"
-                  (click)="getDetails(1, false)">Self Care & Hygiene</a></li>
+                  (click)="getDetails(1, false, null)">Self Care & Hygiene</a></li>
                <li [ngClass]="{ 'active':modeDetail === 2 }"><a data-toggle="tab" href="#medical"
-                  (click)="getDetails(2, false)">Medical Screening</a></li>
+                  (click)="getDetails(2, false, null)">Medical Screening</a></li>
                <li [ngClass]="{ 'active':modeDetail === 3 }"><a data-toggle="tab" href="#diet"
-                  (click)="getDetails(3, false)">Diet</a></li>
+                  (click)="getDetails(3, false, null)">Diet</a></li>
                <li [ngClass]="{ 'active':modeDetail === 4 }"><a data-toggle="tab" href="#medication"
-                  (click)="getDetails(4, false)">Medication</a></li>
+                  (click)="getDetails(4, false, null)">Medication</a></li>
                <li [ngClass]="{ 'active':modeDetail === 0 }"><a data-toggle="tab" href="#icp"
-                     (click)="getDetails(0, false)">ICP Notes</a></li>
+                     (click)="getDetails(0, false, null)">ICP Notes</a></li>
             </ul>
-            <div class="tab-content">
-               
+            <div class="tab-content">               
                <div id="hygiene" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 1}">
-                  <div class="clearfix"><ul class="list-unstyled cargiver-list">
-                     <li><a href="#" target="_blank"><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
-                     <li><a href="#" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
+                  <div class="clearfix" *ngIf="!isClientDetailLoading && !isNodata && clientDetail"><ul class="list-unstyled cargiver-list"> 
+                     <li *ngIf="clientDetail.cgiver_selfie_url" (click)="showImg()"><a href="javascript:void(0)" ><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
+                     <li *ngIf="clientDetail.cgiver_coordinates"><a href="javascript:void(0)" (click)="showMap()" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
                   </ul>
                </div>
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
@@ -173,6 +174,11 @@
                   <div *ngIf="isNodata">No Records</div>
                </div>
                <div id="medical" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 2}">
+                  <div class="clearfix" *ngIf="!isClientDetailLoading && !isNodata && clientDetail"><ul class="list-unstyled cargiver-list">
+                     <li *ngIf="clientDetail.medical_screening_selfie_url" (click)="showImg()"><a href="javascript:void(0)" ><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
+                     <li *ngIf="clientDetail.medical_screening_latlong"><a href="javascript:void(0)" (click)="showMap()" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
+                  </ul>
+               </div>
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
                   <div *ngIf="!isClientDetailLoading && !isNodata && clientDetail">
                      <table class="table-striped table-bordered table-hover table-data">
@@ -401,7 +407,7 @@
                         </tr>
                         <tr>
                            <td><label>Blood Pressure</label></td>
-                           <td>{{clientDetail.vital_bp_sys}}</td>
+                           <td>{{clientDetail.vital_bp_sys}} - {{clientDetail.vital_bp_dias}}</td>
                         </tr>
                         <tr>
                            <td><label>Weight(Kg)</label></td>
@@ -540,7 +546,7 @@
    <div class="top-m30" *ngIf="step === 5">
       <p
          style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;">
-         Care Givers
+         Caregivers
       </p>
       <div class="row">
          <div class="col-sm-6 col-sm-offset-3">
@@ -595,11 +601,12 @@
    </div>
    <div class="top-m30" *ngIf="step === 7">
       <h4 class="box-title" style="font-size: 20px; text-align: center;">{{cgiverName}} ({{centerCode}})<a
-         style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
-         (click)="reset()">
-         <span style="display: inline-block; float:right; padding-left: 10px;"><a *ngIf="!isClientDetailLoading && !isNodata" href="javascript:void(0)"
+         style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;">
+         <span style="display: inline-block; float:right; padding-left: 10px;"><a (click)="getDetails(modeDetail, true, 'Prev')"
+            href="javascript:void(0)" *ngIf="!isClientDetailLoading" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a (click)="getDetails(modeDetail, true, 'Next')"
+            href="javascript:void(0)" *ngIf="!isClientDetailLoading" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-arrow-right" aria-hidden="true"></i></a><a (click)="exportxls()" href="javascript:void(0)"
             style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i
-            class="fa fa-download" aria-hidden="true" (click)="exportAsXLSX()"></i></a><a
+            class="fa fa-download" aria-hidden="true" ></i></a><a
             style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
             (click)="reset()"> <img src="/assets/img/return-icon.png"></a></span></a>
       </h4>
@@ -613,14 +620,14 @@
                         <h4 class="panel-title">
                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#cgiver"
                               aria-expanded="true" aria-controls="cgiver">
-                           Care Givers
+                           Caregivers
                            </a>
                         </h4>
                      </div>
                      <div id="cgiver" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                         <div class="panel-body">
                            <ul class="list-unstyled client-list1" *ngIf="caregivers && caregivers.length > 0">
-                              <li *ngFor="let cgiver of caregivers;">
+                              <li *ngFor="let cgiver of caregivers;" [ngClass]="{'active': cgiver.cgiver_name === cgiverName}" >
                                  <a href="javascript:void(0)"
                                     (click)="setCareGivers(null, cgiver)">{{cgiver.cgiver_name}}</a>
                               </li>
@@ -632,21 +639,26 @@
             </div>
          </div>
          <div class="col-md-9">
-            <div style="padding:30px 15px 30px 0px;"><span style="color: #da4b50;">Details On <input type="date"
+            <div style="padding:30px 15px 30px 0px;"><span style="color: #da4b50;">Details On <input placeholder="dd-mm-yyyy" 
                class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"
                [ngModelOptions]="{standalone: true}" /> </span>
             </div>
             <ul class="nav nav-tabs">
                <li [ngClass]="{ 'active':modeDetail === 5 }"><a data-toggle="tab" href="#housekeeping"
-                  (click)="getDetails(5, false)">Housekeeping</a></li>
+                  (click)="getDetails(5, false, null)">Housekeeping</a></li>
                <li [ngClass]="{ 'active':modeDetail === 6 }"><a data-toggle="tab" href="#kitchen"
-                  (click)="getDetails(6, false)">Kitchen</a></li>
+                  (click)="getDetails(6, false, null)">Kitchen</a></li>
                <li [ngClass]="{ 'active':modeDetail === 7 }"><a data-toggle="tab" href="#dining"
-                  (click)="getDetails(7, false)">Dining Area</a></li>
+                  (click)="getDetails(7, false, null)">Dining Area</a></li>
             </ul>
             <div class="tab-content">
                <div id="housekeeping" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 5}">
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div *ngIf="!isClientDetailLoading && !isNodata" class="clearfix"><ul class="list-unstyled cargiver-list">
+                        <li *ngIf="clientDetail.housekeeping_selfie_url" (click)="showImg()"><a href="javascript:void(0)" ><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
+                        <li *ngIf="clientDetail.housekeeping_latlong"><a href="javascript:void(0)" (click)="showMap()" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
+                     </ul>
+                  </div>
                   <div *ngIf="!isClientDetailLoading && !isNodata">
                      <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
                         <tr>
@@ -713,6 +725,11 @@
                </div>
                <div id="kitchen" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 6}">
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div class="clearfix" *ngIf="!isClientDetailLoading && !isNodata && clientDetail"><ul class="list-unstyled cargiver-list">
+                        <li *ngIf="clientDetail.kitchen_selfie_url" (click)="showImg()"><a href="javascript:void(0)"><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
+                        <li *ngIf="clientDetail.kitchen_latlong" (click)="showMap()"><a href="javascript:void(0)" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
+                     </ul>
+                  </div>
                   <div *ngIf="!isClientDetailLoading && !isNodata">
                      <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
                         <tr>
@@ -727,8 +744,8 @@
                         <tr>
                            <td><label>Captured photo of today's socks register</label></td>
                            <td>
-                              <a download="image.jpg" href="{{clientDetail.stock_image_url}}" title="ImageName">
-                              Download
+                              <a download="image.jpg" (click)="showStockImg(clientDetail.stock_image_url)" href="javascript:void(0)" title="ImageName">
+                              View
                               </a>
                            </td>
                         </tr>
@@ -741,12 +758,13 @@
                         <tr>
                            <td><label>Were the kitchen stores cleared today</label></td>
                            <td>
+                              {{clientDetail.status_kitchen_waste_disposal}}
                            </td>
                         </tr>
                         <tr>
                            <td><label>Daily kitchen waste</label></td>
                            <td>
-                              {{clientDetail.status_waste_qty ? (clientDetail.status_waste_qty + ' Kg') : ''}}
+                              {{clientDetail.status_stock_clearance ? (clientDetail.status_stock_clearance + ' Kg') : ''}}
                            </td>
                         </tr>
                         <tr>
@@ -768,6 +786,11 @@
                </div>
                <div id="dining" class="tab-pane fade" [ngClass]="{'in active': modeDetail === 7}">
                   <img src="/assets/img/loader.gif" *ngIf="isClientDetailLoading">
+                  <div class="clearfix" *ngIf="!isClientDetailLoading && !isNodata && clientDetail"><ul class="list-unstyled cargiver-list">
+                        <li *ngIf="clientDetail.dining_selfie_url" (click)="showImg()"><a href="javascript:void(0)"><img src="/assets/img/user-images.png">Caregiver Photo</a></li>
+                        <li *ngIf="clientDetail.dining_selfie_latlong" (click)="showMap()"><a href="javascript:void(0)" target="_blank"><img src="/assets/img/location_SM-pin.png">Caregiver Location</a></li>
+                     </ul>
+                  </div>
                   <div *ngIf="!isClientDetailLoading && !isNodata">
                      <table class="table-striped table-bordered table-hover table-data" *ngIf="clientDetail">
                         <tr>
@@ -831,3 +854,6 @@
       </div>
    </div>
 </div>
+<div *ngFor="let image of albums; let i=index">
+   <img [src]="image.thumb" (click)="open(i)" />
+ </div>

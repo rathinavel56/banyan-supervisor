@@ -11,14 +11,15 @@ import { SupervisorComponent } from '../../supervisor/supervisor.component';
 import { UserComponent } from '../../user/user.component';
 import { TablesComponent } from '../../tables/tables.component';
 import { RatingModule } from 'ng-starrating';
-
+import { LightboxModule } from 'ngx-lightbox';
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     RatingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LightboxModule
   ],
   declarations: [
     SupervisorComponent,

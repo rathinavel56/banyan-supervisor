@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
     userName = '';
     clockHandle: any;
     clock: any;
+    window: any;
 
     constructor(location: Location,
         private element: ElementRef,
@@ -38,7 +39,10 @@ export class NavbarComponent implements OnInit {
         this.isloginUser = sessionStorage.getItem('report') ? true : false;
         this.listTitles = ROUTES.filter(listTitle => listTitle);
         const navbar: HTMLElement = this.element.nativeElement;
-        this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
+        this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];        
+    }
+    home() {
+        this.window.top.clearPage();
     }
     logout() {
         this.isloginUser = false;
