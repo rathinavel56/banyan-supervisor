@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Caregivers;
+use App\CaseManagers;
 use App\Clients;
+use App\KitchenMaster;
+use App\ProjectCode;
+use App\Users;
 use App\ClientStatus;
+use App\CaregiverProjectCodes;
+use App\ClientActive;
+use App\HouseKeepingStatus;
+use App\DiningMaster;
 use App\Parameters;
 use App\Medicines;
 use App\Diet;
 use App\Icp;
+use App\IcpNotes;
 use App\MedicalScreening;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -37,6 +46,34 @@ class HomeController extends Controller
     return view('home');
   }
 
+  public function commonLogin(Request $request)
+  {
+    $user = Users::where('username', $request->username)
+    ->where('pass_word', $request->password)->first();
+
+    if($user){
+      return Response()->json(['status' => true, 'message' => 'User logged in successfully', 'data' => $user]);
+    }else {
+      return Response()->json(['status' => false, 'message' => 'Not a valid user']);
+    }
+  }
+  
+  public function getCenters(Request $request)
+  {
+	$caregivers = Caregivers::select('id')->where('rep_officer_id', $request->rep_officer_id)->get();
+	if (!empty($caregivers)) {
+		$caregivers = array_column($caregivers->toArray(), 'id');
+		$caregiverProjects = CaregiverProjectCodes::with('project_code', 'caregiver')->whereIn('caregiver_id', $caregivers)->get();
+		if ($caregiverProjects){
+		  return Response()->json(['status' => true, 'message' => 'Successfully', 'data' => $caregiverProjects]);
+		} else {
+		  return Response()->json(['status' => false, 'message' => 'No records']);
+		}
+	} else {
+		return Response()->json(['status' => false, 'message' => 'No records']);
+	}
+  }
+  
   public function login(Request $request)
   {
     $user = Caregivers::where('username', $request->username)
@@ -48,13 +85,121 @@ class HomeController extends Controller
       return Response()->json(['status' => false, 'message' => 'Not a valid user']);
     }
   }
+  
+  public function clients(Request $request)
+  {
+    $clients = Clients::select('id', 'client_file_number', 'client_fname')
+					->where('center_code', $request->project_code)
+					->where('client_cgiver1', $request->code)
+					->orWhere('client_cgiver2', $request->code)
+					->orWhere('client_cgiver2', $request->code)
+					->where('client_active', 1)
+					->get();
+
+    if($clients){
+      return Response()->json(['status' => true, 'message' => 'Success', 'data' => $clients]);
+    }else {
+      return Response()->json(['status' => false, 'message' => 'No Records']);
+    }
+  }
+  
+  public function clientDetail(Request $request)
+  {
+	$date = explode('T',$request->dateDetail);
+	$date = date_create($date[0]);
+	$currentDate = date_format($date,"Y-m-d");
+	$data = array();
+	$gre = '>=';
+	$lte = '<=';
+	switch ($request->mode) {
+		case 0:
+			if ($request->nextPrev == 'Prev') {
+				$data = IcpNotes::where('client_file_number', $request->code)->where('created_at', '<', $currentDate)->first();
+			} else if ($request->nextPrev == 'Next') {
+				$data = IcpNotes::where('client_file_number', $request->code)->where('created_at', '>', $currentDate. ' 23:59:59')->first();
+			} else {
+				$data = IcpNotes::where('client_file_number', $request->code)->where('created_at', $currentDate)->first();
+			}
+			break;
+		case 1:
+			if ($request->nextPrev == 'Prev') {
+				$data = ClientStatus::where('client_file_number', $request->code)->where('date', '<', $currentDate. ' 00:00:00')->first();
+			} else if ($request->nextPrev == 'Next') {
+				$data = ClientStatus::where('client_file_number', $request->code)->where('date', '>', $currentDate. ' 23:59:59')->first();
+			} else {
+				$data = ClientStatus::where('client_file_number', $request->code)->where('date', $gre, $currentDate. ' 00:00:00')
+							   ->where('date', $lte, $currentDate. ' 23:59:59')->first();
+			}
+			break;
+		case 2:
+			if ($request->nextPrev == 'Prev') {
+				$data = MedicalScreening::where('client_file_number', $request->code)->where('date_time', '<', $currentDate.'  00:00:00')->first();
+			} else if ($request->nextPrev == 'Next') {
+				$data = MedicalScreening::where('client_file_number', $request->code)->where('date_time', '>', $currentDate. ' 23:59:59')->first();
+			} else {
+				$data = MedicalScreening::where('client_file_number', $request->code)->where('date_time', $gre, $currentDate.'  00:00:00')->where('date_time', $lte, $currentDate. ' 23:59:59')->first();
+			}
+			break;
+		case 3:
+			$data = Diet::where('diet_date', Diet::where('diet_client_file_number', $request->code)->max('diet_date'))->where('diet_client_file_number', $request->code)->first();		
+			break;
+		case 4:
+			$data = Medicines::where('date', Medicines::where('client_file_number', $request->code)->max('date'))->where('client_file_number', $request->code)->first();
+			break;
+		case 5:
+			if ($request->nextPrev == 'Prev') {
+				$data = HouseKeepingStatus::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', '<', $currentDate. ' 00:00:00')->first();
+			} else if ($request->nextPrev == 'Next') {
+				$data = HouseKeepingStatus::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', '>', $currentDate. ' 23:59:59')->first();
+			} else {
+				$data = HouseKeepingStatus::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', $gre, $currentDate. ' 00:00:00')
+								   ->where('date', $lte, $currentDate. ' 23:59:59')->first();
+			}
+			break;
+		case 6:
+			if ($request->nextPrev == 'Prev') {
+				$data = KitchenMaster::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', '<', $currentDate. ' 00:00:00')->first();
+			} else if ($request->nextPrev == 'Next') {
+				$data = KitchenMaster::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', '>', $currentDate. ' 23:59:59')->first();
+			} else {
+				$data = KitchenMaster::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', $gre, $currentDate. ' 00:00:00')
+							   ->where('date', $lte, $currentDate. ' 23:59:59')->first();
+			}
+			break;
+		case 7:
+			if ($request->nextPrev == 'Prev') {
+				$data = DiningMaster::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', '<', $currentDate. ' 00:00:00')->first();
+			} else if ($request->nextPrev == 'Next') {
+				$data = DiningMaster::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)
+							   ->where('date', '>', $currentDate. ' 23:59:59')->first();
+			} else {
+				$data = DiningMaster::where('cgiver_code', $request->cgiver_code)->where('center_code', $request->center_code)->where('date', $gre, $currentDate. ' 00:00:00')
+							   ->where('date', $lte, $currentDate. ' 23:59:59')->first();
+			}			
+			break;
+	  default:
+	}    
+    if($data){
+      return Response()->json(['status' => true, 'message' => 'successfully', 'data' => $data]);
+    }else {
+      return Response()->json(['status' => false, 'message' => 'Not Records']);
+    }
+  }
+  
+  public function generateXls(Request $request)
+  {
+	$date = new DateTime('now');
+	$date->modify('+3 month');
+	$date = $date->format('Y-m-d');
+	echo $date;
+  }
 
   public function generatePin(Request $request)
   {
     $code = $request->code;
     $pin = $request->pin;
-    $user =  Caregivers::where('cgiver_code', $code)->first();
-    $parameters = Parameters::all();
+    $user =  Caregivers::with('project_codes')->where('cgiver_code', $code)->first();
+	$parameters = Parameters::all();
     if($user){
       $user->pin = $pin;
       $user->save();
@@ -96,10 +241,9 @@ class HomeController extends Controller
     $code = $request->code;
     $pin = $request->pin;
     $parameters = Parameters::all();
-    $user =  Caregivers::where('cgiver_code', $code)->where('pin',$pin)->first();
-    $project_codes =  Caregivers::where('cgiver_code', $code)->get();
+    $user =  Caregivers::with('project_codes', 'rep_officier')->where('cgiver_code', $code)->where('pin',$pin)->first();
     if($user){
-      $total = $user->clients()->get()->count() + $user->clients2()->get()->count() + $user->clients3()->get()->count();
+	 $total = $user->clients()->get()->count() + $user->clients2()->get()->count() + $user->clients3()->get()->count();
       $clients = [];
       foreach ($user->clients()->get() as $value) {
         array_push($clients, $value);
@@ -110,7 +254,8 @@ class HomeController extends Controller
       foreach ($user->clients3()->get() as $v) {
         array_push($clients, $v);
       }
-      $data = ['count'=> $total,'clients'=> $clients,'userdata' => $user],'project_codes' => $project_codes];
+	  $user->cgiver_rep_officer = (!empty($user->rep_officier)) ? $user->rep_officier->full_name : '';
+      $data = ['count'=> $total,'clients'=> $clients,'userdata' => $user];
       return Response()->json(['status' => true, 'message' => 'User logged in successfully', 'data' => $data, 'parameters' => $parameters]);
     }else {
       return Response()->json(['status' => false, 'message' => 'Pin not valid']);
@@ -135,7 +280,7 @@ class HomeController extends Controller
         } else {
           return Response()->json(['status' => false, 'message' => 'Upload only image files']);
         }
-        $url = asset('/public/uploads/images/'.$fileName);
+        $url = 'public/uploads/images/'.$fileName;
       } else {
         return Response()->json(['status' => false, 'message' => 'Image should be attached']);
       }
@@ -168,7 +313,7 @@ class HomeController extends Controller
       } else {
         return Response()->json(['status' => false, 'message' => 'Upload only image files']);
       }
-      $url = asset('/public/uploads/images/'.$fileName);
+      $url = 'public/uploads/images/'.$fileName;
       DB::table('client_status')->insert(
             [
               'center_code'   => $centerCode,
@@ -237,12 +382,13 @@ class HomeController extends Controller
     $code = $request->code;
     $fileno = $request->client_file_number;
     $date = date("Y-m-d");
+	$icps = IcpNotes::whereDate('created_at', $request->create_date)->where('client_file_number', $fileno)->get();
     $te = ClientStatus::whereDate('date', $date)->where('client_file_number', $fileno)->count();
     $ms = MedicalScreening::whereDate('date_time', $date)->where('client_file_number', $fileno)->count();
     if($te == 0 && $ms == 0){
-      return Response()->json(['status' => true, 'daily_status' => false]);
+      return Response()->json(['status' => true, 'daily_status' => false, 'icps' => $icps]);
     }else{
-      return Response()->json(['status' => false, 'daily_status' => true]);
+      return Response()->json(['status' => false, 'daily_status' => true, 'icps' => $icps]);
     }
   }
 
@@ -263,7 +409,7 @@ class HomeController extends Controller
       } else {
         return Response()->json(['status' => false, 'message' => 'Upload only image files']);
       }
-      $url = asset('/public/uploads/images/'.$fileName);
+      $url = 'public/uploads/images/'.$fileName;
       DB::table('dining_master')->insert(
             [
               'center_code'               => $centerCode,
@@ -304,7 +450,7 @@ class HomeController extends Controller
       } else {
         return Response()->json(['status' => false, 'message' => 'Upload only image files']);
       }
-      $url = asset('/public/uploads/images/'.$fileName);
+      $url = 'public/uploads/images/'.$fileName;
       DB::table('housekeeping_master')->insert(
             [
               'center_code'           => $centerCode,
@@ -352,8 +498,8 @@ class HomeController extends Controller
       } else {
         return Response()->json(['status' => false, 'message' => 'Upload only image files']);
       }
-      $url = asset('/public/uploads/images/'.$fileName);
-      $surl = asset('/public/uploads/images/'.$sfileName);
+      $url = 'public/uploads/images/'.$fileName;
+      $surl = 'public/uploads/images/'.$sfileName;
       DB::table('kitchen_master')->insert(
           [
             'center_code'                    => $centerCode,
@@ -381,6 +527,12 @@ class HomeController extends Controller
     $code = $request->code;
     $startdate = date("Y-m-d", strtotime($request->start_date));
     $enddate = date("Y-m-d", strtotime($request->end_date));
+	if ($request->height) {
+		DB::table('clients_active')
+        ->where('client_file_number', $request->client_file_number)
+        ->limit(1)
+        ->update(array('client_height' => $request->height));
+	}
     if($request->hasFile('selfie')) {
       $clientFileNo = $request->client_file_number;
       $allowedfileExtension=['jpg','png'];
@@ -395,7 +547,7 @@ class HomeController extends Controller
       } else {
         return Response()->json(['status' => false, 'message' => 'Upload only image files']);
       }
-      $url = asset('/public/uploads/images/'.$fileName);
+      $url = 'public/uploads/images/'.$fileName;
       DB::table('medical_screening')->insert(
             [
               'date_time'   => date("Y-m-d H:i:s"),
@@ -485,11 +637,11 @@ class HomeController extends Controller
     $final = [];
     foreach ($cat as $ck => $cv) {
       $final[$ck]['cat_name'] = $cv;
-      $final[$ck]['cat_image'] = asset("/public/uploads/icons/category/".strtolower(str_replace(' ', '_', $cv)).".png");
+      $final[$ck]['cat_image'] = "public/uploads/icons/category/".strtolower(str_replace(' ', '_', $cv)).".png";
       $final[$ck]['sub_cat'] = [];
       foreach ($sub_cat as $key => $value) {
         if($value == $cv) {
-          $im = asset("/public/uploads/icons/sub_category/".strtolower(str_replace(' ', '_', $key)).".png");
+          $im = "public/uploads/icons/sub_category/".strtolower(str_replace(' ', '_', $key)).".png";
           $det = Icp::where('icp_specifics', $key )->pluck('icp_details');
           $a = ["name" => $key, "details" => $det , "sub_cat_image" => $im];
           array_push($final[$ck]['sub_cat'], $a);
@@ -500,6 +652,28 @@ class HomeController extends Controller
       return Response()->json(['status' => true, 'data' => $final]);
     }else{
       return Response()->json(['status' => false]);
+    }
+  }
+  
+  public function addIcp(Request $request) {
+	$date = explode('T',$request->dateDetail);
+	$date = date_create($date[0]);
+	$currentDate = date_format($date,"Y-m-d");
+    $fileno = $request->code;
+	$icp = IcpNotes::where('created_at', $currentDate)->where('client_file_number', $fileno)->first();
+    if($icp) {
+		$icp->notes = $request->notes;
+		$icp->save();
+		return Response()->json(['status' => true]);
+    } else {
+		DB::table('icp_notes')->insert(
+            [
+              'client_file_number'   => $fileno,
+              'created_at'  => $currentDate,
+              'notes' => $request->notes
+            ]
+          );
+		return Response()->json(['status' => true]);
     }
   }
 }

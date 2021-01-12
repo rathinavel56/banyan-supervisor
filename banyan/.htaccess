@@ -15,6 +15,12 @@
 
       RewriteCond %{REQUEST_FILENAME} !-d
       RewriteCond %{REQUEST_FILENAME} !-f
-      RewriteCond %{REQUEST_URI} !^/public/
-      RewriteRule ^(css|js|images)/(.*)$ public/$1/$2 [L,NC]
+      RewriteCond %{REQUEST_URI} !^public
+	  RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
+php_value upload_max_filesize 9G
+php_value post_max_size 9G
+php_value max_execution_time 200
+php_value max_input_time 200
+php_value memory_limit 256M
+php_value max_file_uploads 30
