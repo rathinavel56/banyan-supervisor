@@ -50,6 +50,8 @@ export class LoginComponent implements OnInit {
               sessionStorage.setItem('report', JSON.stringify(loginData));
               if (response.data.user_group_id === 3) {
                   this.router.navigate(['/supervisor']);
+              } else if (response.data.user_group_id === 1) {
+                this.router.navigate(['/userassign']);
               } else {
                   this.router.navigate(['/mywork']);
               }

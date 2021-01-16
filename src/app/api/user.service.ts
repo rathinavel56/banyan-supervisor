@@ -11,6 +11,18 @@ export class UserService {
   login(request: any): Observable<any> {
     return this.apiService.httpPost('users/login', request);
   }
+  caregivers(): Observable<any> {
+    return this.apiService.httpGet('get-caregivers');
+  }
+  clientList(): Observable<any> {
+    return this.apiService.httpGet('get-clients');
+  }
+  getCenterCaregiver(): Observable<any> {
+    return this.apiService.httpGet('get-center-caregiver');
+  }
+  updateClient(request): Observable<any> {
+    return this.apiService.httpPost('update-client', request);
+  }
   centers(request): Observable<any> {
     return this.apiService.httpPost('centers', request);
   }

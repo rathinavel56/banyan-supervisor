@@ -45,7 +45,7 @@ export class SupervisorComponent implements OnInit {
   careGiveCode = '';
   loginUser: any = '';
   icpnotes: any = '';
-  window: any;
+  window: any = window;
   empCode: any;
   constructor(private userService: UserService,
     public router: Router,
