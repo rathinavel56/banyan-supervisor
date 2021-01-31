@@ -13,5 +13,9 @@ class CaseManagers extends Model
   protected $hidden = [
         'password',
   ];
+  public function center()
+  {
+    return $this->belongsTo('App\ProjectCode', 'cm_Center', 'id');
+  }
 
 }

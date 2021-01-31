@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
     userName = '';
     clockHandle: any;
     clock: any;
-    window: any;
+    window: any = window;
 
     constructor(location: Location,
         private element: ElementRef,
@@ -74,6 +74,10 @@ export class NavbarComponent implements OnInit {
             this.sidebarClose();
         }
     };
+
+    switchMenu(type: any) {
+        this.window.top.switchMenu(type);
+    }
 
     getTitle(){
       var titlee = this.location.prepareExternalUrl(this.location.path());

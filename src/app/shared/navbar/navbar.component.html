@@ -10,6 +10,18 @@
             </div>
             <div class="col-xs-3">
                 <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" style="color: #da4b50; font-weight: bold;">
+                                Menu
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)" (click)="switchMenu(1)">Casemanagers</a></li>
+                                <li><a href="javascript:void(0)" (click)="switchMenu(2)">Caregivers</a></li>
+                                <li><a href="javascript:void(0)" (click)="switchMenu(3)">Clients</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                     <li>
                         <a href="javascript:void(0)" (click)="logout()">
                             <img class="img-responsive" src="/assets/img/Logout.png">

@@ -19,8 +19,13 @@ export class LoginComponent implements OnInit {
     public username: string  = '';
     public password: string  = '';
   ngOnInit() {
-    if (sessionStorage.getItem('report')) {
-      this.router.navigate(['/supervisor']);
+    let userDetail = JSON.parse(sessionStorage.getItem('report'));
+    if (userDetail) {
+      if (userDetail.full_name === 'admin') {
+        this.router.navigate(['/userassign']);
+      } else {
+        this.router.navigate(['/supervisor']);
+      }      
     }
   }
 
