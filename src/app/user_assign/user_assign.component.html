@@ -52,6 +52,7 @@
                <thead>
                   <tr>
                      <th><b>Sl.No</b></th>
+                     <th><b>ID</b></th>
                      <th><b>User ID</b></th>
                      <th><b>Name</b></th>
                      <th><b>Center</b></th>
@@ -63,10 +64,11 @@
                   <tr *ngFor="let casemanager of casemanagers; let i=index">
                      <td>{{i+1}}</td>
                      <td>{{casemanager.cm_ID}}</td>
+                     <td>{{casemanager.cm_userID}}</td>
                      <td>{{casemanager.cm_Name}}</td>
                      <td>{{casemanager.center ? casemanager.center.project_name : ''}}</td>
                      <td>{{casemanager.cm_Contact}}</td>
-                     <td><button type="button" class="btn btn-primary" (click)="updateCasemanager(casemanager);">Edit</button><button type="button" class="btn btn-primary" (click)="deleteCasemanager(casemanager);">Delete</button></td>
+                     <td><center><button type="button" class="btn btn-primary" (click)="updateCasemanager(casemanager);">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" (click)="deleteCasemanager(casemanager);">Delete</button></center></td>
                   </tr>
                </tbody>
             </table>
@@ -90,6 +92,12 @@
                </div>
             </div>
             <div class="form-group">
+               <label class="control-label col-sm-2">File Number:</label>
+               <div class="col-sm-10">
+                  <input type="text" class="form-control" [(ngModel)]="client.client_file_number" [ngModelOptions]="{standalone: true}" />
+               </div>
+            </div>
+            <div class="form-group">
                <label class="control-label col-sm-2">First Name:</label>
                <div class="col-sm-10">
                   <input type="text" class="form-control" [(ngModel)]="client.client_fname" [ngModelOptions]="{standalone: true}" />
@@ -105,7 +113,7 @@
                <label class="control-label col-sm-2">Care Giver 1:</label>
                <div class="col-sm-10">
                   <select class="form-control" [(ngModel)]="giver1" (ngModelChange)="updateGiver($event, 1)" [ngModelOptions]="{standalone: true}">
-                     <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregivers && careGiver.caregiver.cgiver_code == client.client_cgiver1">{{careGiver.caregiver.cgiver_name}}
+                     <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregiver && careGiver.caregiver.cgiver_code == client.client_cgiver1">{{careGiver.caregiver.cgiver_name}}
                      </option>
                   </select>
                </div>
@@ -114,7 +122,7 @@
                <label class="control-label col-sm-2">Care Giver 2:</label>
                <div class="col-sm-10">
                   <select class="form-control" [(ngModel)]="giver2" (ngModelChange)="updateGiver($event, 2)" [ngModelOptions]="{standalone: true}">
-                     <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregivers && careGiver.caregiver.cgiver_code == client.client_cgiver2">{{careGiver.caregiver.cgiver_name}}
+                     <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregiver && careGiver.caregiver.cgiver_code == client.client_cgiver2">{{careGiver.caregiver.cgiver_name}}
                      </option>
                   </select>
                </div>
@@ -123,7 +131,7 @@
                <label class="control-label col-sm-2">Care Giver 3:</label>
                <div class="col-sm-10">
                   <select class="form-control" [(ngModel)]="giver3" (ngModelChange)="updateGiver($event, 3)"  [ngModelOptions]="{standalone: true}">
-                     <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregivers && careGiver.caregiver.cgiver_code == client.client_cgiver3">{{careGiver.caregiver.cgiver_name}}
+                     <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregiver && careGiver.caregiver.cgiver_code == client.client_cgiver3">{{careGiver.caregiver.cgiver_name}}
                      </option>
                   </select>
                </div>
@@ -330,7 +338,7 @@
                      <td>{{client.giver1 ? client.giver1.cgiver_name : ''}}</td>
                      <td>{{client.giver2 ? client.giver2.cgiver_name : ''}}</td>
                      <td>{{client.giver3 ? client.giver3.cgiver_name : ''}}</td>
-                     <td><button type="button" class="btn btn-primary" (click)="updateClient(client);">Edit</button><button type="button" class="btn btn-primary" (click)="deleteClient(client);">Delete</button></td>
+                     <td><center><button type="button" class="btn btn-primary" (click)="updateClient(client);">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" (click)="deleteClient(client);">Delete</button></center></td>
                   </tr>
                </tbody>
             </table>
@@ -344,6 +352,12 @@
       <div class="panel-heading">Caregivers</div>
       <div class="panel-body">
          <div class="form-horizontal" *ngIf="isUpdate">
+            <div class="form-group">
+               <label class="control-label col-sm-2">Employee Code:</label>
+               <div class="col-sm-10">
+                  <input type="text" class="form-control" [(ngModel)]="caregiver.emp_code" [ngModelOptions]="{standalone: true}" />
+               </div>
+            </div>
             <div class="form-group">
                <label class="control-label col-sm-2">Username:</label>
                <div class="col-sm-10">
@@ -363,7 +377,7 @@
                </div>
             </div>
             <div class="form-group">
-               <label class="control-label col-sm-2">Code:</label>
+               <label class="control-label col-sm-2">Cgiver Code:</label>
                <div class="col-sm-10">
                   <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_code" [ngModelOptions]="{standalone: true}" />
                </div>
@@ -390,7 +404,7 @@
                <label class="control-label col-sm-2">Supervisor:</label>
                <div class="col-sm-10">
                   <select class="form-control" (ngModelChange)="updateSupervisor($event)" [(ngModel)]="caregiver.casemanager" [ngModelOptions]="{standalone: true}">
-                     <option *ngFor="let casemanager of casemanagers" [value]="casemanager.cm_ID" [selected]="casemanager.cm_ID == caregiver.cgiver_cm_id">{{casemanager.cm_Name}}
+                     <option *ngFor="let casemanager of casemanagersList" [value]="casemanager.cm_ID" [selected]="casemanager.cm_ID == caregiver.cgiver_cm_id">{{casemanager.cm_Name}}
                      </option>
                   </select>
                </div>
@@ -398,8 +412,14 @@
             <div class="form-group">
                <label class="control-label col-sm-2">Centers:</label>
                <div class="col-sm-10">
+                  <div class="col-sm-3">
+                     <input type="checkbox" id="allcenters" [(ngModel)]="isAllChecked" [ngModelOptions]="{standalone: true}"(click)="chooseAllCenters()"/>&nbsp;&nbsp;
+                     <label>
+                        All
+                     </label>
+                  </div>
                   <div class="col-sm-3" *ngFor="let center of centerList">
-                     <input type="checkbox" [(ngModel)]="center.checked" [ngModelOptions]="{standalone: true}" [checked]="center.checked === true"/>
+                     <input type="checkbox" [(ngModel)]="center.checked" (click)="setAllCheckBox()" [ngModelOptions]="{standalone: true}" [checked]="center.checked === true"/>&nbsp;&nbsp;
                      <label>
                         {{center.project_name}}
                      </label>
@@ -443,7 +463,7 @@
                      <td>{{careGiver.cgiver_mob}}</td>
                      <td>{{careGiver.rep_officier ? careGiver.rep_officier.full_name : ''}}</td>
                      <td>{{careGiver.cgiver_cm_id}}</td>
-                     <td><button type="button" class="btn btn-primary" (click)="updateCareGivers(careGiver);">Edit</button><button type="button" class="btn btn-primary" (click)="deleteCareGiver(careGiver);">Delete</button></td>
+                     <td><center><button type="button" class="btn btn-primary" (click)="updateCareGivers(careGiver);">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" (click)="deleteCareGiver(careGiver);">Delete</button></center></td>
                   </tr>
                </tbody>
             </table>

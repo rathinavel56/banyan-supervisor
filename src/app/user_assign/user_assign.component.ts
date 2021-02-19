@@ -32,8 +32,10 @@ export class UserAssignComponent implements OnInit {
   centerDetailCp: any;
   centerDetail: any;
   centers: any;
+  isAllChecked: any = false;
   casemanagers: any = [];
   careGiversList: any = [];
+  casemanagersList: any = [];
   centerList: any = [];
   type: any = 'Casemanagers';
   windowTop: any = window; 
@@ -76,10 +78,18 @@ export class UserAssignComponent implements OnInit {
     };
   }
 
+  chooseAllCenters() {
+    let checkedValue: any = document.getElementById("allcenters") as HTMLInputElement;
+    checkedValue = checkedValue.checked;
+    this.centerList.forEach(element => {
+      element.checked = checkedValue;
+    });
+  }
+
   getCenterCaregiver() {
     this.userService.getCenterCaregiver()
     .subscribe(response => {
-      this.centers = response.data;
+      this.centers = response.data.sort(this.compareCenter);
     });
   }
 
@@ -141,11 +151,24 @@ export class UserAssignComponent implements OnInit {
   getCenterList() {
     this.userService.centerList()
     .subscribe(response => {
-      this.centerList = response.data;
+      this.centerList = response.data.sort(this.compareCenter);
       this.centerList.forEach(element => {
         element.checked = false;
       });
     });
+  }
+
+  compareCenter(a, b) {
+    const bandA = a.project_name.toUpperCase();
+    const bandB = b.project_name.toUpperCase();
+  
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    return comparison;
   }
 
   getCasemanagers(isShowMsg) {
@@ -153,7 +176,9 @@ export class UserAssignComponent implements OnInit {
     this.isCenterLoading = true;
     this.userService.casemanagers()
     .subscribe(response => {
-      this.casemanagers = response.data;
+      let dataList: any = response.data.sort(this.compareData);
+      this.casemanagers = dataList;
+      this.casemanagersList = dataList;
       this.isCenterLoading = false;
       setTimeout(function(){
         $('#dataTable').DataTable();
@@ -164,6 +189,20 @@ export class UserAssignComponent implements OnInit {
         });
       }
     });
+  }
+
+  compareData(a, b) {
+    // Use toUpperCase() to ignore character casing
+    const bandA = a.cm_Name.toUpperCase();
+    const bandB = b.cm_Name.toUpperCase();
+  
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    return comparison;
   }
 
   getCareGivers() {
@@ -198,7 +237,8 @@ export class UserAssignComponent implements OnInit {
       this.isCenterLoading = false;
       setTimeout(function(){
         $('#dataTable').DataTable();
-      }, 500);      
+      }, 500);
+      this.getCasemanagers(false);   
       if (isShowMsg) {
         this.toastr.success('Successfully', 'Success', {
           timeOut: 3000,
@@ -209,12 +249,31 @@ export class UserAssignComponent implements OnInit {
   updateCenters(center) {
     this.casemanager.cm_Center = center;
   }
+  compareGivers(a, b) {
+    // Use toUpperCase() to ignore character casing
+    const bandA = (a.caregiver && a.caregiver.cgiver_name) ? a.caregiver.cgiver_name.toUpperCase() : '';
+    const bandB = (b.caregiver && b.caregiver.cgiver_name) ? b.caregiver.cgiver_name.toUpperCase() : '';
+  
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
   updateClientCenters(id) {
     let centerDetail = this.centers.find((e) => e.id === +id);
     this.centerCode = centerDetail.project_code;
     this.client.center_name = centerDetail.project_name;
-    this.careGivers = centerDetail.caregivers;
+    this.careGivers = centerDetail.caregivers.sort(this.compareGivers);
     if (this.careGivers.length > 0) {
+      this.careGivers.splice(0, 0, {
+        caregiver: {
+          cgiver_code: 0,
+          cgiver_name: 'Please Select'
+        }
+      });
       this.giver1 = this.careGivers[0].caregiver.cgiver_code;
       this.giver2 = this.careGivers[0].caregiver.cgiver_code;
       this.giver3 = this.careGivers[0].caregiver.cgiver_code;
@@ -224,16 +283,22 @@ export class UserAssignComponent implements OnInit {
       this.giver3 = '';
     }
   }
+  setAllCheckBox() {
+    this.isAllChecked = this.centerList.length === this.centerList.filter(e => {
+      return e.checked === true;
+    }).length; 
+  }
   updateCareGivers(careGiver) {
     this.onCaregiverCancel(true);
       this.caregiver = JSON.parse(JSON.stringify(careGiver));
-      this.caregiver.casemanager = this.caregiver.cgiver_cm_id.toString();
+      this.caregiver.casemanager = (this.caregiver && this.caregiver.cgiver_cm_id) ? this.caregiver.cgiver_cm_id.toString() : '';
       this.caregiver.rep_officier = this.casemanagers.find((e) => e.cm_ID === this.caregiver.cgiver_cm_id);
       if (this.caregiver.project_codes && this.caregiver.project_codes.length > 0) {
         this.centerList.forEach(element => {
           element.checked = (this.caregiver.project_codes.filter(e => {
             return element.id === e.project_code_id;
           }).length > 0);
+          this.setAllCheckBox();
         });
       }
       this.isUpdate = true;
@@ -243,7 +308,8 @@ export class UserAssignComponent implements OnInit {
   }
   updateCasemanager(casemanager) {
     this.isUpdate = true;
-    this.casemanager = casemanager;
+    this.isAdd = false;
+    this.casemanager = JSON.parse(JSON.stringify(casemanager));
     this.casemanager.cm_ID_OG = casemanager.cm_ID;
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
@@ -255,22 +321,43 @@ export class UserAssignComponent implements OnInit {
     this.client.center_id = centerDetail.id;
     this.client.center_name = centerDetail.project_name;
     this.careGivers = centerDetail.caregivers;
-    this.giver1 = this.client.client_cgiver1;
-    this.giver2 = this.client.client_cgiver2;
-    this.giver3 = this.client.client_cgiver3;
+    this.careGivers = centerDetail.caregivers.sort(this.compareGivers);
+    if (this.careGivers.length > 0) {
+      this.careGivers.splice(0, 0, {
+        caregiver: {
+          cgiver_code: 0,
+          cgiver_name: 'Please Select'
+        }
+      });
+      this.giver1 = this.client.client_cgiver1 ? this.client.client_cgiver1 : this.careGivers[0].caregiver.cgiver_code;
+      this.giver2 = this.client.client_cgiver2 ? this.client.client_cgiver2 : this.careGivers[0].caregiver.cgiver_code;
+      this.giver3 = this.client.client_cgiver3 ? this.client.client_cgiver3 : this.careGivers[0].caregiver.cgiver_code;
+    } else {
+      this.giver1 = '';
+      this.giver2 = '';
+      this.giver3 = '';
+    }
     this.isUpdate = true;
+    this.isAdd = false;
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
   onClientsCancel() {
     this.isUpdate = false;
     this.centerCode = '';
-    this.giver1 = '';
-    this.giver2 = '';
-    this.giver3 = '';
+    this.careGivers = [{
+      caregiver: {
+        cgiver_code: 0,
+        cgiver_name: 'Please Select'
+      }
+    }];
+    this.giver1 = this.careGivers[0].caregiver.cgiver_code;
+    this.giver2 = this.careGivers[0].caregiver.cgiver_code;
+    this.giver3 = this.careGivers[0].caregiver.cgiver_code;
     this.client = {
       center_code : '',
       center_name : '',
+      client_file_number: '',
       center_id: '',
       client_fname : '',
       client_lname : '',
@@ -373,6 +460,12 @@ export class UserAssignComponent implements OnInit {
       this.caregiver.rep_officer_id = casemanagerDetail.id;
   }
   onCaregiverSubmit() {
+    if (!this.caregiver.emp_code) {
+      this.toastr.error('Please enter the Employee Code', 'Error', {
+        timeOut: 3000,
+      });
+      return;
+    }
     if (!this.caregiver.username) {
       this.toastr.error('Please enter the Username', 'Error', {
         timeOut: 3000,
@@ -455,12 +548,14 @@ export class UserAssignComponent implements OnInit {
   onCaregiverCancel(update: any) {
     if (!update) {
       this.isUpdate = false;
-    }    
+    }
+    this.isAllChecked = false;
     this.isAdd = false;
     this.centerList.forEach(element => {
       element.checked = false;
     });
     this.caregiver = {
+      emp_code:'',
       username: '',
       password: '',
       pin: '',
@@ -489,47 +584,47 @@ export class UserAssignComponent implements OnInit {
       });
       return;
     }
-    let givers = [];
-    givers.push(this.giver1);
-    if (!this.giver1) {
-      this.toastr.error('Please choose Care Giver 1', 'Error', {
-        timeOut: 3000,
-      });
-      return;
-    }
-    if (!this.giver2) {
-      this.toastr.error('Please choose Care Giver 1', 'Error', {
-        timeOut: 3000,
-      });
-      return;
-    }
-    if (givers.indexOf(this.giver2) > -1) {
-      this.toastr.error('Care Giver should be unique', 'Error', {
-        timeOut: 3000,
-      });
-      return;
-    } else {
-      givers.push(this.giver2);
-    }
-    if (!this.giver3) {
-      this.toastr.error('Please choose Care Giver 1', 'Error', {
-        timeOut: 3000,
-      });
-      return;
-    }
-    if (givers.indexOf(this.giver3) > -1) {
-      this.toastr.error('Care Giver should be unique', 'Error', {
-        timeOut: 3000,
-      });
-      return;
-    } else {
-      givers.push(this.giver3);
-    }
+    // let givers = [];
+    // givers.push(this.giver1);
+    // if (!this.giver1) {
+    //   this.toastr.error('Please choose Care Giver 1', 'Error', {
+    //     timeOut: 3000,
+    //   });
+    //   return;
+    // }
+    // if (!this.giver2) {
+    //   this.toastr.error('Please choose Care Giver 1', 'Error', {
+    //     timeOut: 3000,
+    //   });
+    //   return;
+    // }
+    // if (givers.indexOf(this.giver2) > -1) {
+    //   this.toastr.error('Care Giver should be unique', 'Error', {
+    //     timeOut: 3000,
+    //   });
+    //   return;
+    // } else {
+    //   givers.push(this.giver2);
+    // }
+    // if (!this.giver3) {
+    //   this.toastr.error('Please choose Care Giver 1', 'Error', {
+    //     timeOut: 3000,
+    //   });
+    //   return;
+    // }
+    // if (givers.indexOf(this.giver3) > -1) {
+    //   this.toastr.error('Care Giver should be unique', 'Error', {
+    //     timeOut: 3000,
+    //   });
+    //   return;
+    // } else {
+    //   givers.push(this.giver3);
+    // }
     let clientDetails = JSON.parse(JSON.stringify(this.client));
     clientDetails.center_code = this.centerCode;
-    clientDetails.client_cgiver1 = this.giver1;
-    clientDetails.client_cgiver2 = this.giver2;
-    clientDetails.client_cgiver3 = this.giver3;
+    clientDetails.client_cgiver1 = this.giver1 ? this.giver1 : '';
+    clientDetails.client_cgiver2 = this.giver2 ? this.giver2 : '';
+    clientDetails.client_cgiver3 = this.giver3 ? this.giver3 : '';
     if (this.isAdd) {
       this.userService.addClient(clientDetails)
       .subscribe(response => {

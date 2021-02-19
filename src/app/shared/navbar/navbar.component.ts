@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
         public router: Router) {
         this.location = location;
         this.sidebarVisible = false;
-        router.events.subscribe((val) => {
+        this.router.events.subscribe((val) => {
             this.isloginUser = sessionStorage.getItem('report') ? true : false;
             if (this.isloginUser) {
                 let userDetail = JSON.parse(sessionStorage.getItem('report'));
@@ -42,6 +42,16 @@ export class NavbarComponent implements OnInit {
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];        
     }
     home() {
+        const sessionStr = JSON.parse(sessionStorage.getItem('report'));
+        if (sessionStr) {
+            if (sessionStr.full_name === 'admin') {
+                this.router.navigate(['/userassign']);
+            } else {
+                this.router.navigate(['/supervisor']);
+            }
+        } else {
+            this.router.navigate(['/']);
+        }
         this.window.top.clearPage();
     }
     logout() {

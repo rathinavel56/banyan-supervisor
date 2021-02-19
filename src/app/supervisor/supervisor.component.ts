@@ -199,8 +199,8 @@ export class SupervisorComponent implements OnInit {
       if (response.status && response.data) {
         this.clients = response.data;
         this.clients.sort((a, b) => (a.color > b.color) ? 1 : -1);
-        this.clientName = this.clients[0].client_fname;
-        this.clientFileNumber = this.clients[0].client_file_number;        
+        this.clientName = (this.clients && this.clients.length > 0) ? this.clients[0].client_fname : '';
+        this.clientFileNumber = (this.clients && this.clients.length > 0) ? this.clients[0].client_file_number : '';
         this.getDetails(1, true, null);
       } else {
         this.clients = [];

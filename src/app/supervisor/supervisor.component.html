@@ -57,8 +57,8 @@
       </div>
    </div>
    <div class="top-m30" *ngIf="serviceType === 1 && step === 3">
-      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{empCode}}) -
-         {{clientName}} ({{clientFileNumber}}) <span style="display: inline-block; float:right; padding-left: 10px;"><a (click)="getDetails(modeDetail, true, 'Prev')"
+      <h4 class="box-title" style="font-size: 20px; text-align: center;">{{careGiverName}} ({{empCode}}) <span *ngIf="clientName && clientFileNumber">-
+         {{clientName}} ({{clientFileNumber}})</span> <span style="display: inline-block; float:right; padding-left: 10px;"><a (click)="getDetails(modeDetail, true, 'Prev')"
             href="javascript:void(0)" *ngIf="!isClientDetailLoading && (modeDetail === 0 || modeDetail === 1 || modeDetail === 2)" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a (click)="getDetails(modeDetail, true, 'Next')"
             href="javascript:void(0)" *ngIf="!isClientDetailLoading" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i class="fa fa-arrow-right" aria-hidden="true"></i></a><a (click)="exportxls()"
             href="javascript:void(0)" style="color: #ffffff;padding-right: 15px;display: inline-block;vertical-align: middle;"><i
@@ -88,6 +88,11 @@
                                     (click)="setClientDetails(client, 1)">{{client.client_fname}}</a>
                               </li>
                            </ul>
+                           <ul class="list-unstyled client-list1" *ngIf="clients.length === 0">
+                              <li>
+                                 No Records
+                              </li>
+                           </ul>
                         </div>
                      </div>
                   </div>
@@ -97,7 +102,7 @@
          </div>
          <div class="col-md-9" [ngClass]="{ 'tab-space': (modeDetail === 0 || modeDetail === 3 || modeDetail === 4) }">
             <div style="padding:30px 15px 30px 0px;" *ngIf="modeDetail === 0 || modeDetail === 1 || modeDetail === 2"><span
-               style="color: #da4b50;">Client Details On <input type="date" pattern="(?:19|20)\[0-9\]{2}-(?:(?:0\[1-9\]|1\[0-2\])-(?:0\[1-9\]|1\[0-9\]|2\[0-9\])|(?:(?!02)(?:0\[1-9\]|1\[0-2\])-(?:30))|(?:(?:0\[13578\]|1\[02\])-31))" placeholder="dd-mm-yyyy" class="black-font"
+               style="color: #f7f7f7;font-weight: bold;">Client Details On <input type="date" pattern="(?:19|20)\[0-9\]{2}-(?:(?:0\[1-9\]|1\[0-2\])-(?:0\[1-9\]|1\[0-9\]|2\[0-9\])|(?:(?!02)(?:0\[1-9\]|1\[0-2\])-(?:30))|(?:(?:0\[13578\]|1\[02\])-31))" placeholder="dd-mm-yyyy" class="black-font"
                [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true, null)"
                [ngModelOptions]="{standalone: true}" /> </span>
             </div>
@@ -639,7 +644,7 @@
             </div>
          </div>
          <div class="col-md-9">
-            <div style="padding:30px 15px 30px 0px;"><span style="color: #da4b50;">Details On <input placeholder="dd-mm-yyyy" 
+            <div style="padding:30px 15px 30px 0px;"><span style="color: #f7f7f7;font-weight: bold;">Details On <input placeholder="dd-mm-yyyy" 
                class="black-font" [(ngModel)]="currentDate" (change)="getDetails(modeDetail, true)"
                [ngModelOptions]="{standalone: true}" /> </span>
             </div>

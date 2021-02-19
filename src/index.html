@@ -38,7 +38,7 @@
   }
         </style>
     </head>
-    <body class="page-body">
+    <body class="page-body page-body-user" [ngClass]="{'active': client.client_fname === clientName}">
       <app-root>
           <div id="loader"><img src="assets/img/loader-preview.svg" alt="loading"></div>
       </app-root>
