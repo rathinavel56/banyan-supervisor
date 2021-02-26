@@ -1,473 +1,517 @@
 <div class="container" *ngIf="type == 'Casemanagers'">
-   <button type="button" class="btn btn-warning pull-right" (click)="addCasemanagers()" style="background-color: white;">Add</button>
-   <div class="panel panel-primary">
-      <div class="panel-heading">
-         Casemanagers
-      </div>
-      <div class="panel-body">
-         <div class="form-horizontal" *ngIf="isUpdate">
-            <div class="form-group">
-               <label class="control-label col-sm-2">User Id:</label>
-               <div class="col-sm-10">
-                  <input class="form-control" type="text" [(ngModel)]="casemanager.cm_userID" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Password:</label>
-               <div class="col-sm-10">
-                  <input class="form-control" type="text" [(ngModel)]="casemanager.cm_password" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Name:</label>
-               <div class="col-sm-10">
-                  <input class="form-control" type="text" [(ngModel)]="casemanager.cm_Name" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Center:</label>
-               <div class="col-sm-10">
-                  <select class="form-control" [(ngModel)]="casemanager.cm_Center" (ngModelChange)="updateCenters($event)" [ngModelOptions]="{standalone: true}">
+    <button type="button" class="btn btn-warning pull-right" (click)="addCasemanagers()" style="background-color: white;">Add</button>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Casemanagers
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal" *ngIf="isUpdate">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">User Id:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" [(ngModel)]="casemanager.cm_userID" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Password:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" [(ngModel)]="casemanager.cm_password" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Name:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" [(ngModel)]="casemanager.cm_Name" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Center:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" [(ngModel)]="casemanager.cm_Center" (ngModelChange)="updateCenters($event)" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let center of centerList" [value]="center.id" [selected]="center.project_code == casemanager.cm_Center">{{center.project_name}}
                      </option>
                   </select>
-               </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Contact:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" [(ngModel)]="casemanager.cm_Contact" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-primary" (click)="onCasemanagerSubmit();">Submit</button>
+                        <button type="button" class="btn btn-primary" (click)="onCasemanagerCancel();">Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Contact:</label>
-               <div class="col-sm-10">
-                  <input class="form-control" type="text" [(ngModel)]="casemanager.cm_Contact" [ngModelOptions]="{standalone: true}" />
-               </div>
+            <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
+            <div class="table-responsive" *ngIf="!isCenterLoading">
+                <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover">
+                    <thead>
+                        <tr>
+                            <th><b>Sl.No</b></th>
+                            <th><b>ID</b></th>
+                            <th><b>User ID</b></th>
+                            <th><b>Name</b></th>
+                            <th><b>Center</b></th>
+                            <th><b>Contact</b></th>
+                            <th><b>Action</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let casemanager of casemanagers; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{casemanager.cm_ID}}</td>
+                            <td>{{casemanager.cm_userID}}</td>
+                            <td>{{casemanager.cm_Name}}</td>
+                            <td>{{casemanager.center ? casemanager.center.project_name : ''}}</td>
+                            <td>{{casemanager.cm_Contact}}</td>
+                            <td class="text-center">
+                                <ul class="clearfix unstyled clsAction">
+                                    <li>
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Edit" (click)="updateCasemanager(casemanager);">
+                                            <!-- Edit -->
+                                            <img src="../../assets/img/new_img/edit.png" alt="">
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Delete" (click)="deleteCasemanager(casemanager);">
+                                            <!-- Delete -->
+                                            <img src="../../assets/img/new_img/delete.png" alt="">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="form-group">
-               <div class="col-sm-offset-2 col-sm-10">
-                  <button type="button" class="btn btn-primary" (click)="onCasemanagerSubmit();">Submit</button>
-                  <button type="button" class="btn btn-primary" (click)="onCasemanagerCancel();">Cancel</button>
-               </div>
-            </div>
-         </div>
-         <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
-         <div class="table-responsive" *ngIf="!isCenterLoading">
-            <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover" >
-               <thead>
-                  <tr>
-                     <th><b>Sl.No</b></th>
-                     <th><b>ID</b></th>
-                     <th><b>User ID</b></th>
-                     <th><b>Name</b></th>
-                     <th><b>Center</b></th>
-                     <th><b>Contact</b></th>
-                     <th><b>Action</b></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr *ngFor="let casemanager of casemanagers; let i=index">
-                     <td>{{i+1}}</td>
-                     <td>{{casemanager.cm_ID}}</td>
-                     <td>{{casemanager.cm_userID}}</td>
-                     <td>{{casemanager.cm_Name}}</td>
-                     <td>{{casemanager.center ? casemanager.center.project_name : ''}}</td>
-                     <td>{{casemanager.cm_Contact}}</td>
-                     <td><center><button type="button" class="btn btn-primary" (click)="updateCasemanager(casemanager);">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" (click)="deleteCasemanager(casemanager);">Delete</button></center></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div class="container" *ngIf="type == 'Clients'">
-   <button type="button" class="btn btn-warning pull-right" (click)="addClients()" style="background-color: white;">Add</button>
-   <div class="panel panel-primary">
-      <div class="panel-heading">Clients</div>
-      <div class="panel-body">
-         <div class="form-horizontal" *ngIf="isUpdate">
-            <div class="form-group">
-               <label class="control-label col-sm-2">Center :</label>
-               <div class="col-sm-10">
-                  <select class="form-control" [(ngModel)]="client.center_id" (ngModelChange)="updateClientCenters($event)" [ngModelOptions]="{standalone: true}">
+    <button type="button" class="btn btn-warning pull-right" (click)="addClients()" style="background-color: white;">Add</button>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Clients</div>
+        <div class="panel-body">
+            <div class="form-horizontal" *ngIf="isUpdate">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Center :</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" [(ngModel)]="client.center_id" (ngModelChange)="updateClientCenters($event)" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let center of centers" [value]="center.id" [selected]="center.project_code == client.center_code">{{center.project_name}}
                      </option>
                   </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">File Number:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_file_number" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">First Name:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_fname" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Last Name:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_lname" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Care Giver 1:</label>
-               <div class="col-sm-10">
-                  <select class="form-control" [(ngModel)]="giver1" (ngModelChange)="updateGiver($event, 1)" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">File Number:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_file_number" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">First Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_fname" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Last Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_lname" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Care Giver 1:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" [(ngModel)]="giver1" (ngModelChange)="updateGiver($event, 1)" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregiver && careGiver.caregiver.cgiver_code == client.client_cgiver1">{{careGiver.caregiver.cgiver_name}}
                      </option>
                   </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Care Giver 2:</label>
-               <div class="col-sm-10">
-                  <select class="form-control" [(ngModel)]="giver2" (ngModelChange)="updateGiver($event, 2)" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Care Giver 2:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" [(ngModel)]="giver2" (ngModelChange)="updateGiver($event, 2)" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregiver && careGiver.caregiver.cgiver_code == client.client_cgiver2">{{careGiver.caregiver.cgiver_name}}
                      </option>
                   </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Care Giver 3:</label>
-               <div class="col-sm-10">
-                  <select class="form-control" [(ngModel)]="giver3" (ngModelChange)="updateGiver($event, 3)"  [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Care Giver 3:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" [(ngModel)]="giver3" (ngModelChange)="updateGiver($event, 3)" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let careGiver of careGivers" [value]="careGiver.caregiver.cgiver_code" [selected]="careGiver.caregiver && careGiver.caregiver.cgiver_code == client.client_cgiver3">{{careGiver.caregiver.cgiver_name}}
                      </option>
                   </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">DAO:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_doa" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">ADM Type:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_adm_type" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Age:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_age" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Gender:</label>
-               <div class="col-sm-10">
-                  <select class="form-control" [(ngModel)]="client.client_gender" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">DAO:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_doa" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">ADM Type:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_adm_type" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Age:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_age" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Gender:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" [(ngModel)]="client.client_gender" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let gender of genders" [value]="gender.name" [selected]="gender.name == client.client_gender">{{gender.name}}
                      </option>
                   </select>
-               </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Religion:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_religion" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">State:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_state" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">City:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_city" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">District:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_district" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">PS:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_ps" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Post:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_post" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Taluk:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_taluk" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Location:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_location" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Marital:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_marital" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Id Mark:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_idmark" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Education:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_education" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Language:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_language" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Relative Avl:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_relative_avl" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Occupation:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_occupation" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Relative Address 1:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_relative_address_1" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Relative Address 2:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_relative_address_2" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Daff:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_daff" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Family Type:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_family_type" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Family Size:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_family_size" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Family Phone:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_family_phone" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Client Referred:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_referred" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Active:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_active" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Discharged:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="client.client_discharged" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Height:</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" [(ngModel)]="client.client_height" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-primary" (click)="onClientSubmit();">Submit</button>
+                        <button type="button" class="btn btn-primary" (click)="onClientsCancel();">Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Religion:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_religion" [ngModelOptions]="{standalone: true}" />
-               </div>
+            <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
+            <div class="table-responsive" *ngIf="!isCenterLoading">
+                <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover">
+                    <thead>
+                        <tr>
+                            <th><b>Sl.No</b></th>
+                            <th><b>File Number</b></th>
+                            <th><b>Clients</b></th>
+                            <th><b>Center</b></th>
+                            <th><b>Care Giver 1</b></th>
+                            <th><b>Care Giver 2</b></th>
+                            <th><b>Care Giver 3</b></th>
+                            <th><b>Action</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let client of clients; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{client.client_file_number}}</td>
+                            <td>{{client.client_fname}} {{(client.client_lname != 'N/A') ? client.client_lname : ''}}</td>
+                            <td>{{client.center_name}}</td>
+                            <td>{{client.giver1 ? client.giver1.cgiver_name : ''}}</td>
+                            <td>{{client.giver2 ? client.giver2.cgiver_name : ''}}</td>
+                            <td>{{client.giver3 ? client.giver3.cgiver_name : ''}}</td>
+                            <td class="text-center">
+                                <ul class="clearfix unstyled clsAction">
+                                    <li>
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Edit" (click)="updateClient(client);">
+                                            <img src="../../assets/img/new_img/edit.png" alt="">
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Delete" (click)="deleteClient(client);">
+                                            <img src="../../assets/img/new_img/delete.png" alt="">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">State:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_state" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">City:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_city" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">District:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_district" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">PS:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_ps" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Post:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_post" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Taluk:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_taluk" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Location:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_location" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Marital:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_marital" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Id Mark:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_idmark" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Education:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_education" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Language:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_language" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Relative Avl:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_relative_avl" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Occupation:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_occupation" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Relative Address 1:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_relative_address_1" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Relative Address 2:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_relative_address_2" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Daff:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_daff" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Family Type:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_family_type" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Family Size:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_family_size" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Family Phone:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_family_phone" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Client Referred:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_referred" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Active:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_active" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Discharged:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="client.client_discharged" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Height:</label>
-               <div class="col-sm-10">
-                  <input type="number" class="form-control" [(ngModel)]="client.client_height" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <div class="col-sm-offset-2 col-sm-10">
-                  <button type="button" class="btn btn-primary" (click)="onClientSubmit();">Submit</button>
-                  <button type="button" class="btn btn-primary" (click)="onClientsCancel();">Cancel</button>
-               </div>
-            </div>
-         </div>
-         <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
-         <div class="table-responsive" *ngIf="!isCenterLoading">
-            <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover" >
-               <thead>
-                  <tr>
-                     <th><b>Sl.No</b></th>
-                     <th><b>File Number</b></th>
-                     <th><b>Clients</b></th>
-                     <th><b>Center</b></th>
-                     <th><b>Care Giver 1</b></th>
-                     <th><b>Care Giver 2</b></th>
-                     <th><b>Care Giver 3</b></th>
-                     <th><b>Action</b></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr *ngFor="let client of clients; let i=index">
-                     <td>{{i+1}}</td>
-                     <td>{{client.client_file_number}}</td>
-                     <td>{{client.client_fname}} {{(client.client_lname != 'N/A') ? client.client_lname : ''}}</td>
-                     <td>{{client.center_name}}</td>
-                     <td>{{client.giver1 ? client.giver1.cgiver_name : ''}}</td>
-                     <td>{{client.giver2 ? client.giver2.cgiver_name : ''}}</td>
-                     <td>{{client.giver3 ? client.giver3.cgiver_name : ''}}</td>
-                     <td><center><button type="button" class="btn btn-primary" (click)="updateClient(client);">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" (click)="deleteClient(client);">Delete</button></center></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </div>
 <div class="container" *ngIf="type == 'Caregivers'">
-   <button type="button" class="btn btn-warning pull-right" (click)="addCareGivers()" style="background-color: white;">Add</button>
-   <div class="panel panel-primary">
-      <div class="panel-heading">Caregivers</div>
-      <div class="panel-body">
-         <div class="form-horizontal" *ngIf="isUpdate">
-            <div class="form-group">
-               <label class="control-label col-sm-2">Employee Code:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.emp_code" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Username:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.username" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Password:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.password" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Pin:</label>
-               <div class="col-sm-10">
-                  <input type="number" class="form-control" [(ngModel)]="caregiver.pin" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Cgiver Code:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_code" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Name:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_name" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Designation:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_desig" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Mobile:</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_mob" [ngModelOptions]="{standalone: true}" />
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Supervisor:</label>
-               <div class="col-sm-10">
-                  <select class="form-control" (ngModelChange)="updateSupervisor($event)" [(ngModel)]="caregiver.casemanager" [ngModelOptions]="{standalone: true}">
+    <button type="button" class="btn btn-warning pull-right" (click)="addCareGivers()" style="background-color: white;">Add</button>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Caregivers</div>
+        <div class="panel-body">
+            <div class="form-horizontal" *ngIf="isUpdate">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Employee Code:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.emp_code" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Username:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.username" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Password:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.password" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Pin:</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" [(ngModel)]="caregiver.pin" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Cgiver Code:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_code" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_name" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Designation:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_desig" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Mobile:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="caregiver.cgiver_mob" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Supervisor:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" (ngModelChange)="updateSupervisor($event)" [(ngModel)]="caregiver.casemanager" [ngModelOptions]="{standalone: true}">
                      <option *ngFor="let casemanager of casemanagersList" [value]="casemanager.cm_ID" [selected]="casemanager.cm_ID == caregiver.cgiver_cm_id">{{casemanager.cm_Name}}
                      </option>
                   </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2">Centers:</label>
-               <div class="col-sm-10">
-                  <div class="col-sm-3">
-                     <input type="checkbox" id="allcenters" [(ngModel)]="isAllChecked" [ngModelOptions]="{standalone: true}"(click)="chooseAllCenters()"/>&nbsp;&nbsp;
-                     <label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Centers:</label>
+                    <div class="col-sm-10">
+                        <div class="col-sm-3">
+                            <input type="checkbox" id="allcenters" [(ngModel)]="isAllChecked" [ngModelOptions]="{standalone: true}" (click)="chooseAllCenters()" />&nbsp;&nbsp;
+                            <label>
                         All
                      </label>
-                  </div>
-                  <div class="col-sm-3" *ngFor="let center of centerList">
-                     <input type="checkbox" [(ngModel)]="center.checked" (click)="setAllCheckBox()" [ngModelOptions]="{standalone: true}" [checked]="center.checked === true"/>&nbsp;&nbsp;
-                     <label>
+                        </div>
+                        <div class="col-sm-3" *ngFor="let center of centerList">
+                            <input type="checkbox" [(ngModel)]="center.checked" (click)="setAllCheckBox()" [ngModelOptions]="{standalone: true}" [checked]="center.checked === true" />&nbsp;&nbsp;
+                            <label>
                         {{center.project_name}}
                      </label>
-                  </div>
-               </div>
-            </div>
-            <!-- <div class="form-group">
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
                <label class="control-label col-sm-2">Image:</label>
                <div class="col-sm-10">
                   <input type="file" class="form-control" [(ngModel)]="caregiver.cgiver_profile_url" [ngModelOptions]="{standalone: true}" />
                </div>
             </div> -->
-            <div class="form-group">
-               <div class="col-sm-offset-2 col-sm-10">
-                  <button type="button" class="btn btn-primary" (click)="onCaregiverSubmit();">Submit</button>
-                  <button type="button" class="btn btn-primary" (click)="onCaregiverCancel();">Cancel</button>
-               </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-primary" (click)="onCaregiverSubmit();">Submit</button>
+                        <button type="button" class="btn btn-primary" (click)="onCaregiverCancel();">Cancel</button>
+                    </div>
+                </div>
             </div>
-         </div>
-         <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
-         <div class="table-responsive" *ngIf="!isCenterLoading">
-            <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover" >
-               <thead>
-                  <tr>
-                     <th><b>Sl.No</b></th>
-                     <th><b>Emp Code</b></th>
-                     <th><b>Name</b></th>
-                     <th><b>Designation</b></th>
-                     <th><b>Mobile</b></th>
-                     <th><b>Supervisor</b></th>
-                     <th><b>Casemanager</b></th>
-                     <th><b>Action</b></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr *ngFor="let careGiver of careGiversList; let i=index">
-                     <td>{{i+1}}</td>
-                     <td>{{careGiver.emp_code}}</td>
-                     <td>{{careGiver.cgiver_name}}</td>
-                     <td>{{careGiver.cgiver_desig}}</td>
-                     <td>{{careGiver.cgiver_mob}}</td>
-                     <td>{{careGiver.rep_officier ? careGiver.rep_officier.full_name : ''}}</td>
-                     <td>{{careGiver.cgiver_cm_id}}</td>
-                     <td><center><button type="button" class="btn btn-primary" (click)="updateCareGivers(careGiver);">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" (click)="deleteCareGiver(careGiver);">Delete</button></center></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-      </div>
-   </div>
+            <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
+            <div class="table-responsive" *ngIf="!isCenterLoading">
+                <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover">
+                    <thead>
+                        <tr>
+                            <th><b>Sl.No</b></th>
+                            <th><b>Emp Code</b></th>
+                            <th><b>Name</b></th>
+                            <th><b>Designation</b></th>
+                            <th><b>Mobile</b></th>
+                            <th><b>Supervisor</b></th>
+                            <th><b>Casemanager</b></th>
+                            <th><b>Action</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let careGiver of careGiversList; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{careGiver.emp_code}}</td>
+                            <td>{{careGiver.cgiver_name}}</td>
+                            <td>{{careGiver.cgiver_desig}}</td>
+                            <td>{{careGiver.cgiver_mob}}</td>
+                            <td>{{careGiver.rep_officier ? careGiver.rep_officier.full_name : ''}}</td>
+                            <td>{{careGiver.cgiver_cm_id}}</td>
+                            <td class="text-center">
+                                <ul class="clearfix unstyled clsAction">
+                                    <li>
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Edit" (click)="updateCareGivers(careGiver);">
+                                            <img src="../../assets/img/new_img/edit.png" alt="">
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="Delete" (click)="deleteCareGiver(careGiver);">
+                                            <img src="../../assets/img/new_img/delete.png" alt="">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

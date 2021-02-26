@@ -1,13 +1,47 @@
-
 <div class="wrapper">
-  <!-- <div class="sidebar" data-color="red" data-image="">
+    <!-- <div class="sidebar" data-color="red" data-image="">
       <app-sidebar></app-sidebar>
       <div class="sidebar-background" style="background-image: url(assets/img/sidebar-5.jpg)"></div>
   </div>main-panel -->
 
-  <div class="main-panel-layout">
-      <navbar-cmp></navbar-cmp>
-      <router-outlet></router-outlet>
-  </div>
+    <div class="clearfix clsLandingPage">
+        <div class="container">
+            <h2> Welcome, Admin </h2>
+
+            <div class="row pt-70">
+                <div class="col-sm-4">
+                    <div class="clsInner">
+                        <div class="clearfix">
+                            <img src="../../../assets/img/new_img/manageCM.png" alt="">
+                            <p> Manage Case Managers </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="clsInner">
+                        <div class="clearfix">
+                            <img src="../../../assets/img/new_img/manageCG.png" alt="">
+                            <p> Manage Care Givers </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="clsInner">
+                        <div class="clearfix">
+                            <img src="../../../assets/img/new_img/manageClients.png" alt="">
+                            <p> Manage Clients </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-panel-layout hide">
+        <navbar-cmp></navbar-cmp>
+        <router-outlet></router-outlet>
+    </div>
 
 </div>
