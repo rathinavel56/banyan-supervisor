@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
     clockHandle: any;
     clock: any;
     window: any = window;
+    userDetail: any;
 
     constructor(location: Location,
         private element: ElementRef,
@@ -26,8 +27,8 @@ export class NavbarComponent implements OnInit {
         this.router.events.subscribe((val) => {
             this.isloginUser = sessionStorage.getItem('report') ? true : false;
             if (this.isloginUser) {
-                let userDetail = JSON.parse(sessionStorage.getItem('report'));
-                this.userName = userDetail.full_name;
+                this.userDetail = JSON.parse(sessionStorage.getItem('report'));
+                this.userName = this.userDetail.full_name;
                 this.clockHandle = setInterval(()=>{
                     this.clock = new Date().toLocaleString();
                   },1000);
@@ -44,7 +45,7 @@ export class NavbarComponent implements OnInit {
     home() {
         const sessionStr = JSON.parse(sessionStorage.getItem('report'));
         if (sessionStr) {
-            if (sessionStr.full_name === 'admin') {
+            if (sessionStr.session_detail.user_group_id === 1 || sessionStr.session_detail.user_group_id === 5 || sessionStr.session_detail.user_group_id === 6 || sessionStr.session_detail.user_group_id === 7) {
                 this.router.navigate(['/userassign']);
             } else {
                 this.router.navigate(['/supervisor']);

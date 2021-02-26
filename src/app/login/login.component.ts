@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     let userDetail = JSON.parse(sessionStorage.getItem('report'));
     if (userDetail) {
-      if (userDetail.full_name === 'admin') {
+      if (userDetail.session_detail.user_group_id === 1) {
         this.router.navigate(['/userassign']);
       } else {
         this.router.navigate(['/supervisor']);
@@ -50,7 +50,8 @@ export class LoginComponent implements OnInit {
           if (response.status) {
               let loginData = {
                 full_name: response.data.full_name,
-                id: response.data.id
+                id: response.data.id,
+                session_detail: response.data
               };
               sessionStorage.setItem('report', JSON.stringify(loginData));
               if (response.data.user_group_id === 3) {
