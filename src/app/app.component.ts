@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { Router } from '@angular/router';
 
-declare const $: any;
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,14 +15,7 @@ export class AppComponent implements OnInit {
       });
      }
 
-    ngOnInit(){
-      $(document).ready(function () {
-        setTimeout(function () {
-          $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-          });
-        }, 500);
-      });
+    ngOnInit(){     
     }
 
     setCurrentUrl() {
