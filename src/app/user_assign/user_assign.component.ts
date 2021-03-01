@@ -41,6 +41,7 @@ export class UserAssignComponent implements OnInit {
   windowTop: any = window; 
   casemanager: any;
   centerCode: any;
+  hideScreen: any = true;
   genders: any = [{
     name: 'Male'
   },{
@@ -57,9 +58,29 @@ export class UserAssignComponent implements OnInit {
   ngOnInit() {
     this.getCenterCaregiver();
     this.getCenterList();
-    this.getCasemanagers(false);
     let thiss = this;
+    let menuType: any = '';
+    this.windowTop.top.hideScreen = function() {
+      thiss.hideScreen = true;
+    };
+    let userDetail = JSON.parse(sessionStorage.getItem('report'));
+      if (userDetail) {
+        if (userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 5 || userDetail.session_detail.user_group_id === 8 || userDetail.session_detail.user_group_id === 9) {
+            menuType = 1;
+        } else if (userDetail.session_detail.user_group_id === 6 || userDetail.session_detail.user_group_id === 10) {
+            menuType = 2;
+        } else if (userDetail.session_detail.user_group_id === 7) {
+            menuType = 3;
+        }
+        if (userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id > 7) {
+          thiss.windowTop.top.showMenu(true);
+          thiss.windowTop.top.showNav(false);          
+        } else {
+          thiss.windowTop.top.showNav(true);
+        }
+      }  
     this.windowTop.top.switchMenu = function(index) {
+      thiss.hideScreen = false;
       thiss.careGiversList = [];
       thiss.clients = [];
       thiss.onCasemanagerCancel();
@@ -76,6 +97,7 @@ export class UserAssignComponent implements OnInit {
         thiss.getClients(false);
       }
     };
+    // this.windowTop.top.switchMenu(menuType);
   }
 
   chooseAllCenters() {

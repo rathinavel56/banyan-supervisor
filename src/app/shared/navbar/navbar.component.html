@@ -1,8 +1,8 @@
-<nav class="navbar navbar-default" *ngIf="isloginUser">
+<nav class="navbar navbar-default" *ngIf="showNav && isloginUser">
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-3">
-                <a class="navbar-brand" href="javascript:void(0)" routerLink="/supervisor" (click)="home()"><img src="/assets/img/home.png" class="img-responsive"></a>
+                <a class="navbar-brand" href="javascript:void(0)" (click)="home()"><img src="/assets/img/home.png" class="img-responsive"></a>
             </div>
             <div class="col-xs-6 text-center" style="padding-top:15px;">
                 <img _ngcontent-rix-c53="" class="img-responsive" style="display: inline-block;"
@@ -10,18 +10,23 @@
             </div>
             <div class="col-xs-3">
                 <ul class="nav navbar-nav navbar-right">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li class="dropdown" *ngIf="userDetail && userDetail.session_detail.user_group_id === 1">
-                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" style="background-color: #da4b50;font-weight: bold;color: white;top: 25px;">
-                                Menu
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 5"><a href="javascript:void(0)" (click)="switchMenu(1)">Casemanagers</a></li>
-                                <li *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 6"><a href="javascript:void(0)" (click)="switchMenu(2)">Caregivers</a></li>
-                                <li *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 7"><a href="javascript:void(0)" (click)="switchMenu(3)">Clients</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <!-- <li  *ngIf="userDetail && (userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id > 4)">
+                        <ul class="nav navbar-nav navbar-left">
+                            <li class="dropdown">
+                                <a href="javascript:void(0)" *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id > 7" class="dropdown-toggle" (click)="showMenu()" data-toggle="dropdown" style="background-color: #da4b50;font-weight: bold;color: white;top: 25px;">
+                                    Menu
+                                </a>
+                                <a href="javascript:void(0)"  *ngIf="userDetail.session_detail.user_group_id > 4 && userDetail.session_detail.user_group_id < 8" class="dropdown-toggle" (click)="refreshMenu()" data-toggle="dropdown" style="background-color: #da4b50;font-weight: bold;color: white;top: 25px;">
+                                    Refresh Detail
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 5"><a href="javascript:void(0)" (click)="switchMenu(1)">Casemanagers</a></li>
+                                    <li *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 6"><a href="javascript:void(0)" (click)="switchMenu(2)">Caregivers</a></li>
+                                    <li *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 7"><a href="javascript:void(0)" (click)="switchMenu(3)">Clients</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li> -->
                     <li>
                         <a href="javascript:void(0)" (click)="logout()">
                             <img class="img-responsive" src="/assets/img/Logout.png">

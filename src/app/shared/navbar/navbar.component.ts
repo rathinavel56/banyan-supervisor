@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit {
     clock: any;
     window: any = window;
     userDetail: any;
+    menuType: any;
+    showNav: any = false;
 
     constructor(location: Location,
         private element: ElementRef,
@@ -28,6 +30,17 @@ export class NavbarComponent implements OnInit {
             this.isloginUser = sessionStorage.getItem('report') ? true : false;
             if (this.isloginUser) {
                 this.userDetail = JSON.parse(sessionStorage.getItem('report'));
+                if (this.userDetail) {
+                    if (this.userDetail.session_detail.user_group_id === 1 || this.userDetail.session_detail.user_group_id === 5 || this.userDetail.session_detail.user_group_id === 8 || this.userDetail.session_detail.user_group_id === 9) {
+                        this.menuType = 1;
+                    } else if (this.userDetail.session_detail.user_group_id === 6 || this.userDetail.session_detail.user_group_id === 10) {
+                        this.menuType = 2;
+                    } else if (this.userDetail.session_detail.user_group_id === 7) {
+                        this.menuType = 3;
+                    } else {
+                        this.showNav = true;
+                    }
+                }        
                 this.userName = this.userDetail.full_name;
                 this.clockHandle = setInterval(()=>{
                     this.clock = new Date().toLocaleString();
@@ -40,20 +53,29 @@ export class NavbarComponent implements OnInit {
         this.isloginUser = sessionStorage.getItem('report') ? true : false;
         this.listTitles = ROUTES.filter(listTitle => listTitle);
         const navbar: HTMLElement = this.element.nativeElement;
-        this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];        
+        this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
+        let thiss = this;
+        this.window.top.showNav = function(check) {
+            thiss.showNav = check;
+        };   
     }
     home() {
-        const sessionStr = JSON.parse(sessionStorage.getItem('report'));
-        if (sessionStr) {
-            if (sessionStr.session_detail.user_group_id === 1 || sessionStr.session_detail.user_group_id === 5 || sessionStr.session_detail.user_group_id === 6 || sessionStr.session_detail.user_group_id === 7) {
-                this.router.navigate(['/userassign']);
+        if (this.userDetail) {
+            if (this.userDetail.session_detail.user_group_id === 1 || this.userDetail.session_detail.user_group_id > 4) {
+                //this.router.navigate(['/userassign']);
+                this.window.top.hideScreen();
+                this.showNav = false;
+                this.showMenu();
             } else {
                 this.router.navigate(['/supervisor']);
+                this.showNav = true;
+                this.window.top.clearPage();
             }
         } else {
             this.router.navigate(['/']);
+            this.showNav = true;
+            this.window.top.clearPage();
         }
-        this.window.top.clearPage();
     }
     logout() {
         this.isloginUser = false;
@@ -87,7 +109,16 @@ export class NavbarComponent implements OnInit {
     };
 
     switchMenu(type: any) {
-        this.window.top.switchMenu(type);
+        this.menuType = type;
+        this.refreshMenu();
+    }
+
+    refreshMenu() {
+        this.window.top.switchMenu(this.menuType);  
+    }
+
+    showMenu() {
+        this.window.top.showMenu(true);
     }
 
     getTitle(){

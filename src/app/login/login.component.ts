@@ -18,14 +18,17 @@ export class LoginComponent implements OnInit {
     public serviceResponse: any;
     public username: string  = '';
     public password: string  = '';
+    screenLoad: any = false;
   ngOnInit() {
     let userDetail = JSON.parse(sessionStorage.getItem('report'));
     if (userDetail) {
-      if (userDetail.session_detail.user_group_id === 1) {
+      if (userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id > 4) {
         this.router.navigate(['/userassign']);
       } else {
         this.router.navigate(['/supervisor']);
       }      
+    } else {
+      this.screenLoad = true;
     }
   }
 
@@ -56,7 +59,7 @@ export class LoginComponent implements OnInit {
               sessionStorage.setItem('report', JSON.stringify(loginData));
               if (response.data.user_group_id === 3) {
                   this.router.navigate(['/supervisor']);
-              } else if (response.data.user_group_id === 1) {
+              } else if (response.data.user_group_id === 1 || response.data.user_group_id > 4) {
                 this.router.navigate(['/userassign']);
               } else {
                   this.router.navigate(['/mywork']);

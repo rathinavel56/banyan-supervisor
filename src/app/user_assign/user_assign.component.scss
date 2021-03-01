@@ -1,0 +1,22 @@
+.clsAction {
+    li {
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: top;
+        a {
+            display: block;
+            width: 20px;
+            img {
+                width: 100%;
+            }
+        }
+        &:last-child {
+            margin-right: 0px;
+        }
+    }
+}
+
+.unstyled {
+    padding: 0px;
+    margin: 0px;
+}
