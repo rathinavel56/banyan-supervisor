@@ -118,7 +118,7 @@
 }
 
 .clsLogin_Page {
-    background-image: url('/assets/img/doctor-user-assign.jpeg');
+    background: url('/assets/img/doctor-user-assign.jpeg');
 }
 
 .nav>li>a>img {
