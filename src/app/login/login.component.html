@@ -1,14 +1,25 @@
-<form class="form-signin" *ngIf="screenLoad">
-    <div class="text-center"><img src="/assets/img/tblogo_red.png"></div>
-    <h1 class="h3 mb-3 font-weight-normal" style="color: #f7f7f7;">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Username</label>
-    <input type="text" id="inputUsername" class="form-control" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" placeholder="Username" autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Password">
-    <div class="checkbox mb-3">
-       <label>
-          <input type="checkbox" value="remember-me"> <span  style="color: #f7f7f7;">Remember me</span>
-       </label>
-    </div>
-    <button class="btn btn-lg btn-danger btn-block" (click)="onSubmit()" type="button" style="background-color: #ac2925; border-color: #761c19; color: #f7f7f7;" >Sign in</button>
- </form>
+<div class="clsFlex" *ngIf="screenLoad">
+    <form class="form-signin">
+        <div class="clearfix">
+            <div class="text-center"><img src="/assets/img/tblogo_red.png"></div>
+            <h1 class="h3 mb-3 font-weight-normal" style="color: #f7f7f7;">Please sign in</h1>
+
+            <div class="form-group">
+                <label for="inputEmail" class="sr-only">Username</label>
+                <input type="text" id="inputUsername" class="form-control" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" placeholder="Username" autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Password">
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+               <input type="checkbox" value="remember-me"> <span  style="color: #f7f7f7;">Remember me</span>
+            </label>
+            </div>
+            <button class="btn btn-lg btn-danger btn-block" (click)="onSubmit()" type="button" style="background-color: #ac2925; border-color: #761c19; color: #f7f7f7;">Sign in</button>
+        </div>
+    </form>
+</div>

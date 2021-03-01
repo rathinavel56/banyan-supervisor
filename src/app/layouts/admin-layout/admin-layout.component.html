@@ -8,7 +8,7 @@
         <div class="container">
             <h2> Welcome, {{userDetail.session_detail.full_name}} </h2>
 
-            <div class="row pt-70">
+            <div class="row clsFlex">
                 <div class="col-sm-4" *ngIf="userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 5 || userDetail.session_detail.user_group_id === 8 || userDetail.session_detail.user_group_id === 9" (click)="switchMenu(1)">
                     <div class="clsInner">
                         <div class="clearfix">

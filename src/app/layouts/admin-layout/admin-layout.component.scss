@@ -36,6 +36,15 @@
             padding: 0 45px;
         }
     }
+    >.container {
+        height: 100%;
+    }
+    .clsFlex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 78%;
+    }
 }
 
 .pt-70 {
