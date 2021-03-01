@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../api/user.service';
@@ -12,7 +12,8 @@ import {ToastrService} from 'ngx-toastr';
 export class LoginComponent implements OnInit {
   constructor(public router: Router,
     private userService: UserService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private renderer: Renderer2
     ) { }
     public submitted: Boolean;
     public serviceResponse: any;
@@ -27,6 +28,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/supervisor']);
       }      
     }
+    this.renderer.addClass(document.body, 'clsLogin_Page');
+  }
+
+  ngOnDestroy() {
+    this.renderer.removeClass(document.body, 'clsLogin_Page');
   }
 
   onSubmit() {
