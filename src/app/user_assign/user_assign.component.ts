@@ -22,6 +22,7 @@ export class UserAssignComponent implements OnInit {
   isCenterLoading: any = true;
   isUpdate: any = false;
   isAdd: any = false;
+  isView: any = false;
   giver1: any;
   giver2: any;
   giver3: any;
@@ -38,32 +39,33 @@ export class UserAssignComponent implements OnInit {
   casemanagersList: any = [];
   centerList: any = [];
   type: any = 'Casemanagers';
-  windowTop: any = window; 
+  windowTop: any = window;
   casemanager: any;
   centerCode: any;
   hideScreen: any = true;
   genders: any = [{
     name: 'Male'
-  },{
+  }, {
     name: 'Female'
-  },{
+  }, {
     name: 'Transgender'
-  }]
+  }];
+  centerName: any;
   constructor(private userService: UserService,
     public toastr: ToastrService,
-    public router: Router) { 
+    public router: Router) {
 
     }
 
   ngOnInit() {
     this.getCenterCaregiver();
     this.getCenterList();
-    let thiss = this;
+    const thiss = this;
     let menuType: any = '';
     this.windowTop.top.hideScreen = function() {
       thiss.hideScreen = true;
     };
-    let userDetail = JSON.parse(sessionStorage.getItem('report'));
+    const userDetail = JSON.parse(sessionStorage.getItem('report'));
       if (userDetail) {
         if (userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id === 5 || userDetail.session_detail.user_group_id === 8 || userDetail.session_detail.user_group_id === 9) {
             menuType = 1;
@@ -74,11 +76,11 @@ export class UserAssignComponent implements OnInit {
         }
         if (userDetail.session_detail.user_group_id === 1 || userDetail.session_detail.user_group_id > 7) {
           thiss.windowTop.top.showMenu(true);
-          thiss.windowTop.top.showNav(false);          
+          thiss.windowTop.top.showNav(false);
         } else {
           thiss.windowTop.top.showNav(true);
         }
-      }  
+      }
     this.windowTop.top.switchMenu = function(index) {
       thiss.hideScreen = false;
       thiss.careGiversList = [];
@@ -86,10 +88,10 @@ export class UserAssignComponent implements OnInit {
       thiss.onCasemanagerCancel();
       thiss.onClientsCancel();
       thiss.onCaregiverCancel(false);
-      if (index == 1) {
+      if (index === 1) {
         thiss.type = 'Casemanagers';
         thiss.getCasemanagers(false);
-      } else if (index == 2) {
+      } else if (index === 2) {
         thiss.type = 'Caregivers';
         thiss.getCareGiversList(false);
       } else {
@@ -101,7 +103,7 @@ export class UserAssignComponent implements OnInit {
   }
 
   chooseAllCenters() {
-    let checkedValue: any = document.getElementById("allcenters") as HTMLInputElement;
+    let checkedValue: any = document.getElementById('allcenters') as HTMLInputElement;
     checkedValue = checkedValue.checked;
     this.centerList.forEach(element => {
       element.checked = checkedValue;
@@ -183,7 +185,7 @@ export class UserAssignComponent implements OnInit {
   compareCenter(a, b) {
     const bandA = a.project_name.toUpperCase();
     const bandB = b.project_name.toUpperCase();
-  
+
     let comparison = 0;
     if (bandA > bandB) {
       comparison = 1;
@@ -198,13 +200,13 @@ export class UserAssignComponent implements OnInit {
     this.isCenterLoading = true;
     this.userService.casemanagers()
     .subscribe(response => {
-      let dataList: any = response.data.sort(this.compareData);
+      const dataList: any = response.data.sort(this.compareData);
       this.casemanagers = dataList;
       this.casemanagersList = dataList;
       this.isCenterLoading = false;
-      setTimeout(function(){
+      setTimeout(function() {
         $('#dataTable').DataTable();
-      }, 500);      
+      }, 500);
       if (isShowMsg) {
         this.toastr.success('Successfully', 'Success', {
           timeOut: 3000,
@@ -217,7 +219,7 @@ export class UserAssignComponent implements OnInit {
     // Use toUpperCase() to ignore character casing
     const bandA = a.cm_Name.toUpperCase();
     const bandB = b.cm_Name.toUpperCase();
-  
+
     let comparison = 0;
     if (bandA > bandB) {
       comparison = 1;
@@ -240,9 +242,9 @@ export class UserAssignComponent implements OnInit {
     .subscribe(response => {
       this.clients = response.data;
       this.isCenterLoading = false;
-      setTimeout(function(){
+      setTimeout(function() {
         $('#dataTable').DataTable();
-      }, 500);      
+      }, 500);
       if (isShowMsg) {
         this.toastr.success('Successfully', 'Success', {
           timeOut: 3000,
@@ -257,10 +259,10 @@ export class UserAssignComponent implements OnInit {
     .subscribe(response => {
       this.careGiversList = response.data;
       this.isCenterLoading = false;
-      setTimeout(function(){
+      setTimeout(function() {
         $('#dataTable').DataTable();
       }, 500);
-      this.getCasemanagers(false);   
+      this.getCasemanagers(false);
       if (isShowMsg) {
         this.toastr.success('Successfully', 'Success', {
           timeOut: 3000,
@@ -275,7 +277,7 @@ export class UserAssignComponent implements OnInit {
     // Use toUpperCase() to ignore character casing
     const bandA = (a.caregiver && a.caregiver.cgiver_name) ? a.caregiver.cgiver_name.toUpperCase() : '';
     const bandB = (b.caregiver && b.caregiver.cgiver_name) ? b.caregiver.cgiver_name.toUpperCase() : '';
-  
+
     let comparison = 0;
     if (bandA > bandB) {
       comparison = 1;
@@ -285,7 +287,7 @@ export class UserAssignComponent implements OnInit {
     return comparison;
   }
   updateClientCenters(id) {
-    let centerDetail = this.centers.find((e) => e.id === +id);
+    const centerDetail = this.centers.find((e) => e.id === +id);
     this.centerCode = centerDetail.project_code;
     this.client.center_name = centerDetail.project_name;
     this.careGivers = centerDetail.caregivers.sort(this.compareGivers);
@@ -308,7 +310,7 @@ export class UserAssignComponent implements OnInit {
   setAllCheckBox() {
     this.isAllChecked = this.centerList.length === this.centerList.filter(e => {
       return e.checked === true;
-    }).length; 
+    }).length;
   }
   updateCareGivers(careGiver) {
     this.onCaregiverCancel(true);
@@ -336,9 +338,20 @@ export class UserAssignComponent implements OnInit {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+  viewCasemanager(casemanager) {
+    this.isUpdate = false;
+    this.isAdd = false;
+    this.isView = true;
+    this.casemanager = JSON.parse(JSON.stringify(casemanager));
+    this.casemanager.cm_ID_OG = casemanager.cm_ID;
+    const managerlist = this.centerList.find((e) =>  e.id == casemanager.cm_Center);
+    this.centerName = managerlist;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
   updateClient(user: any) {
     this.client = user;
-    let centerDetail = this.centers.find((e) => e.project_code === this.client.center_code);
+    const centerDetail = this.centers.find((e) => e.project_code === this.client.center_code);
     this.centerCode = centerDetail.project_code;
     this.client.center_id = centerDetail.id;
     this.client.center_name = centerDetail.project_name;
@@ -466,6 +479,7 @@ export class UserAssignComponent implements OnInit {
   onCasemanagerCancel() {
     this.isUpdate = false;
     this.isAdd = false;
+    this.isView = false;
     this.casemanager = {
       cm_userID: '',
       cm_password: '',
@@ -476,7 +490,7 @@ export class UserAssignComponent implements OnInit {
     };
   }
   updateSupervisor(casemanager) {
-      let casemanagerDetail = this.casemanagers.find((e) => e.cm_ID === casemanager);
+      const casemanagerDetail = this.casemanagers.find((e) => e.cm_ID === casemanager);
       this.caregiver.rep_officier = casemanagerDetail;
       this.caregiver.cgiver_cm_id = casemanagerDetail.cm_ID;
       this.caregiver.rep_officer_id = casemanagerDetail.id;
@@ -577,7 +591,7 @@ export class UserAssignComponent implements OnInit {
       element.checked = false;
     });
     this.caregiver = {
-      emp_code:'',
+      emp_code: '',
       username: '',
       password: '',
       pin: '',
@@ -642,7 +656,7 @@ export class UserAssignComponent implements OnInit {
     // } else {
     //   givers.push(this.giver3);
     // }
-    let clientDetails = JSON.parse(JSON.stringify(this.client));
+    const clientDetails = JSON.parse(JSON.stringify(this.client));
     clientDetails.center_code = this.centerCode;
     clientDetails.client_cgiver1 = this.giver1 ? this.giver1 : '';
     clientDetails.client_cgiver2 = this.giver2 ? this.giver2 : '';
