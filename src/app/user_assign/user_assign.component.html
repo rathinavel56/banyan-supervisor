@@ -373,6 +373,223 @@
                     </div>
                 </div>
             </div>
+            <div class="form-horizontal" *ngIf="isView">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Center :</label>
+                    <div class="col-sm-10">
+                        {{centerCode}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">File Number:</label>
+                    <div class="col-sm-10">
+                        {{client.client_file_number}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">First Name:</label>
+                    <div class="col-sm-10">
+                       {{client.client_fname}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Last Name:</label>
+                    <div class="col-sm-10">
+                        {{client.client_lname}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Care Giver 1:</label>
+                    <div class="col-sm-10">
+                        {{client.giver1?.cgiver_name}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Care Giver 2:</label>
+                    <div class="col-sm-10">
+                        {{client.giver2?.cgiver_name}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Care Giver 3:</label>
+                    <div class="col-sm-10">
+                        {{client.giver3?.cgiver_name}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">DAO:</label>
+                    <div class="col-sm-10">
+                        {{client.client_doa}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">ADM Type:</label>
+                    <div class="col-sm-10">
+                        {{client.client_adm_type}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Age:</label>
+                    <div class="col-sm-10">
+                        {{client.client_age}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Gender:</label>
+                    <div class="col-sm-10">
+                        {{client.client_gender}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Religion:</label>
+                    <div class="col-sm-10">
+                        {{client.client_religion}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">State:</label>
+                    <div class="col-sm-10">
+                        {{client.client_state}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">City:</label>
+                    <div class="col-sm-10">
+                       {{client.client_city}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">District:</label>
+                    <div class="col-sm-10">
+                        {{client.client_district}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">PS:</label>
+                    <div class="col-sm-10">
+                        {{client.client_ps}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Post:</label>
+                    <div class="col-sm-10">
+                        {{client.client_post}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Taluk:</label>
+                    <div class="col-sm-10">
+                       {{client.client_taluk}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Location:</label>
+                    <div class="col-sm-10">
+                        {{client.client_location}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Marital:</label>
+                    <div class="col-sm-10">
+                       {{client.client_marital}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Id Mark:</label>
+                    <div class="col-sm-10">
+                        {{client.client_idmark}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Education:</label>
+                    <div class="col-sm-10">
+                        {{client.client_education}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Language:</label>
+                    <div class="col-sm-10">
+                        {{client.client_language}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Relative Avl:</label>
+                    <div class="col-sm-10">
+                        {{client.client_relative_avl}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Occupation:</label>
+                    <div class="col-sm-10">
+                        {{client.client_occupation}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Relative Address 1:</label>
+                    <div class="col-sm-10">
+                        {{client.client_relative_address_1}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Relative Address 2:</label>
+                    <div class="col-sm-10">
+                        {{client.client_relative_address_2}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Daff:</label>
+                    <div class="col-sm-10">
+                        {{client.client_daff}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Family Type:</label>
+                    <div class="col-sm-10">
+                        {{client.client_family_type}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Family Size:</label>
+                    <div class="col-sm-10">
+                        {{client.client_family_size}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Family Phone:</label>
+                    <div class="col-sm-10">
+                        {{client.client_family_phone}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Client Referred:</label>
+                    <div class="col-sm-10">
+                        {{client.client_referred}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Active:</label>
+                    <div class="col-sm-10">
+                       {{client.client_active}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Discharged:</label>
+                    <div class="col-sm-10">
+                        {{client.client_discharged}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Height:</label>
+                    <div class="col-sm-10">
+                        {{client.client_height}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-primary" (click)="onClientsCancel();">Cancel</button>
+                    </div>
+                </div>
+            </div>
             <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
             <div class="table-responsive" *ngIf="!isCenterLoading">
                 <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover">
@@ -400,7 +617,7 @@
                             <td class="text-center">
                                 <ul class="clearfix unstyled clsAction">
                                     <li>
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="View">
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="View" (click)="viewClient(client);">
                                             <img src="../../assets/img/new_img/view.png" alt="">
                                         </a>
                                     </li>
@@ -518,6 +735,84 @@
                     </div>
                 </div>
             </div>
+            <div class="form-horizontal" *ngIf="isView">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Employee Code:</label>
+                    <div class="col-sm-10">
+                        {{caregiver.emp_code}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Username:</label>
+                    <div class="col-sm-10">
+                        {{caregiver.username}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Password:</label>
+                    <div class="col-sm-10">
+                        {{caregiver.password}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Pin:</label>
+                    <div class="col-sm-10">
+                        {{caregiver.pin}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Cgiver Code:</label>
+                    <div class="col-sm-10">
+                        {{caregiver.cgiver_code}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Name:</label>
+                    <div class="col-sm-10">
+                        {{caregiver.cgiver_name}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Designation:</label>
+                    <div class="col-sm-10">
+                       {{caregiver.cgiver_desig}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Mobile:</label>
+                    <div class="col-sm-10">
+                       {{caregiver.cgiver_mob}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Supervisor:</label>
+                    <div class="col-sm-10">
+                        {{superVisorName}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Centers:</label>
+                    <div class="col-sm-10">
+                        <div class="col-sm-3">
+                            <input type="checkbox" id="allcenters" [(ngModel)]="isAllChecked" [ngModelOptions]="{standalone: true}" [disabled]='true' (click)="chooseAllCenters()" />&nbsp;&nbsp;
+                            <label>
+                        All
+                     </label>
+                        </div>
+                        <div class="col-sm-3" *ngFor="let center of centerList">
+                            <input type="checkbox" [(ngModel)]="center.checked" (click)="setAllCheckBox()" [ngModelOptions]="{standalone: true}" [disabled]='true' [checked]="center.checked === true" />&nbsp;&nbsp;
+                            <label>
+                        {{center.project_name}}
+                     </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-primary" (click)="onCaregiverCancel();">Cancel</button>
+                    </div>
+                </div>
+            </div>
             <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
             <div class="table-responsive" *ngIf="!isCenterLoading">
                 <table id="dataTable" class="table table-striped table-bordered table-sm row-border hover">
@@ -545,7 +840,7 @@
                             <td class="text-center">
                                 <ul class="clearfix unstyled clsAction">
                                     <li>
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="View">
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="View" (click)="viewCareGivers(careGiver);">
                                             <img src="../../assets/img/new_img/view.png" alt="">
                                         </a>
                                     </li>

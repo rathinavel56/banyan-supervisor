@@ -51,6 +51,7 @@ export class UserAssignComponent implements OnInit {
     name: 'Transgender'
   }];
   centerName: any;
+  superVisorName: any;
   constructor(private userService: UserService,
     public toastr: ToastrService,
     public router: Router) {
@@ -330,6 +331,27 @@ export class UserAssignComponent implements OnInit {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
   }
+  viewCareGivers(careGiver) {
+    this.onCaregiverCancel(true);
+      this.caregiver = JSON.parse(JSON.stringify(careGiver));
+      this.caregiver.casemanager = (this.caregiver && this.caregiver.cgiver_cm_id) ? this.caregiver.cgiver_cm_id.toString() : '';
+      this.caregiver.rep_officier = this.casemanagers.find((e) => e.cm_ID === this.caregiver.cgiver_cm_id);
+      if (this.caregiver.project_codes && this.caregiver.project_codes.length > 0) {
+        this.centerList.forEach(element => {
+          element.checked = (this.caregiver.project_codes.filter(e => {
+            return element.id === e.project_code_id;
+          }).length > 0);
+          this.setAllCheckBox();
+        });
+      }
+      const supervisorList = this.casemanagersList.find((e) =>  e.cm_ID === careGiver.cgiver_cm_id);
+      this.superVisorName = supervisorList.cm_Name;
+      this.isUpdate = false;
+      this.isAdd = false;
+      this.isView = true;
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+  }
   updateCasemanager(casemanager) {
     this.isUpdate = true;
     this.isAdd = false;
@@ -377,8 +399,38 @@ export class UserAssignComponent implements OnInit {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+  viewClient(user: any) {
+    this.client = user;
+    const centerDetail = this.centers.find((e) => e.project_code === this.client.center_code);
+    this.centerCode = centerDetail.project_code;
+    this.client.center_id = centerDetail.id;
+    this.client.center_name = centerDetail.project_name;
+    this.careGivers = centerDetail.caregivers;
+    this.careGivers = centerDetail.caregivers.sort(this.compareGivers);
+    if (this.careGivers.length > 0) {
+      this.careGivers.splice(0, 0, {
+        caregiver: {
+          cgiver_code: 0,
+          cgiver_name: 'Please Select'
+        }
+      });
+      this.giver1 = this.client.client_cgiver1 ? this.client.client_cgiver1 : this.careGivers[0].caregiver.cgiver_code;
+      this.giver2 = this.client.client_cgiver2 ? this.client.client_cgiver2 : this.careGivers[0].caregiver.cgiver_code;
+      this.giver3 = this.client.client_cgiver3 ? this.client.client_cgiver3 : this.careGivers[0].caregiver.cgiver_code;
+    } else {
+      this.giver1 = '';
+      this.giver2 = '';
+      this.giver3 = '';
+    }
+    this.isUpdate = false;
+    this.isAdd = false;
+    this.isView = true;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
   onClientsCancel() {
     this.isUpdate = false;
+    this.isView = false;
     this.centerCode = '';
     this.careGivers = [{
       caregiver: {
@@ -587,6 +639,7 @@ export class UserAssignComponent implements OnInit {
     }
     this.isAllChecked = false;
     this.isAdd = false;
+    this.isView = false;
     this.centerList.forEach(element => {
       element.checked = false;
     });
