@@ -328,6 +328,7 @@ export class UserAssignComponent implements OnInit {
       }
       this.isUpdate = true;
       this.isAdd = false;
+      this.isView = false;
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
   }
@@ -355,6 +356,7 @@ export class UserAssignComponent implements OnInit {
   updateCasemanager(casemanager) {
     this.isUpdate = true;
     this.isAdd = false;
+    this.isView = false;
     this.casemanager = JSON.parse(JSON.stringify(casemanager));
     this.casemanager.cm_ID_OG = casemanager.cm_ID;
     document.body.scrollTop = 0;
@@ -396,6 +398,7 @@ export class UserAssignComponent implements OnInit {
     }
     this.isUpdate = true;
     this.isAdd = false;
+    this.isView = false;
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }

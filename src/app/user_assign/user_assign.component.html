@@ -1,5 +1,6 @@
 <div class="container" *ngIf="!hideScreen && type == 'Casemanagers'">
-    <button type="button" class="btn btn-warning pull-right" (click)="addCasemanagers()" style="background-color: white;">Add</button>
+    <button type="button" *ngIf="!isView" class="btn btn-warning pull-right" (click)="addCasemanagers()" style="background-color: white;">Add</button>
+    <button type="button" *ngIf="isView" class="btn btn-warning pull-right" (click)="updateCasemanager(casemanager)" style="background-color: white;">Edit</button>
     <div class="panel panel-primary">
         <div class="panel-heading">
             Casemanagers
@@ -136,7 +137,8 @@
     </div>
 </div>
 <div class="container" *ngIf="!hideScreen && type == 'Clients'">
-    <button type="button" class="btn btn-warning pull-right" (click)="addClients()" style="background-color: white;">Add</button>
+    <button type="button" *ngIf="!isView" class="btn btn-warning pull-right" (click)="addClients()" style="background-color: white;">Add</button>
+    <button type="button" *ngIf="isView" class="btn btn-warning pull-right" (click)="updateClient(client)" style="background-color: white;">Edit</button>
     <div class="panel panel-primary">
         <div class="panel-heading">Clients</div>
         <div class="panel-body">
@@ -643,7 +645,8 @@
     </div>
 </div>
 <div class="container" *ngIf="!hideScreen && type == 'Caregivers'">
-    <button type="button" class="btn btn-warning pull-right" (click)="addCareGivers()" style="background-color: white;">Add</button>
+    <button type="button" *ngIf="!isView" class="btn btn-warning pull-right" (click)="addCareGivers()" style="background-color: white;">Add</button>
+    <button type="button" *ngIf="isView" class="btn btn-warning pull-right" (click)="updateCareGivers(caregiver)" style="background-color: white;">Edit</button>
     <div class="panel panel-primary">
         <div class="panel-heading">Caregivers</div>
         <div class="panel-body">
