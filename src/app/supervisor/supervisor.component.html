@@ -19,13 +19,13 @@
       </div>
    </div>
    <div class="top-m30" *ngIf="serviceType === 1 && step === 2">
-      <p
+      <!-- <p
          style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;">
          Caregivers
-      </p>
+      </p> -->
       <div class="row">
-         <div class="col-sm-6 col-sm-offset-3">
-            <h4 class="box-title">Choose Center<a
+         <div class="col-sm-12">
+             <!-- <h4 class="box-title">Choose Center<a
                style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
                (click)="reset()"> <img src="/assets/img/return-icon.png"></a></h4>
             <div class="box-block ">
@@ -52,6 +52,27 @@
                      No Records
                   </li>
                </ul>
+            </div>  -->
+            <div class="box-block ">
+               <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
+               <p>Please selcect the client from the list below</p>
+               <table class="table-striped table-bordered table-hover table-data">
+                 
+                  <tbody>
+                     <tr>
+                        <td>Center</td>
+                        <td>Client ID</td>
+                        <td>Client Name</td>
+                        <td>Caregiver Assigned</td>
+                     </tr>
+                     <tr *ngFor="let client of supervisorClients;" (click)="getClients(client.center_code, client.caregiver1)">
+                        <td>{{client.center_name}}</td>
+                        <td>{{client.client_file_number}}</td>
+                        <td>{{client.client_fname}}</td>
+                        <td>{{client.caregiver1.cgiver_name}}</td>
+                     </tr>
+                  </tbody>
+              </table>
             </div>
          </div>
       </div>

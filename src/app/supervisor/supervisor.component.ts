@@ -47,9 +47,10 @@ export class SupervisorComponent implements OnInit {
   icpnotes: any = '';
   window: any = window;
   empCode: any;
+  supervisorClients: any;
   constructor(private userService: UserService,
     public router: Router,
-    private excelService:ExcelService,
+    private excelService: ExcelService,
     public toastr: ToastrService,
     private _lightbox: Lightbox) { }
 
@@ -60,26 +61,26 @@ export class SupervisorComponent implements OnInit {
     } else {
       this.loginUser = JSON.parse(sessionStorage.getItem('report'));
     }
-    let that = this;
+    const that = this;
     this.window.top.clearPage = function () {
       that.reset();
     };
-    this.window.onbeforeunload = function() { 
+    this.window.onbeforeunload = function() {
       this.isloginUser = sessionStorage.getItem('report') ? true : false;
       if (this.isloginUser) {
-          let userDetail = JSON.parse(sessionStorage.getItem('report'));
+          const userDetail = JSON.parse(sessionStorage.getItem('report'));
           this.userName = userDetail.full_name;
-          this.clockHandle = setInterval(()=>{
+          this.clockHandle = setInterval(() => {
               this.clock = new Date().toLocaleString();
-            },1000);
+            }, 1000);
             this.router.navigate(['/supervisor']);
       }
     };
   }
 
-  exportxls():void {
+  exportxls(): void {
     if (this.clientDetail) {
-      let data = this.organise([this.clientDetail]);
+      const data = this.organise([this.clientDetail]);
       this.excelService.exportAsExcelFile(data, 'export');
     } else {
       this.toastr.error('No Data', 'Error', {
@@ -89,13 +90,13 @@ export class SupervisorComponent implements OnInit {
   }
 
   organise(arr) {
-    let objs = [];
+    const objs = [];
     arr.forEach((element, index) => {
       for (const [key, value] of Object.entries(element)) {
         if (!objs[index]) {
           objs[index] = {};
         }
-        objs[index][key] = value;        
+        objs[index][key] = value;
       }
     });
     return objs;
@@ -108,7 +109,7 @@ export class SupervisorComponent implements OnInit {
     })
     .subscribe(response => {
       if (response.status) {
-        let centerList = [];
+        const centerList = [];
         response.data.forEach((center, index) => {
           if (index === 0) {
             centerList.push({
@@ -116,7 +117,7 @@ export class SupervisorComponent implements OnInit {
                 project_code: center.project_code
             });
           } else {
-            let getProject = centerList.findIndex((e) => e.project_code.project_code === center.project_code.project_code);
+            const getProject = centerList.findIndex((e) => e.project_code.project_code === center.project_code.project_code);
             if (getProject > -1) {
               centerList[getProject].caregivers.push(center.caregiver);
             } else {
@@ -141,12 +142,18 @@ export class SupervisorComponent implements OnInit {
         }
       }
     });
+    this.userService.supervisorCenters({
+      rep_officer_id: this.loginUser.ids
+    })
+    .subscribe(response => {
+      this.supervisorClients = response.data;
+    });
   }
 
   setCareGivers(center, cgiver) {
     this.step = 7;
     if (center) {
-      let cgiver = center.caregivers[0];
+      const cgiver = center.caregivers[0];
       this.cgiverCode = cgiver.cgiver_code;
       this.cgiverName = cgiver.cgiver_name;
       this.caregivers = center.caregivers;
@@ -193,7 +200,7 @@ export class SupervisorComponent implements OnInit {
     this.userService.clients({
       code: caregiver.cgiver_code,
       rep_officer_id: this.loginUser.id,
-      project_code: project_code.project_code
+      project_code: project_code
     })
     .subscribe(response => {
       if (response.status && response.data) {
@@ -207,7 +214,7 @@ export class SupervisorComponent implements OnInit {
       }
     });
   }
-  setClientDetails(client, modeDetail) {    
+  setClientDetails(client, modeDetail) {
     this.clientName = client.client_fname;
     this.clientFileNumber = client.client_file_number;
     this.clientDetail = undefined;
@@ -228,16 +235,16 @@ export class SupervisorComponent implements OnInit {
   }
   getDetails(modeDetail, isRefresh, nextPrevData) {
     this.isClientDetailLoading = true;
-    this.isNodata = false;    
+    this.isNodata = false;
     if (isRefresh || this.modeDetail !== modeDetail) {
-      this.modeDetail = modeDetail;       
+      this.modeDetail = modeDetail;
       this.userService.clientDetail({
         code: this.clientFileNumber,
         dateDetail: this.currentDate,
         mode: modeDetail,
         center_code: (this.serviceType === 2) ? this.centerCode : undefined,
         cgiver_code: (this.serviceType === 2) ? this.cgiverCode : undefined,
-        nextPrev: nextPrevData 
+        nextPrev: nextPrevData
       })
       .subscribe(response => {
         this.isClientDetailLoading = false;
@@ -250,30 +257,30 @@ export class SupervisorComponent implements OnInit {
           if (this.modeDetail === 4) {
             this.clientDetail = response.data;
             for (let i = 1; i <= 15; i++) {
-              if (this.clientDetail['medicine_' + i +'_name'] !== null) {
-                let schedules = this.clientDetail['medicine_' + i +'_schedule'].split(',');
-                schedules[0] = schedules[0].replace( /(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, "");
-                schedules[1] = schedules[1].replace( /(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, "");
-                schedules[2] = schedules[2].replace( /(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, "");
-                if (schedules[0] != '0') {
+              if (this.clientDetail['medicine_' + i + '_name'] !== null) {
+                const schedules = this.clientDetail['medicine_' + i + '_schedule'].split(',');
+                schedules[0] = schedules[0].replace( /(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, '');
+                schedules[1] = schedules[1].replace( /(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, '');
+                schedules[2] = schedules[2].replace( /(<([^>]+)>)/ig, '').replace(/(\r\n|\n|\r)/gm, '');
+                if (schedules[0] !== '0') {
                   this.breakFasts.push({
-                    name: this.clientDetail['medicine_' + i +'_name'],
+                    name: this.clientDetail['medicine_' + i + '_name'],
                     count: schedules[0],
-                    strength: this.clientDetail['medicine_' + i +'_strength']
+                    strength: this.clientDetail['medicine_' + i + '_strength']
                   });
                 }
-                if (schedules[1] != '0') {
+                if (schedules[1] !== '0') {
                   this.lunchs.push({
-                    name: this.clientDetail['medicine_' + i +'_name'],
+                    name: this.clientDetail['medicine_' + i + '_name'],
                     count: schedules[1],
-                    strength: this.clientDetail['medicine_' + i +'_strength']
+                    strength: this.clientDetail['medicine_' + i + '_strength']
                   });
                 }
-                if (schedules[2] != '0') {
+                if (schedules[2] !== '0') {
                   this.dinners.push({
-                    name: this.clientDetail['medicine_' + i +'_name'],
+                    name: this.clientDetail['medicine_' + i + '_name'],
                     count: schedules[2],
-                    strength: this.clientDetail['medicine_' + i +'_strength']
+                    strength: this.clientDetail['medicine_' + i + '_strength']
                   });
                 }
               }
@@ -281,7 +288,7 @@ export class SupervisorComponent implements OnInit {
           } else {
             this.clientDetail = response.data;
             if (modeDetail === 0) {
-              this.icpnotes = (this.clientDetail) ? this.clientDetail.notes : ''; 
+              this.icpnotes = (this.clientDetail) ? this.clientDetail.notes : '';
             }
           }
         } else {
@@ -313,26 +320,26 @@ export class SupervisorComponent implements OnInit {
   }
   showMap() {
     if (this.modeDetail === 1) {
-      let cgiver_coordinates = JSON.parse(this.clientDetail.cgiver_coordinates);      
+      const cgiver_coordinates = JSON.parse(this.clientDetail.cgiver_coordinates);
       window.open('http://maps.google.com/maps?q=' + cgiver_coordinates.lat.toString() + ',' + cgiver_coordinates.long.toString() + '&ll=' + cgiver_coordinates.lat.toString() + ',' + cgiver_coordinates.long.toString() + '&z=17', '_blank');
     } else if (this.modeDetail === 2) {
-      let medical_screening_latlong = JSON.parse(this.clientDetail.medical_screening_latlong);      
+      const medical_screening_latlong = JSON.parse(this.clientDetail.medical_screening_latlong);
       window.open('http://maps.google.com/maps?q=' + medical_screening_latlong.lat.toString() + ',' + medical_screening_latlong.long.toString() + '&ll=' + medical_screening_latlong.lat.toString() + ',' + medical_screening_latlong.long.toString() + '&z=17', '_blank');
     } else if (this.modeDetail === 5) {
-      let housekeepingLatlong = JSON.parse(this.clientDetail.housekeeping_latlong);      
+      const housekeepingLatlong = JSON.parse(this.clientDetail.housekeeping_latlong);
        window.open('http://maps.google.com/maps?q=' + housekeepingLatlong.lat.toString() + ',' + housekeepingLatlong.long.toString() + '&ll=' + housekeepingLatlong.lat.toString() + ',' + housekeepingLatlong.long.toString() + '&z=17', '_blank');
     } else if (this.modeDetail === 6) {
-      let kitchen_latlong = JSON.parse(this.clientDetail.kitchen_latlong);      
+      const kitchen_latlong = JSON.parse(this.clientDetail.kitchen_latlong);
        window.open('http://maps.google.com/maps?q=' + kitchen_latlong.lat.toString() + ',' + kitchen_latlong.long.toString() + '&ll=' + kitchen_latlong.lat.toString() + ',' + kitchen_latlong.long.toString() + '&z=17', '_blank');
     } else if (this.modeDetail === 7) {
-      let dining_selfie_latlong = JSON.parse(this.clientDetail.dining_selfie_latlong);      
+      const dining_selfie_latlong = JSON.parse(this.clientDetail.dining_selfie_latlong);
        window.open('http://maps.google.com/maps?q=' + dining_selfie_latlong.lat.toString() + ',' + dining_selfie_latlong.long.toString() + '&ll=' + dining_selfie_latlong.lat.toString() + ',' + dining_selfie_latlong.long.toString() + '&z=17', '_blank');
     }
   }
   open(index: number): void {
     this._lightbox.open(this.albums, index);
   }
- 
+
   close(): void {
     this._lightbox.close();
   }
