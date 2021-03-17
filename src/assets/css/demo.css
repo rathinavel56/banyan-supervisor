@@ -115,10 +115,12 @@
 
 .page-body-user {
     background: url('/assets/img/new_img/background.jpg') no-repeat -2px -2px;
+    background-size: cover;
 }
 
 .clsLogin_Page {
     background: url('/assets/img/doctor-user-assign.jpeg');
+    background-size: cover;
 }
 
 .nav>li>a>img {
