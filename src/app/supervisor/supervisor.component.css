@@ -212,3 +212,10 @@ table tr:first-child td{
   .cargiver-list li a img{
       padding-right:10px;
   }
+
+  .caregiver-name {
+      color:#333;
+  }
+  .caregiver-name:hover {
+      text-decoration: underline;
+  }

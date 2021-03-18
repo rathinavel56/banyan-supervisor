@@ -19,40 +19,8 @@
       </div>
    </div>
    <div class="top-m30" *ngIf="serviceType === 1 && step === 2">
-      <!-- <p
-         style="display: block;border-bottom: 1px solid #cccccc;text-align: center;font-size: 20px;line-height: 30px;background: #da4b50;padding: 10px;width: 300px;margin: 0 auto;color: #fff;">
-         Caregivers
-      </p> -->
       <div class="row">
          <div class="col-sm-12">
-             <!-- <h4 class="box-title">Choose Center<a
-               style="text-align: right;font-size: 20px;color:#cccccc;display:inline-block; float:right;"
-               (click)="reset()"> <img src="/assets/img/return-icon.png"></a></h4>
-            <div class="box-block ">
-               <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
-               <ul class="list-unstyled dropdown location-list" *ngIf="!isCenterLoading && step === 2">
-                  <ng-container *ngIf="centers.length > 0">
-                     <li *ngFor="let center of centers;">
-                        <a href="javascript:void(0)" class="dropdown-toggle"
-                           data-toggle="dropdown">{{center.project_code.project_name}}</a>
-                        <ul class="list-unstyled sub-list dropdown-menu">
-                           <ng-container *ngIf="center.caregivers.length > 0">
-                              <li *ngFor="let caregiver of center.caregivers;">
-                                 <a href="javascript:void(0)"
-                                    (click)="getClients(center.project_code, caregiver)">{{caregiver.cgiver_name}}</a>
-                              </li>
-                           </ng-container>
-                           <li *ngIf="center.caregivers.length === 0">
-                              No Records
-                           </li>
-                        </ul>
-                     </li>
-                  </ng-container>
-                  <li *ngIf="centers.length === 0">
-                     No Records
-                  </li>
-               </ul>
-            </div>  -->
             <div class="box-block ">
                <img src="/assets/img/loader.gif" *ngIf="isCenterLoading">
                <p>Please selcect the client from the list below</p>
@@ -65,11 +33,16 @@
                         <td>Client Name</td>
                         <td>Caregiver Assigned</td>
                      </tr>
-                     <tr *ngFor="let client of supervisorClients;" (click)="getClients(client.center_code, client.caregiver1)">
+                     <tr *ngFor="let client of supervisorClients;">
                         <td>{{client.center_name}}</td>
                         <td>{{client.client_file_number}}</td>
                         <td>{{client.client_fname}}</td>
-                        <td>{{client.caregiver1.cgiver_name}}</td>
+                        <td><a (click)="getClients(client.center_code, client.caregiver1)"
+                           href="javascript:void(0)" class="caregiver-name" *ngIf="client.caregiver1" >{{client.caregiver1.cgiver_name}} </a>
+                           <a (click)="getClients(client.center_code, client.caregiver2)"
+                           href="javascript:void(0)" class="caregiver-name" *ngIf="client.caregiver2"> | {{client.caregiver2.cgiver_name}} </a>
+                           <a (click)="getClients(client.center_code, client.caregiver3)"
+                           href="javascript:void(0)" class="caregiver-name" *ngIf="client.caregiver3"> | {{client.caregiver3.cgiver_name}}</a></td>
                      </tr>
                   </tbody>
               </table>
