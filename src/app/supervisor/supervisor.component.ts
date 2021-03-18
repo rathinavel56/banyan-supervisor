@@ -143,7 +143,7 @@ export class SupervisorComponent implements OnInit {
       }
     });
     this.userService.supervisorCenters({
-      rep_officer_id: this.loginUser.ids
+      rep_officer_id: this.loginUser.id
     })
     .subscribe(response => {
       this.supervisorClients = response.data;
