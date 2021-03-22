@@ -218,5 +218,6 @@ table tr:first-child td{
   }
   .caregiver-name:hover {
       text-decoration: underline;
+      color:#da4b50;
   }
   
