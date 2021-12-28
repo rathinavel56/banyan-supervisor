@@ -53,7 +53,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/add-selfie",
+			"url": "http://talenttreasury.com/portal/api/add-selfie",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -76,7 +76,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/get-medicines",
+			"url": "http://talenttreasury.com/portal/api/get-medicines",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -104,7 +104,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/create-pin",
+			"url": "http://talenttreasury.com/portal/api/create-pin",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -177,7 +177,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/add-dining-status",
+			"url": "http://talenttreasury.com/portal/api/add-dining-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -210,7 +210,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/update-pin",
+			"url": "http://talenttreasury.com/portal/api/update-pin",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -238,7 +238,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/pin-login",
+			"url": "http://talenttreasury.com/portal/api/pin-login",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -286,7 +286,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/add-client-status",
+			"url": "http://talenttreasury.com/portal/api/add-client-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -314,7 +314,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/login",
+			"url": "http://talenttreasury.com/portal/api/login",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -388,7 +388,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/add-kitchen-status",
+			"url": "http://talenttreasury.com/portal/api/add-kitchen-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -471,7 +471,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/add-house-keeping-status",
+			"url": "http://talenttreasury.com/portal/api/add-house-keeping-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -499,7 +499,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/client-status",
+			"url": "http://talenttreasury.com/portal/api/client-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -527,7 +527,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/client-status",
+			"url": "http://talenttreasury.com/portal/api/client-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -550,7 +550,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/get-diet-chart",
+			"url": "http://talenttreasury.com/portal/api/get-diet-chart",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -566,7 +566,7 @@
 			"headers": "",
 			"data": [],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/get-icp",
+			"url": "http://talenttreasury.com/portal/api/get-icp",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],
@@ -829,7 +829,7 @@
 				}
 			],
 			"rawModeData": "",
-			"url": "http://35.211.229.171/portal/api/add-medical-screening-status",
+			"url": "http://talenttreasury.com/portal/api/add-medical-screening-status",
 			"responses": [],
 			"pathVariableData": [],
 			"queryParams": [],

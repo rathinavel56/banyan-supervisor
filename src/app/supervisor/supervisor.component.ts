@@ -303,20 +303,20 @@ export class SupervisorComponent implements OnInit {
   showImg() {
     let imgUrl;
     if (this.modeDetail === 1) {
-      imgUrl = 'http://35.211.229.171/portal/' + this.clientDetail.cgiver_selfie_url;
+      imgUrl = 'http://talenttreasury.com/portal/' + this.clientDetail.cgiver_selfie_url;
     } else if (this.modeDetail === 2) {
-      imgUrl = 'http://35.211.229.171/portal/' + this.clientDetail.medical_screening_selfie_url;
+      imgUrl = 'http://talenttreasury.com/portal/' + this.clientDetail.medical_screening_selfie_url;
     } else if (this.modeDetail === 5) {
-      imgUrl = 'http://35.211.229.171/portal/' + this.clientDetail.housekeeping_selfie_url;
+      imgUrl = 'http://talenttreasury.com/portal/' + this.clientDetail.housekeeping_selfie_url;
     } else if (this.modeDetail === 6) {
-      imgUrl = 'http://35.211.229.171/portal/' + this.clientDetail.kitchen_selfie_url;
+      imgUrl = 'http://talenttreasury.com/portal/' + this.clientDetail.kitchen_selfie_url;
     } else if (this.modeDetail === 7) {
-      imgUrl = 'http://35.211.229.171/portal/' + this.clientDetail.dining_selfie_url;
+      imgUrl = 'http://talenttreasury.com/portal/' + this.clientDetail.dining_selfie_url;
     }
     window.open(imgUrl, '_blank');
   }
   showStockImg(imgUrl) {
-    window.open('http://35.211.229.171/portal/' + imgUrl, '_blank');
+    window.open('http://talenttreasury.com/portal/' + imgUrl, '_blank');
   }
   showMap() {
     if (this.modeDetail === 1) {

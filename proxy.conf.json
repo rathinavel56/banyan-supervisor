@@ -1,18 +1,18 @@
 {
     "/portal/api/*": {
-        "target": "http://35.211.229.171",
+        "target": "http://talenttreasury.com",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
     },
     "/images/original/*": {
-        "target": "http://35.211.229.171",
+        "target": "http://talenttreasury.com",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
     },
     "/images/static/*": {
-        "target": "http://35.211.229.171",
+        "target": "http://talenttreasury.com",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true

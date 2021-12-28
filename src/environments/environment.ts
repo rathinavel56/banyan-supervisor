@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiEndPoint: "portal/api/"
+  apiEndPoint: "http://talenttreasury.com/portal/api/"
 };
